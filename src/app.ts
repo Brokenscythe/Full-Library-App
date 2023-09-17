@@ -8,9 +8,9 @@ import authRoutes from "./routes/authRoutes";
 // import mainRoutes from "./routes/mainRoutes";
 
 //SESSION CONFIG
-import createSessionConfig from "./config/session";
 
 //MIDDLEWARES
+import errorHandlerMiddleware from "./middlewares/error-handler";
 
 const app = express();
 const PORT = 3000;
@@ -24,13 +24,10 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.urlencoded({ extended: false }));
 
-const sessionConfig = createSessionConfig();
-
-app.use(session(sessionConfig));
-
 app.use(authRoutes);
 // app.use(mainRoutes);
 // app.use(bookRoutes);
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}.`);
