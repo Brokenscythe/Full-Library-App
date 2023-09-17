@@ -6,23 +6,13 @@ import passport from "passport";
 import * as AuthService from "../controllers/auth-controllers/authController";
 const authRouter = express.Router();
 
-authRouter.get("/login", async (req: Request, res: Response) => {
-  res.render("login");
-});
+authRouter.get("/login", AuthService.getLogIn);
 
 authRouter.post("/login", passport.authenticate("local", { failureRedirect: "/login", successRedirect: "/" }));
 
-authRouter.get("/register", async (req: Request, res: Response) => {
-  res.render("register");
-});
+authRouter.get("/register", AuthService.getRegister);
 
-authRouter.post("/register", async (req: Request, res: Response) => {
-  if (req.body.name && req.body.email && req.body.password) {
-    AuthService.createUser(req.body.name, req.body.email, req.body.password);
-    res.redirect("/login");
-  }
-  res.redirect("/register");
-});
+authRouter.post("/register", AuthService.signup);
 
 authRouter.post("/logout", function (req, res, next) {
   req.logout(function (err) {

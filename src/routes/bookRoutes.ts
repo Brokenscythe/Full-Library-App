@@ -1,7 +1,7 @@
 import express from "express";
 import { isLoggedIn } from "../utils/passport";
-import * as BookController from "../controllers/bookController";
-import { getBook, getAllBooks, deleteBook, updateBook, addBook } from "../controllers/bookController";
+import * as BookController from "../controllers/book-controllers/bookController";
+import { getBook, getAllBooks, deleteBook, updateBook, addBook } from "../controllers/book-controllers/bookController";
 
 const bookRouter = express.Router();
 
