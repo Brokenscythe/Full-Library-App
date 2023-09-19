@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="description" content="ICT Cortex Library - project for high school students..." />
+    <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
+    <meta name="author" content="bildstudio" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' cdn.ckeditor.com cdn.jsdelivr.net" />
+    <!-- End Meta -->
+
+    <!-- Title -->
+    <title>Sign Up | Library - ICT Cortex student project</title>
+    <link rel="shortcut icon" href="/img/library-favicon.ico" type="image/vnd.microsoft.icon" />
+    <!-- End Title -->
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/styles/auth.css" />
+    <!-- Font Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@400;700&family=Lato:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- End Styles -->
+  </head>
+
+  <body>
+    <!-- Main content -->
+    <main class="h-screen small:hidden bg-login">
+      <div class="flex items-center justify-center pt-[13%]">
+        <div class="w-full">
+          <div class="auth-container">
+            <h1>Online Library - ICT Cortex </h1>
+            <h2 class="auth-heading">Sign Up</h2>
+            <form method="POST" action="/signup">
+              <label class="auth-label" for="name">Name</label>
+              <input class="auth-input" id="name" name="name" type="text" required placeholder="Name" />
+
+              <label class="auth-label" for="username">Username</label>
+              <input class="auth-input" id="username" name="username" type="text" required placeholder="Username" />
+
+              <label class="auth-label" for="email">Email</label>
+              <input class="auth-input" id="email" name="email" type="email" required placeholder="Email" />
+
+              <label class="auth-label" for="password">Password</label>
+              <input
+                class="auth-input"
+                id="password"
+                name="password"
+                type="password"
+                required
+                placeholder="Password"
+                autocomplete="new-password"
+              />
+
+              <label class="auth-label" for="jmbg">JMBG (Unique Identification Number)</label>
+              <input class="auth-input" id="jmbg" name="jmbg" type="text" required placeholder="JMBG" />
+
+              <button class="auth-button" type="submit">Sign Up</button>
+            </form>
+            <p class="auth-footer">&copy; 2021 ICT Cortex. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- End Main content -->
+
+    <!-- Notification for small devices -->
+    <%- include('../includes/layout/inProgress') %>
+    <!-- Scripts -->
+    <%- include('../includes/layout/scripts') %>
+    <!-- End Scripts -->
+  </body>
+</html>
