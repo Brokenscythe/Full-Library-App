@@ -13,7 +13,7 @@ const sessionStore = new (MySQLStore(session))({
   ...options,
 });
 
-function createSessionConfig() {
+export function createSessionConfig() {
   return {
     key: process.env.SESS_NAME as string,
     secret: process.env.SESS_SECRET as string,

@@ -59,9 +59,11 @@ model User {
 }
 
 model Category {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  books Book[]
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  icon        String?
+  description String?
+  books       Book[]
 }
 
 model Letter {
@@ -106,12 +108,9 @@ model Publisher {
 }
 
 model Genre {
-  id          Int    @id @default(autoincrement())
-  name        String @unique
-  icon        String
-  default     String
-  description String
-  books       Book[]
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  books Book[]
 }
 
 model Gallery {

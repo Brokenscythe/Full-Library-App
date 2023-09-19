@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('includes/layout/styles') %>
+    <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('includes/layout/header') %>
+    <%- include('../includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('includes/layout/sidebar') %>
+        <%- include('../includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -44,7 +44,7 @@
             <!-- Space for content -->
             <div class="scroll height-evidencija">
                 <div class="flex items-center justify-between px-[30px] py-4 space-x-3 rounded-lg">
-                    <a href="novaKnjiga.ejs"
+                    <a href="/novaKnjiga"
                         class="btn-animation inline-flex items-center text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] tracking-wider text-white bg-[#3f51b5] rounded hover:bg-[#4558BE]">
                         <i class="fas fa-plus mr-[15px]"></i> Nova knjiga
                     </a>
@@ -79,7 +79,7 @@
                                     </th>
                                     <th class="flex items-center px-4 py-4 leading-4 tracking-wider text-left">
                                         Naziv knjige
-                                        <a href="#"><i class="ml-2 fa-lg fas fa-long-arrow-alt-down"
+                                        <a href="/#"><i class="ml-2 fa-lg fas fa-long-arrow-alt-down"
                                                 onclick="sortTable()"></i>
                                         </a>
                                     </th>
@@ -202,11 +202,11 @@
                                                 </div>
                                             </ul>
                                             <div class="flex pt-[10px] text-white ">
-                                                <a href="#"
+                                                <a href="/#"
                                                     class="py-2 px-[20px] transition duration-300 ease-in hover:bg-[#46A149] bg-[#4CAF50] rounded-[5px]">
                                                     Sacuvaj <i class="fas fa-check ml-[4px]"></i>
                                                 </a>
-                                                <a href="#"
+                                                <a href="/#"
                                                     class="ml-[20px] py-2 px-[20px] transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
                                                     Ponisti <i class="fas fa-times ml-[4px]"></i>
                                                 </a>
@@ -330,11 +330,11 @@
                                                 </div>
                                             </ul>
                                             <div class="flex pt-[10px] text-white ">
-                                                <a href="#"
+                                                <a href="/#"
                                                     class="py-2 px-[20px] transition duration-300 ease-in hover:bg-[#46A149] bg-[#4CAF50] rounded-[5px]">
                                                     Sacuvaj <i class="fas fa-check ml-[4px]"></i>
                                                 </a>
-                                                <a href="#"
+                                                <a href="/#"
                                                     class="ml-[20px] py-2 px-[20px] transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
                                                     Ponisti <i class="fas fa-times ml-[4px]"></i>
                                                 </a>
@@ -360,7 +360,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Geografija Crne Gore</span>
                                         </a>
                                     </td>
@@ -369,11 +369,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Udzbenici</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">6</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">5</a></td>
+                                            href="aktivneRezervacije">5</a></td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">5</a></td>
+                                            href="izdateKnjige">5</a></td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">2</a></td>
+                                            href="knjigePrekoracenje">2</a></td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">11</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -386,49 +386,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -447,7 +447,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Muzicka kultura I Razred
                                                 Gi...</span>
                                         </a>
@@ -457,11 +457,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Udzbenici</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">20</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">0</td>
+                                            href="aktivneRezervacije">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">0</td>
+                                            href="izdateKnjige">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">0</td>
+                                            href="knjigePrekoracenje">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">20</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -474,49 +474,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -535,7 +535,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Tom Sojer</span>
                                         </a>
                                     </td>
@@ -543,11 +543,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Romani</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">3</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">2</td>
+                                            href="aktivneRezervacije">2</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">7</td>
+                                            href="izdateKnjige">7</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">1</td>
+                                            href="knjigePrekoracenje">1</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">10</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -560,49 +560,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -621,7 +621,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Robinson Kruso</span>
                                         </a>
                                     </td>
@@ -629,11 +629,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Romani</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">0</td>
+                                            href="aktivneRezervacije">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">10</td>
+                                            href="izdateKnjige">10</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">2</td>
+                                            href="knjigePrekoracenje">2</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">10</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -646,49 +646,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -707,7 +707,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Geografija Crne Gore</span>
                                         </a>
                                     </td>
@@ -716,11 +716,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Udzbenici</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">6</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">5</td>
+                                            href="aktivneRezervacije">5</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">5</td>
+                                            href="izdateKnjige">5</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">1</td>
+                                            href="knjigePrekoracenje">1</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">11</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -733,49 +733,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -794,7 +794,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Muzicka kultura I Razred
                                                 Gi...</span>
                                         </a>
@@ -804,11 +804,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Udzbenici</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">20</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">0</td>
+                                            href="aktivneRezervacije">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">0</td>
+                                            href="izdateKnjige">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">0</td>
+                                            href="knjigePrekoracenje">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">20</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -821,49 +821,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -882,7 +882,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Tom Sojer</span>
                                         </a>
                                     </td>
@@ -890,11 +890,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Romani</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">3</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">2</td>
+                                            href="aktivneRezervacije">2</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">7</td>
+                                            href="izdateKnjige">7</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">2</td>
+                                            href="knjigePrekoracenje">2</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">10</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -907,49 +907,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -968,7 +968,7 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 mr-2 h-11" src="img/tomsojer.jpg" alt="" />
-                                        <a href="knjigaOsnovniDetalji.ejs">
+                                        <a href="/knjigaOsnovniDetalji">
                                             <span class="font-medium text-center">Robinson Kruso</span>
                                         </a>
                                     </td>
@@ -976,11 +976,11 @@
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">Romani</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="aktivneRezervacije.ejs">0</td>
+                                            href="aktivneRezervacije">0</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="izdateKnjige.ejs">10</td>
+                                            href="izdateKnjige">10</td>
                                     <td class="px-4 py-4 text-sm leading-5 text-blue-800 whitespace-no-wrap"><a
-                                            href="knjigePrekoracenje.ejs">1</td>
+                                            href="knjigePrekoracenje">1</td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">10</td>
                                     <td class="px-6 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                                         <p class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsKnjige hover:text-[#606FC7]">
@@ -993,49 +993,49 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="knjigaOsnovniDetalji.ejs" tabindex="0"
+                                                    <a href="/knjigaOsnovniDetalji" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-file mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Pogledaj detalje</span>
                                                     </a>
 
-                                                    <a href="editKnjiga.ejs" tabindex="0"
+                                                    <a href="/editKnjiga" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-edit mr-[6px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                                     </a>
 
-                                                    <a href="otpisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/otpisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-level-up-alt mr-[14px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Otpisi knjigu</span>
                                                     </a>
 
-                                                    <a href="izdajKnjigu.ejs" tabindex="0"
+                                                    <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
 
-                                                    <a href="vratiKnjigu.ejs" tabindex="0"
+                                                    <a href="/vratiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fas fa-redo-alt mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Vrati knjigu</span>
                                                     </a>
 
-                                                    <a href="rezervisiKnjigu.ejs" tabindex="0"
+                                                    <a href="/rezervisiKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-calendar-check mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Rezervisi knjigu</span>
                                                     </a>
 
-                                                    <a href="#" tabindex="0"
+                                                    <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="fa fa-trash mr-[10px] ml-[5px] py-1"></i>
@@ -1078,13 +1078,13 @@
                             <div>
                                 <nav class="relative z-0 inline-flex">
                                     <div>
-                                        <a href="#"
+                                        <a href="/#"
                                             class="relative inline-flex items-center px-4 py-2 -ml-px font-medium leading-5 transition duration-150 ease-in-out bg-white text-md focus:z-10 focus:outline-none">
                                             1 of 1
                                         </a>
                                     </div>
                                     <div>
-                                        <a href="#"
+                                        <a href="/#"
                                             class="relative inline-flex items-center px-2 py-2 font-medium leading-5 text-gray-500 transition duration-150 ease-in-out bg-white text-md rounded-l-md hover:text-gray-400 focus:z-10 focus:outline-none"
                                             aria-label="Previous"
                                             v-on:click.prevent="changePage(pagination.current_page - 1)">
@@ -1096,7 +1096,7 @@
                                         </a>
                                     </div>
                                     <div v-if="pagination.current_page < pagination.last_page">
-                                        <a href="#"
+                                        <a href="/#"
                                             class="relative inline-flex items-center px-2 py-2 -ml-px font-medium leading-5 text-gray-500 transition duration-150 ease-in-out bg-white text-md rounded-r-md hover:text-gray-400 focus:z-10 focus:outline-none"
                                             aria-label="Next">
                                             <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
@@ -1120,11 +1120,11 @@
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('includes/layout/inProgress') %>
+    <%- include('../includes/layout/inProgress') %>
 
 
     <!-- Scripts -->
-    <%- include('includes/layout/scripts') %>
+    <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
 
 </body>

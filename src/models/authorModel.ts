@@ -36,7 +36,7 @@ export class Author {
     });
   }
 
-  static async getAuthor(id: number) {
+  /* static async getAuthor(id: number) {
     const author = await db.author.findUnique({
       where: {
         id,
@@ -48,7 +48,7 @@ export class Author {
     }
 
     return new Author(author.nameSurname, author.photo, author.biography, author.wikipedia, author.id);
-  }
+  } */
 
   async save() {
     if (this.id) {

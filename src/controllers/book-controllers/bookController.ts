@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Book from "../models/bookModel";
+import Book from "../../models/bookModel";
 
 /* export async function getAllBooks(req: Request, res:Response, next:NextFunction){
     let books;
@@ -22,7 +22,7 @@ export async function getAllBooks(req: Request, res: Response, next: NextFunctio
     }
 }
 
-export async function getBook(req: Request, res:Response, next:NextFunction){
+/* export async function getBook(req: Request, res:Response, next:NextFunction){
     let bookId = parseInt(req.params.id.split(':')[1]);
     let book;
     try {
@@ -33,7 +33,7 @@ export async function getBook(req: Request, res:Response, next:NextFunction){
     res.json({
         book: book,
     });
-}
+} */
 
 export async function addBook(req: Request, res:Response, next:NextFunction){
     let bookId = parseInt(req.params.id.split(':')[1]);
