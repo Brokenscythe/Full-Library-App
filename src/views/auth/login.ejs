@@ -29,6 +29,7 @@
         <div class="w-full max-w-md">
           <form method="POST" action="/" class="px-12 pt-6 pb-4 mb-4 bg-white rounded shadow-lg">
             <!-- @csrf -->
+            <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
             <div class="flex justify-center py-2 mb-4 text-2xl text-gray-800 border-b-2"> Online Biblioteka </div>
             <div class="mb-4">
               <label class="auth-label" for="username">
