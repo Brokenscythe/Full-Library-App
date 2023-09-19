@@ -11,7 +11,7 @@ export async function getAllAuthors(req: Request, res: Response, next: NextFunct
     }
 }
 
-export async function getAuthor(req: Request, res:Response, next:NextFunction){
+/* export async function getAuthor(req: Request, res:Response, next:NextFunction){
     let authorId = parseInt(req.params.id.split(':')[1]);
     let author;
     try {
@@ -20,7 +20,7 @@ export async function getAuthor(req: Request, res:Response, next:NextFunction){
     }catch(error) {
         return next(error);
     }
-}
+} */
 
 export async function addAuthor(req: Request, res:Response, next:NextFunction){
     //let bookId = parseInt(req.params.id.split(':')[1]);

@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('includes/layout/styles') %>
+    <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('includes/layout/header') %>
+    <%- include('../includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('includes/layout/sidebar') %>
+        <%- include('../includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -48,7 +48,7 @@
                             <nav class="w-full rounded">
                                 <ol class="flex list-reset">
                                     <li>
-                                        <a href="evidencijaKnjiga.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                        <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
                                             Evidencija knjiga
                                         </a>
                                     </li>
@@ -56,7 +56,7 @@
                                         <span class="mx-2">/</span>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-[#2196f3] hover:text-blue-600">
+                                        <a href="/#" class="text-[#2196f3] hover:text-blue-600">
                                             Nova knjiga
                                         </a>
                                     </li>
@@ -67,13 +67,13 @@
                 </div>
             </div>
             <div class="py-4 text-gray-500 border-b-[1px] border-[#e4dfdf] pl-[30px]">
-                <a href="#" class="inline active-book-nav hover:text-blue-800">
+                <a href="/#" class="inline active-book-nav hover:text-blue-800">
                     Osnovni detalji
                 </a>
-                <a href="novaKnjigaSpecifikacija.ejs" class="inline ml-[70px] hover:text-blue-800 ">
+                <a href="/novaKnjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
                     Specifikacija
                 </a>
-                <a href="novaKnjigaMultimedija.ejs" class="inline ml-[70px] hover:text-blue-800">
+                <a href="/novaKnjigaMultimedija" class="inline ml-[70px] hover:text-blue-800">
                     Multimedija
                 </a>
             </div>
@@ -437,11 +437,11 @@
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('includes/layout/inProgress') %>
+    <%- include('../includes/layout/inProgress') %>
 
 
     <!-- Scripts -->
-    <%- include('includes/layout/scripts') %>
+    <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
 
     <script>

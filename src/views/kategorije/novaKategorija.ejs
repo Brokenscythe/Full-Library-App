@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('includes/layout/styles') %>
+    <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('includes/layout/header') %>
+    <%- include('../includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('includes/layout/sidebar') %>
+        <%- include('../includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -48,7 +48,7 @@
                             <nav class="w-full rounded">
                                 <ol class="flex list-reset">
                                     <li>
-                                        <a href="settingsPolisa.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                        <a href="/settingsPolisa" class="text-[#2196f3] hover:text-blue-600">
                                             Settings
                                         </a>
                                     </li>
@@ -56,7 +56,7 @@
                                         <span class="mx-2">/</span>
                                     </li>
                                     <li>
-                                        <a href="settingsKategorije.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                        <a href="/settingsKategorije" class="text-[#2196f3] hover:text-blue-600">
                                             Kategorije
                                         </a>
                                     </li>
@@ -64,7 +64,7 @@
                                         <span class="mx-2">/</span>
                                     </li>
                                     <li>
-                                        <a href="#" class="text-gray-400 hover:text-blue-600">
+                                        <a href="/#" class="text-gray-400 hover:text-blue-600">
                                             Nova kategorija
                                         </a>
                                     </li>
@@ -76,15 +76,14 @@
             </div>
             <!-- Space for content -->
             <div class="scroll height-content section-content">
-                <form method="POST" action="/" class="text-gray-700 forma">
+                <form method="POST" action="/novaKategorija" class="text-gray-700 forma">
                     <div class="flex flex-row ml-[30px]">
                         <div class="w-[50%] mb-[100px]">
                             <div class="mt-[20px]">
                                 <p>Naziv kategorije <span class="text-red-500">*</span></p>
-                                <input type="text" name="nazivKategorije" id="nazivKategorije"
+                                <input type="text" name="category" id="category"
                                     class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
                                     onkeydown="clearErrorsNazivKategorije()" />
-                                <div id="validateNazivKategorije"></div>
                             </div>
 
                             <div class="mt-[20px]">
@@ -104,7 +103,7 @@
 
                             <div class="mt-[20px]">
                                 <p class="inline-block">Opis</p>
-                                <textarea name="opisKategorije" rows="10"
+                                <textarea name="description" rows="10"
                                     class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
 
                                 </textarea>
@@ -134,11 +133,11 @@
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('includes/layout/inProgress') %>
+    <%- include('../includes/layout/inProgress') %>
 
 
     <!-- Scripts -->
-    <%- include('includes/layout/scripts') %>
+    <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
 
 

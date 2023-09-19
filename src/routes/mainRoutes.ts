@@ -10,12 +10,9 @@ router.get('/dashboard', (req, res) => {
     res.render('dashboard/dashboard');
 });
 
-router.get('/settings', (req, res) => {
-    res.render('settings/settingsPolisa');
-});
-
 router.get('/izdateKnjige', (req, res) => {
     res.render('rezervacije/aktivneRezervacije');
 });
+
 
 export default router;

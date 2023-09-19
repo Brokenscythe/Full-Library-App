@@ -1,3 +1,4 @@
+# Sve biblioteke(npm i) su u root-u projekta.
 # Fullstack-Library-App
 
 Web aplikacija 'Online Biblioteka' je admin panel. Mora imati sekcije:

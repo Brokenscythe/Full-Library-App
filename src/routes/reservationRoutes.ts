@@ -2,31 +2,31 @@ import express from "express";
 import { isLoggedIn } from "../utils/passport";
 import * as ReservationService from "../controllers/reservationController";
 
-const reservationRouter = express.Router();
+const ReservationRouter = express.Router();
 
 // reservationRouter.get('/',  ReservationService.getAllReservations);
 // // reservationRouter.get('/:id',  ReservationService.getReservation);
 // reservationRouter.post('/',  ReservationService.createReservation);
 // reservationRouter.patch('/:id',  ReservationService.updateReservation);
 // reservationRouter.delete('/:id',  ReservationService.deleteReservation);
-reservationRouter.get("/aktivneRezervacije", (req, res) => {
+ReservationRouter.get("/aktivneRezervacije", (req, res) => {
   res.render("rezervacije/aktivneRezervacije");
 });
-reservationRouter.get("/dashboard", (req, res) => {
+ReservationRouter.get("/dashboard", (req, res) => {
   res.render("dashboard/dashboard");
 });
 
 ///reservations/knjigePrekoracenje
 
-reservationRouter.get("/knjigePrekoracenje", (req, res) => {
+ReservationRouter.get("/knjigePrekoracenje", (req, res) => {
   res.render("rezervacije/knjigePrekoracenje");
 });
 
-reservationRouter.get("/arhiviraneRezervacije", (req, res) => {
+ReservationRouter.get("/arhiviraneRezervacije", (req, res) => {
   res.render("rezervacije/arhiviraneRezervacije");
 });
 
 // zamalo da zaboravim trazenje
-reservationRouter.get("/search", isLoggedIn, ReservationService.searchReservations);
+ReservationRouter.get("/search", isLoggedIn, ReservationService.searchReservations);
 
-export default reservationRouter;
+export default ReservationRouter;
