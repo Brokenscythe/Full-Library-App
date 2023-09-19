@@ -8,7 +8,7 @@ const authRouter = express.Router();
 
 authRouter.get("/login", AuthService.getLogIn);
 
-authRouter.post("/login", passport.authenticate("local", { failureRedirect: "/login", successRedirect: "/" }));
+authRouter.post("/login", AuthService.login);
 
 authRouter.get("/register", AuthService.getRegister);
 

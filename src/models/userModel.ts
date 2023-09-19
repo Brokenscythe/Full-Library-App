@@ -31,16 +31,34 @@ class User {
     this.JMBG = JMBG;
   }
   async signup() {
+    const existingUser = await this.hasMatchingJMBG();
+    if (existingUser) {
+      throw new Error("User with the same JMBG already exists.");
+    }
     const hashedPassword = await bcrypt.hash(this.password, 12);
     await db.user.create({
       data: {
-        name: this.name,
         username: this.username,
+        name: this.name,
         email: this.email,
         password: hashedPassword,
         JMBG: this.JMBG,
       },
     });
+  }
+  async hasMatchingJMBG() {
+    return db.user.findFirst({
+      where: {
+        JMBG: this.JMBG,
+      },
+    });
+  }
+  async existsAlready() {
+    const existingUser = (await this.hasMatchingUsername()) || (await this.hasMatchingEmail());
+    if (existingUser) {
+      return true;
+    }
+    return false;
   }
   hasMatchingPassword(hashedPassword) {
     return bcrypt.compare(this.password, hashedPassword);
@@ -52,5 +70,12 @@ class User {
       },
     });
   }
+  hasMatchingUsername() {
+    return db.user.findFirst({
+      where: {
+        username: this.username,
+      },
+    });
+  }
 }
-export default { User };
+export default User;

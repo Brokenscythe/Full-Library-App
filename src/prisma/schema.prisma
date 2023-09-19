@@ -34,9 +34,9 @@ model UserLogins {
 model User {
   id                String        @id @default(uuid())
   type              UserType?     @relation(fields: [typeId], references: [id])
-  typeId            Int?          @default(1)
+  typeId            Int?
   gender            UserGender?   @relation(fields: [genderId], references: [id])
-  genderId          Int?          @default(1)
+  genderId          Int?
   name              String
   JMBG              String        @unique
   email             String        @unique
