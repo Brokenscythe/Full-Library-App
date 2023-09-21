@@ -12,6 +12,10 @@ async function main() {
             { name: 'User' },
         ],
     });
+ //seed settings
+const settings = await prisma.settings.create({
+  data: { reservationExpiry: 7, returnDeadline: 30, conflictDeadline: 35 },
+});
 
     // Seed UserGender
     const userGenders = await prisma.userGender.createMany({
