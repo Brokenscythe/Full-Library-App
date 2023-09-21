@@ -19,19 +19,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('../includes/layout/styles') %>
+    <%- include('includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('../includes/layout/header') %>
+    <%- include('includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('../includes/layout/sidebar') %>
+        <%- include('includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -42,7 +42,7 @@
                     <div class="pl-[30px] py-[10px] flex flex-col">
                         <div>
                             <h1>
-                                <%= author.nameSurname %>
+                                Mark Twain
                             </h1>
                         </div>
                         <div>
@@ -58,7 +58,7 @@
                                     </li>
                                     <li>
                                         <a href="autorProfile" class="text-gray-400 hover:text-blue-600">
-                                            AUTOR-<%= author.id %>
+                                            AUTOR-124
                                         </a>
                                     </li>
                                 </ol>
@@ -97,42 +97,35 @@
             <!-- Space for content -->
             <div class="pl-[30px] height-profile pb-[30px] scroll mt-[20px]">
                 <div class="mr-[30px]">
-                  <div class="mt-[20px]">
-                    <span class="text-gray-500">Ime i prezime</span>
-                    <p class="font-medium"><%= author.nameSurname %></p>
-                  </div>
-                  <div class="mt-[40px]">
-                    <span class="text-gray-500">Opis</span>
-                    <p class="font-medium max-w-[550px]"><%= author.biography %></p>
-                  </div>
-                  <div class="mt-[40px]">
-                    <span class="text-gray-500">Wikipedia</span>
-                    <a href="<%= author.wikipedia %>" target="_blank" rel="noopener noreferrer" class="font-medium text-blue-600"><%= author.wikipedia %></a>
-                  </div>
-                  
-                  <div class="mt-[40px]">
-                    <span class="text-gray-500">Slika autora:</span>
-                    <% if (author.photo) { %>
-                       
-                      <img src="../public/img/<%= author.photo %>" alt="<%= author.nameSurname %>" class="w-[200px] h-[200px] object-cover rounded-full border-4 border-grey">
-                    <% } else { %>
-                      <img src="../public/img/profileExample.jpg" alt="" class="w-[200px] h-[200px] object-cover rounded-full border-4 border-white">
-                    <% } %>
-                  </div>
-                  
+                    <div class="mt-[20px]">
+                        <span class="text-gray-500">Ime i prezime</span>
+                        <p class="font-medium">Mark Twain</p>
+                    </div>
+                    <div class="mt-[40px]">
+                        <span class="text-gray-500">Opis</span>
+                        <p class="font-medium max-w-[550px]">
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque non aperiam voluptas
+                            expedita, laborum deleniti sit ipsum quam!
+                            Quis architecto aliquid deleniti ipsum labore ipsa mollitia aspernatur consequatur incidunt
+                            nesciunt.
+                            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque non aperiam voluptas
+                            expedita, laborum deleniti sit ipsum quam!
+                            Quis architecto aliquid deleniti ipsum labore ipsa mollitia aspernatur consequatur incidunt
+                            nesciunt.
+                        </p>
+                    </div>
                 </div>
-              </div>
-              
+            </div>
         </section>
         <!-- End Content -->
     </main>
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('../includes/layout/inProgress') %>
+    <%- include('includes/layout/inProgress') %>
 
     <!-- Scripts -->
-    <%- include('../includes/layout/scripts') %>
+    <%- include('includes/layout/scripts') %>
     <!-- End Scripts -->
 
 </body>

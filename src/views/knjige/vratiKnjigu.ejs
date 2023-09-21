@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('../includes/layout/styles') %>
+    <%- include('includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('../includes/layout/header') %>
+    <%- include('includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('../includes/layout/sidebar') %>
+        <%- include('includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -52,7 +52,7 @@
                                 <nav class="w-full rounded">
                                     <ol class="flex list-reset">
                                         <li>
-                                            <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                            <a href="evidencijaKnjiga.ejs" class="text-[#2196f3] hover:text-blue-600">
                                                 Evidencija knjiga
                                             </a>
                                         </li>
@@ -60,7 +60,7 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/knjigaOsnovniDetalji"
+                                            <a href="knjigaOsnovniDetalji.ejs"
                                                 class="text-[#2196f3] hover:text-blue-600">
                                                 KNJIGA-467
                                             </a>
@@ -69,7 +69,7 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/vratiKnjigu" class="text-[#2196f3] hover:text-blue-600">
+                                            <a href="vratiKnjigu.ejs" class="text-[#2196f3] hover:text-blue-600">
                                                 Vrati knjigu
                                             </a>
                                         </li>
@@ -79,19 +79,19 @@
                         </div>
                     </div>
                     <div class="pt-[24px] mr-[30px]">
-                        <a href="/otpisiKnjigu" class="inline hover:text-blue-600">
+                        <a href="otpisiKnjigu.ejs" class="inline hover:text-blue-600">
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                        <a href="/izdajKnjigu" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
+                        <a href="izdajKnjigu.ejs" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
-                        <a href="/vratiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="vratiKnjigu.ejs" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="fas fa-redo-alt mr-[3px] "></i>
                             Vrati knjigu
                         </a>
-                        <a href="/rezervisiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="rezervisiKnjigu.ejs" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="far fa-calendar-check mr-[3px] "></i>
                             Rezervisi knjigu
                         </a>
@@ -104,13 +104,13 @@
                             <div class="absolute right-0 w-56 mt-[7px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                 aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
                                 <div class="py-1">
-                                    <a href="/editKnjiga" tabindex="0"
+                                    <a href="editKnjiga.ejs" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fas fa-edit mr-[1px] ml-[5px] py-1"></i>
                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                     </a>
-                                    <a href="/#" tabindex="0"
+                                    <a href="#" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fa fa-trash mr-[5px] ml-[5px] py-1"></i>
@@ -180,7 +180,7 @@
                                 <td class="flex flex-row items-center px-4 py-4">
                                     <img class="object-cover w-8 h-8 mr-2 rounded-full" src="img/profileStudent.jpg"
                                         alt="" />
-                                    <a href="/ucenikProfile">
+                                    <a href="ucenikProfile.ejs">
                                         <span class="font-medium text-center">Pero Perovic</span>
                                     </a>
                                 </td>
@@ -198,7 +198,7 @@
                                 <td class="flex flex-row items-center px-4 py-4">
                                     <img class="object-cover w-8 h-8 mr-2 rounded-full" src="img/profileStudent.jpg"
                                         alt="" />
-                                    <a href="/ucenikProfile">
+                                    <a href="ucenikProfile.ejs">
                                         <span class="font-medium text-center">Pero Perovic</span>
                                     </a>
                                 </td>
@@ -216,7 +216,7 @@
                                 <td class="flex flex-row items-center px-4 py-4">
                                     <img class="object-cover w-8 h-8 mr-2 rounded-full" src="img/profileStudent.jpg"
                                         alt="" />
-                                    <a href="/ucenikProfile">
+                                    <a href="ucenikProfile.ejs">
                                         <span class="font-medium text-center">Pero Perovic</span>
                                     </a>
                                 </td>
@@ -238,7 +238,7 @@
                                 <td class="flex flex-row items-center px-4 py-4">
                                     <img class="object-cover w-8 h-8 mr-2 rounded-full" src="img/profileStudent.jpg"
                                         alt="" />
-                                    <a href="/ucenikProfile">
+                                    <a href="ucenikProfile.ejs">
                                         <span class="font-medium text-center">Pero Perovic</span>
                                     </a>
                                 </td>
@@ -260,7 +260,7 @@
                                 <td class="flex flex-row items-center px-4 py-4">
                                     <img class="object-cover w-8 h-8 mr-2 rounded-full" src="img/profileStudent.jpg"
                                         alt="" />
-                                    <a href="/ucenikProfile">
+                                    <a href="ucenikProfile.ejs">
                                         <span class="font-medium text-center">Pero Perovic</span>
                                     </a>
                                 </td>
@@ -301,13 +301,13 @@
                         <div>
                             <nav class="relative z-0 inline-flex">
                                 <div>
-                                    <a href="/#"
+                                    <a href="#"
                                         class="relative inline-flex items-center px-4 py-2 -ml-px font-medium leading-5 transition duration-150 ease-in-out bg-white text-md focus:z-10 focus:outline-none">
                                         1 of 1
                                     </a>
                                 </div>
                                 <div>
-                                    <a href="/#"
+                                    <a href="#"
                                         class="relative inline-flex items-center px-2 py-2 font-medium leading-5 text-gray-500 transition duration-150 ease-in-out bg-white text-md rounded-l-md hover:text-gray-400 focus:z-10 focus:outline-none"
                                         aria-label="Previous"
                                         v-on:click.prevent="changePage(pagination.current_page - 1)">
@@ -319,7 +319,7 @@
                                     </a>
                                 </div>
                                 <div v-if="pagination.current_page < pagination.last_page">
-                                    <a href="/#"
+                                    <a href="#"
                                         class="relative inline-flex items-center px-2 py-2 -ml-px font-medium leading-5 text-gray-500 transition duration-150 ease-in-out bg-white text-md rounded-r-md hover:text-gray-400 focus:z-10 focus:outline-none"
                                         aria-label="Next">
                                         <svg class="w-5 h-5" viewBox="0 0 20 20" fill="currentColor">
@@ -356,11 +356,11 @@
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('../includes/layout/inProgress') %>
+    <%- include('includes/layout/inProgress') %>
 
 
     <!-- Scripts -->
-    <%- include('../includes/layout/scripts') %>
+    <%- include('includes/layout/scripts') %>
     <!-- End Scripts -->
 
 </body>

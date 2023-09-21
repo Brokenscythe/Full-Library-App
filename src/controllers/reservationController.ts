@@ -1,29 +1,60 @@
 import { Request, Response, NextFunction } from "express";
 import BookReservation from "../models/bookReservations";
-
+import { PrismaClient } from '@prisma/client';
+const prisma = new PrismaClient();
 export async function getReservation(req: Request, res: Response, next: NextFunction) {
     const reservationId = parseInt(req.params.id);
-    let reservation;
     try {
-        reservation = await BookReservation.getReservation(reservationId);
+      const reservation = await prisma.reservation.findUnique({
+        where: { id: reservationId },
+        include: {
+          book: true,
+          reservationMadeForUser: true,
+          reservationMadeByUser: true,
+          closeUser: true,
+          closureReason: true,
+          reservationStatuses: true,
+        },
+      });
+      if (!reservation) {
+        throw new Error(`Reservation with ID ${reservationId} not found.`);
+      }
+      const reservationMadeForUser = {
+        ...reservation.reservationMadeForUser,
+        name: reservation.reservationMadeForUser.name,
+      };
+      const bookReservation = new BookReservation(
+        reservation.id,
+        reservation.book,
+        reservationMadeForUser,
+        reservation.reservationMadeByUser,
+        reservation.closeUser,
+        reservation.closureReason,
+        reservation.reservationStatuses,
+        reservation.request_date,
+        reservation.reservation_date,
+        reservation.close_date
+      );
+      console.log(bookReservation);
+      res.render('izdavanje/izdavanjeDetalji', { reservation: bookReservation });
     } catch (error) {
-        return next(error);
+      return next(error);
+    } finally {
+      await prisma.$disconnect();
     }
-    res.json({
-        reservation: reservation,
-    });
-}
-
+  }
 export async function getAllReservations(req: Request, res: Response, next: NextFunction) {
     try {
-        const allReservations = await BookReservation.getAllReservations();
-        res.json({
-            reservations: allReservations,
-        });
+        const reservations = await BookReservation.getAllReservations();
+        console.log(reservations)
+        res.render('rezervacije/aktivneRezervacije', { reservations: reservations });
     } catch (error) {
         return next(error);
     }
 }
+
+
+
 
 export async function createReservation(req: Request, res: Response, next: NextFunction) {
     const {

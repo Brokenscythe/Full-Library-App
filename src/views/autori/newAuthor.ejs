@@ -10,10 +10,11 @@
     <meta name="description" content="ICT Cortex Library - project for high school students..." />
     <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
     <meta name="author" content="bildstudio" />
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' cdn.ckeditor.com cdn.jsdelivr.net">
     <!-- End Meta -->
 
     <!-- Title -->
-    <title>New genre | Specification | Library - ICT Cortex student project</title>
+    <title>New author | Specification | Library - ICT Cortex student project</title>
     <link rel="shortcut icon" href="img/library-favicon.ico" type="image/vnd.microsoft.icon" />
     <!-- End Title -->
 
@@ -41,23 +42,15 @@
                     <div class="pl-[30px] py-[10px] flex flex-col">
                         <div>
                             <h1>
-                                Novi zanr
+                                Novi autor
                             </h1>
                         </div>
                         <div>
                             <nav class="w-full rounded">
                                 <ol class="flex list-reset">
-                                <li>
-                                        <a href="settingsPolisa.ejs" class="text-[#2196f3] hover:text-blue-600">
-                                            Settings
-                                        </a>
-                                    </li>
                                     <li>
-                                        <span class="mx-2">/</span>
-                                    </li>
-                                    <li>
-                                        <a href="settingsZanrovi.ejs" class="text-[#2196f3] hover:text-blue-600">
-                                            Zanrovi
+                                        <a href="autori.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                            Evidencija autora
                                         </a>
                                     </li>
                                     <li>
@@ -65,7 +58,7 @@
                                     </li>
                                     <li>
                                         <a href="#" class="text-gray-400 hover:text-blue-600">
-                                            Novi zanr
+                                            Novi autor
                                         </a>
                                     </li>
                                 </ol>
@@ -81,9 +74,17 @@
                     <div class="flex flex-row ml-[30px]">
                         <div class="w-[50%] mb-[150px]">
                             <div class="mt-[20px]">
-                                <p>Naziv zanra <span class="text-red-500">*</span></p>
-                                <input type="text" name="nazivZanra" id="nazivZanra" class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" onkeydown="clearErrorsNazivZanra()"/>
-                                <div id="validateNazivZanra"></div>
+                                <p>Ime i prezime <span class="text-red-500">*</span></p>
+                                <input type="text" name="imePrezimeAutor" id="imePrezimeAutor" class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" onkeydown="clearErrorsImePrezimeAutor()"/>
+                                <div id="validateImePrezimeAutor"></div>
+                            </div>
+
+                            <div class="mt-[20px]">
+                                <p class="inline-block mb-2">Opis</p>
+                                <textarea name="opis_autor"
+                                    class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+
+                                </textarea>
                             </div>
                         </div>
                     </div>
@@ -94,8 +95,8 @@
                                     class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
                                     Ponisti <i class="fas fa-times ml-[4px]"></i>
                                 </button>
-                                <button id="sacuvajZanr" type="submit"
-                                    class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]" onclick="validacijaZanr()">
+                                <button id="sacuvajAutora" type="submit"
+                                    class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]" onclick="validacijaAutor()">
                                     Sacuvaj <i class="fas fa-check ml-[4px]"></i>
                                 </button>
                             </div>
@@ -115,6 +116,13 @@
     <!-- Scripts -->
     <%- include('includes/layout/scripts') %>
     <!-- End Scripts -->
+
+    <script>
+    CKEDITOR.replace('opis_autor', {
+        width: "90%",
+        height: "150px"
+    });
+    </script>
     
 </body>
 

@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('../includes/layout/styles') %>
+    <%- include('includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('../includes/layout/header') %>
+    <%- include('includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('../includes/layout/sidebar') %>
+        <%- include('includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -48,7 +48,7 @@
                             <nav class="w-full rounded">
                                 <ol class="flex list-reset">
                                     <li>
-                                        <a href="/ucenik" class="text-[#2196f3] hover:text-blue-600">
+                                        <a href="ucenik.ejs" class="text-[#2196f3] hover:text-blue-600">
                                             Svi ucenici
                                         </a>
                                     </li>
@@ -56,7 +56,7 @@
                                         <span class="mx-2">/</span>
                                     </li>
                                     <li>
-                                        <a href="/ucenikProfile" class="text-[#2196f3] hover:text-blue-600">
+                                        <a href="ucenikProfile.ejs" class="text-[#2196f3] hover:text-blue-600">
                                             ID-354
                                         </a>
                                     </li>
@@ -65,11 +65,11 @@
                         </div>
                     </div>
                     <div class="pt-[24px] pr-[30px]">
-                        <a href="/#" class="inline hover:text-blue-600 show-modal">
+                        <a href="#" class="inline hover:text-blue-600 show-modal">
                             <i class="fas fa-redo-alt mr-[3px]"></i>
                             Resetuj sifru
                         </a>
-                        <a href="/editUcenik" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="editUcenik.ejs" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="fas fa-edit mr-[3px] "></i>
                             Izmjeni podatke
                         </a>
@@ -82,7 +82,7 @@
                             <div class="absolute right-0 w-56 mt-[10px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                 aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
                                 <div class="py-1">
-                                    <a href="/#" tabindex="0"
+                                    <a href="#" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fa fa-trash mr-[5px] ml-[5px] py-1"></i>
@@ -95,10 +95,10 @@
                 </div>
             </div>
             <div class="border-b-[1px] py-4 text-gray-500 border-[#e4dfdf] pl-[30px]">
-                <a href="/ucenikProfile" class="inline active-book-nav">
+                <a href="ucenikProfile.ejs" class="inline active-book-nav">
                     Osnovni detalji
                 </a>
-                <a href="/ucenikIzdate" class="inline ml-[70px] hover:text-blue-800">
+                <a href="ucenikIzdate.ejs" class="inline ml-[70px] hover:text-blue-800">
                     Evidencija iznajmljivanja
                 </a>
             </div>
@@ -121,7 +121,7 @@
                             </div>
                             <div class="mt-[40px]">
                                 <span class="text-gray-500">Email</span>
-                                <a href="/#" class="block font-medium text-[#2196f3]">pero.perovic@domain.net</a>
+                                <a href="#" class="block font-medium text-[#2196f3]">pero.perovic@domain.net</a>
                             </div>
                             <div class="mt-[40px]">
                                 <span class="text-gray-500">Korisnicko ime</span>
@@ -188,11 +188,11 @@
     </div>
 
     <!-- Notification for small devices -->
-    <%- include('../includes/layout/inProgress') %>
+    <%- include('includes/layout/inProgress') %>
 
 
     <!-- Scripts -->
-    <%- include('../includes/layout/scripts') %>
+    <%- include('includes/layout/scripts') %>
     <!-- End Scripts -->
 
 </body>

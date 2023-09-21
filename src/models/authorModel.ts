@@ -35,11 +35,10 @@ export class Author {
       return new Author(author.nameSurname, author.photo, author.biography, author.wikipedia, author.id);
     });
   }
-
-  /* static async getAuthor(id: number) {
+  static async getAuthor(id: number) {
     const author = await db.author.findUnique({
       where: {
-        id,
+        id:id,
       },
     });
 
@@ -48,7 +47,7 @@ export class Author {
     }
 
     return new Author(author.nameSurname, author.photo, author.biography, author.wikipedia, author.id);
-  } */
+  }
 
   async save() {
     if (this.id) {
@@ -61,7 +60,7 @@ export class Author {
           photo: this.photo,
           biography: this.biography,
           wikipedia: this.wikipedia,
-          updated_at: Date(),
+          updated_at: new Date().toISOString(),
         },
       });
     } else {
@@ -71,8 +70,8 @@ export class Author {
           photo: this.photo,
           biography: this.biography,
           wikipedia: this.wikipedia,
-          created_at: Date(),
-          updated_at: Date(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
         },
       });
     }
