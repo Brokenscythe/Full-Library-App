@@ -1,3 +1,5 @@
+import { Request, Response } from "express";
+
 interface UserData {
   username: string;
   name: string;
@@ -6,5 +8,9 @@ interface UserData {
   confirmPassword: string;
   JMBG: string;
 }
+interface loginData {
+  email: string;
+  password: string;
+}
 
-export default UserData;
+export { UserData, loginData };

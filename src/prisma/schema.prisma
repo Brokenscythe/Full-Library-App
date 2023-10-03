@@ -23,12 +23,12 @@ model UserGender {
 }
 
 model UserLogins {
-  id         Int      @id @default(autoincrement())
-  user       User     @relation(fields: [userId], references: [id])
+  id         Int       @id @default(autoincrement())
+  user       User      @relation(fields: [userId], references: [id])
   userId     String
   date       DateTime
-  created_at DateTime
-  updated_at DateTime
+  created_at DateTime?
+  updated_at DateTime?
 }
 
 model User {

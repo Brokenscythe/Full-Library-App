@@ -20,6 +20,7 @@
     <!-- Styles -->
     <link rel="stylesheet" href="/styles/styles.css" />
     <link rel="stylesheet" href="/styles/auth.css" />
+    <link rel="stylesheet" href="/styles/base.css">
     <!-- Font Styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,8 +38,20 @@
         <div class="w-full">
           <div class="auth-container">
             <h1>Online Library - ICT Cortex </h1>
+<<<<<<< HEAD
             <h2 class="auth-heading">Sign Up</h2>
             <form method="POST" action="/signup">
+=======
+            <h2 class="auth-heading">Register</h2>
+            <% if(inputData.error_message) {%>
+            <section class="alert">
+              <h3>Invalid Input</h2>
+              <p><%= inputData.error_message %></p>
+            </section>
+            <% } %>
+            <form method="POST" action="/register">
+              <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
+>>>>>>> authentication
               <label class="auth-label" for="name">Name</label>
               <input class="auth-input" id="name" name="name" type="text" required placeholder="Name" />
 

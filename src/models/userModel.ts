@@ -5,36 +5,27 @@ const db = new PrismaClient();
 
 class User {
   id?: number;
-  name: string;
-  username: string;
+  name: string = "";
+  username: string = "";
   email: string;
   password: string;
-  JMBG: string;
+  JMBG: string = "";
 
-  constructor({
-    name,
-    username,
-    email,
-    password,
-    JMBG,
-  }: {
-    username: string;
-    name: string;
-    email: string;
-    password: string;
-    JMBG: string;
-  }) {
-    this.username = username;
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.JMBG = JMBG;
-  }
-  async signup() {
-    const existingUser = await this.hasMatchingJMBG();
-    if (existingUser) {
-      throw new Error("User with the same JMBG already exists.");
+  constructor(data: { name: string; username: string; email: string; password: string; JMBG: string });
+  constructor(email: string, password: string);
+  constructor(dataOrEmail: any, password?: string) {
+    if (typeof dataOrEmail === "string") {
+      this.email = dataOrEmail;
+      this.password = password || "";
+    } else {
+      this.username = dataOrEmail.username;
+      this.name = dataOrEmail.name;
+      this.email = dataOrEmail.email;
+      this.password = dataOrEmail.password;
+      this.JMBG = dataOrEmail.JMBG;
     }
+  }
+  async register() {
     const hashedPassword = await bcrypt.hash(this.password, 12);
     await db.user.create({
       data: {
@@ -46,22 +37,33 @@ class User {
       },
     });
   }
-  async hasMatchingJMBG() {
-    return db.user.findFirst({
+  async existsAlready() {
+    const existingUser = await db.user.findFirst({
       where: {
-        JMBG: this.JMBG,
+        OR: [
+          {
+            username: this.username,
+          },
+          {
+            email: this.email,
+          },
+          {
+            JMBG: this.JMBG,
+          },
+        ],
       },
     });
-  }
-  async existsAlready() {
-    const existingUser = (await this.hasMatchingUsername()) || (await this.hasMatchingEmail());
-    if (existingUser) {
-      return true;
-    }
-    return false;
+    return !!existingUser;
   }
   hasMatchingPassword(hashedPassword) {
     return bcrypt.compare(this.password, hashedPassword);
+  }
+  hasMatchingUsername() {
+    return db.user.findFirst({
+      where: {
+        username: this.username,
+      },
+    });
   }
   hasMatchingEmail() {
     return db.user.findFirst({
@@ -70,10 +72,10 @@ class User {
       },
     });
   }
-  hasMatchingUsername() {
+  async hasMatchingJMBG() {
     return db.user.findFirst({
       where: {
-        username: this.username,
+        JMBG: this.JMBG,
       },
     });
   }
