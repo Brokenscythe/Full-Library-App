@@ -50,6 +50,8 @@ import session from "express-session";
 import path from "path";
 import bodyParser from "body-parser";
 import * as dotenv from 'dotenv';
+import methodOverride from 'method-override';
+
 
 //ROUTES
 //import authRoutes from "./routes/authRoutes";
@@ -70,14 +72,19 @@ dotenv.config();
 
 //parsira req.body
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
-//VIEW ENGINE SETUP
+
+//ejs setap
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-//SERVING STATIC FILES
-app.use(express.static(__dirname + "/public"));
+//staticni fajlovi
 
+app.use(express.static(__dirname + "/public"));
+app.use('/public', express.static(path.join(__dirname, 'public')));
+//mora sam ovako
 app.use(express.urlencoded({ extended: false }));
 
 const sessionConfig = createSessionConfig();
@@ -95,12 +102,17 @@ app.use(function (req, res, next) {
   next();
 });
 
-//ROUTES
+//ROUTE
 app.use('/books', BookRouter);
 app.use('/authors', AuthorRouter);
 app.use('/', SettingsRouter);
 app.use('/reservations', ReservationRouter);
 app.use(router);
+
+//Ruta za obradu nepostojećih zahteva
+app.use((req, res) => {
+  res.status(404).render("404page");
+});
 
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}.`);

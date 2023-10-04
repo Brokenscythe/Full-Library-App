@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('../includes/layout/styles') %>
+    <%- include('includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('../includes/layout/header') %>
+    <%- include('includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('../includes/layout/sidebar') %>
+        <%- include('includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -48,7 +48,7 @@
                             <nav class="w-full rounded">
                                 <ol class="flex list-reset">
                                     <li>
-                                        <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                        <a href="evidencijaKnjiga.ejs" class="text-[#2196f3] hover:text-blue-600">
                                             Evidencija knjiga
                                         </a>
                                     </li>
@@ -56,7 +56,7 @@
                                         <span class="mx-2">/</span>
                                     </li>
                                     <li>
-                                        <a href="/#" class="text-gray-400 hover:text-blue-600">
+                                        <a href="#" class="text-gray-400 hover:text-blue-600">
                                             Izmijeni podatke
                                         </a>
                                     </li>
@@ -67,13 +67,13 @@
                 </div>
             </div>
             <div class="border-b-[2px] py-4 text-gray-500 border-gray-300 pl-[30px]">
-                <a href="/editKnjiga" class="inline hover:text-blue-800">
+                <a href="editKnjiga.ejs" class="inline hover:text-blue-800">
                     Osnovni detalji
                 </a>
-                <a href="/editKnjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
+                <a href="editKnjigaSpecifikacija.ejs" class="inline ml-[70px] hover:text-blue-800 ">
                     Specifikacija
                 </a>
-                <a href="/#" class="inline active-book-nav ml-[70px] hover:text-blue-800">
+                <a href="#" class="inline active-book-nav ml-[70px] hover:text-blue-800">
                     Multimedija
                 </a>
             </div>
@@ -97,7 +97,7 @@
                                                 <div
                                                     class="flex flex-col items-center justify-center py-10 text-center">
                                                     <svg class="w-6 h-6 mr-1 text-current-50"
-                                                        xmlns="http:/www.w3.org/2000/svg" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
                                                         viewBox="0 0 24 24" stroke="currentColor">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
                                                             stroke-width="2"
@@ -123,7 +123,7 @@
                                                         class="absolute bottom-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
                                                         type="button" id="hide-image1">
                                                         <svg class="w-[25px] h-[25px] text-gray-700"
-                                                            xmlns="http:/www.w3.org/2000/svg" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             nviewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
@@ -150,7 +150,7 @@
                                                         class="absolute bottom-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
                                                         type="button" id="hide-image2">
                                                         <svg class="w-[25px] h-[25px] text-gray-700"
-                                                            xmlns="http:/www.w3.org/2000/svg" fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
                                                             nviewBox="0 0 24 24" stroke="currentColor">
                                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                                 stroke-width="2"
@@ -181,7 +181,7 @@
                                                             class="absolute bottom-0 right-0 z-50 p-1 bg-white rounded-bl focus:outline-none"
                                                             type="button" @click="remove(index)">
                                                             <svg class="w-[25px] h-[25px] text-gray-700"
-                                                                xmlns="http:/www.w3.org/2000/svg" fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 nviewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2"
@@ -190,7 +190,7 @@
                                                         </button>
                                                         <template x-if="files[index].type.includes('audio/')">
                                                             <svg class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                                                xmlns="http:/www.w3.org/2000/svg" fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2"
@@ -200,7 +200,7 @@
                                                         <template
                                                             x-if="files[index].type.includes('application/') || files[index].type === ''">
                                                             <svg class="absolute w-12 h-12 text-gray-400 transform top-1/2 -translate-y-2/3"
-                                                                xmlns="http:/www.w3.org/2000/svg" fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg" fill="none"
                                                                 viewBox="0 0 24 24" stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                                     stroke-width="2"
@@ -261,11 +261,11 @@
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('../includes/layout/inProgress') %>
+    <%- include('includes/layout/inProgress') %>
 
 
     <!-- Scripts -->
-    <%- include('../includes/layout/scripts') %>
+    <%- include('includes/layout/scripts') %>
     <!-- End Scripts -->
 
 </body>

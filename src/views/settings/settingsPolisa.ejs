@@ -14,7 +14,7 @@
 
     <!-- Title -->
     <title>Polisa | Library - ICT Cortex student project</title>
-    <link rel="shortcut icon" href="img/library-favicon.ico" type="image/vnd.microsoft.icon" />
+    <link rel="shortcut icon" href="../img/library-favicon.ico" type="image/vnd.microsoft.icon" />
     <!-- End Title -->
 
     <!-- Styles -->
@@ -45,89 +45,105 @@
                 </div>
             </div>
             <div class="py-4 text-gray-500 border-b-[1px] border-[#e4dfdf] pl-[30px]">
-                <a href="/settingsPolisa" class="inline hover:text-blue-800 active-book-nav">
-                    Polisa
-                </a>
-                <a href="/settingsKategorije" class="inline ml-[70px] hover:text-blue-800">
-                    Kategorije
-                </a>
-                <a href="/settingsZanrovi" class="inline ml-[70px] hover:text-blue-800">
-                    Zanrovi
-                </a>
-                <a href="/settingsIzdavac" class="inline ml-[70px] hover:text-blue-800">
-                    Izdavac
-                </a>
-                <a href="/settingsPovez" class="inline ml-[70px] hover:text-blue-800">
-                    Povez
-                </a>
-                <a href="/settingsFormat" class="inline ml-[70px] hover:text-blue-800">
-                    Format
-                </a>
-                <a href="/settingsPismo" class="inline ml-[70px] hover:text-blue-800">
-                    Pismo
-                </a>
-            </div>
-            <div class="height-ucenikProfile pb-[30px] scroll">
-                <!-- Space for content -->
-                <div class="section- mt-[20px]">
+              <a href="/settings" class="inline hover:text-blue-800 active-book-nav">
+                  Polisa
+              </a>
+              <a href="/settingsKategorije" class="inline ml-[70px] hover:text-blue-800">
+                  Kategorije
+              </a>
+              <a href="/settingsZanrovi" class="inline ml-[70px] hover:text-blue-800">
+                  Zanrovi
+              </a>
+              <a href="/settingsIzdavac" class="inline ml-[70px] hover:text-blue-800">
+                  Izdavac
+              </a>
+              <a href="/settingsPovez" class="inline ml-[70px] hover:text-blue-800">
+                  Povez
+              </a>
+              <a href="/settingsFormat" class="inline ml-[70px] hover:text-blue-800">
+                  Format
+              </a>
+              <a href="/settingsPismo" class="inline ml-[70px] hover:text-blue-800">
+                  Pismo
+              </a>
+          </div>
+            <form action="/settings" method="POST">
+                <div class="height-ucenikProfile pb-[30px] scroll">
+                  <!-- Space for content -->
+                  <div class="section- mt-[20px]">
                     <div class="flex flex-col">
-                        <div class="pl-[30px] flex border-b-[1px] border-[#e4dfdf]  pb-[20px]">
-                            <div>
-                                <h3>
-                                    Rok za rezervaciju
-                                </h3>
-                                <p class="pt-[15px] max-w-[400px]">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum eligendi nihil, vel
-                                    necessitatibus saepe laboriosam! Perspiciatis laboriosam culpa veritatis ea
-                                    voluptatum commodi tempora unde, dolorum debitis quia id dicta vitae.
-                                </p>
-                            </div>
-                            <div class="relative flex ml-[60px] mt-[20px]">
-                                <input type="text"
-                                    class="h-[50px] flex-1 w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-400 bg-white border-[1px]  border-[#e4dfdf]  rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                                    placeholder="..." />
-                                <p class="ml-[10px] mt-[10px]">dana</p>
-                            </div>
+                      <div class="pl-[30px] flex border-b-[1px] border-[#e4dfdf]  pb-[20px]">
+                        <div>
+                          <h3>
+                            Rok za rezervaciju
+                          </h3>
+                          <p class="pt-[15px] max-w-[400px]">
+                            Rok za rezervaciju je vremenski period unutar kojeg korisnik može rezervirati određenu knjigu. Kada korisnik želi posuditi knjigu koja je trenutno nedostupna ili već posuđena, može je rezervirati za sebe. Tada će knjiga biti zadržana za njega čim postane dostupna. Međutim, rezervacija ima ograničen rok trajanja, nakon kojeg će se knjiga ponovno staviti na raspolaganje drugim korisnicima ako rezervirani korisnik ne dođe po knjigu.
+                          </p>
                         </div>
-                        <div class="pl-[30px] flex border-b-[1px] border-[#e4dfdf]  py-[20px]">
-                            <div>
-                                <h3>
-                                    Rok vracanja
-                                </h3>
-                                <p class="pt-[15px] max-w-[400px]">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum eligendi nihil, vel
-                                    necessitatibus saepe laboriosam! Perspiciatis laboriosam culpa veritatis ea
-                                    voluptatum commodi tempora unde, dolorum debitis quia id dicta vitae.
-                                </p>
-                            </div>
-                            <div class="relative flex ml-[60px] mt-[20px]">
-                                <input type="text"
-                                    class="h-[50px] flex-1 w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-400 bg-white border-[1px]  border-[#e4dfdf]  rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                                    placeholder="..." />
-                                <p class="ml-[10px] mt-[10px]">dana</p>
-                            </div>
+                        <div class="relative flex ml-[60px] mt-[20px]">
+                          <input type="text"
+                            class="h-[50px] flex-1 w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-400 bg-white border-[1px]  border-[#e4dfdf]  rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            placeholder="…" value=  <%= settings.reservationExpiry %> name="reservationExpiry" />
+                          <p class="ml-[10px] mt-[10px]"> dana</p>
                         </div>
-                        <div class="pl-[30px] flex border-b-[1px] border-[#e4dfdf]  py-[20px]">
-                            <div>
-                                <h3>
-                                    Rok konflikta
-                                </h3>
-                                <p class="pt-[15px] max-w-[400px]">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum eligendi nihil, vel
-                                    necessitatibus saepe laboriosam! Perspiciatis laboriosam culpa veritatis ea
-                                    voluptatum commodi tempora unde, dolorum debitis quia id dicta vitae.
-                                </p>
-                            </div>
-                            <div class="relative flex ml-[60px] mt-[20px]">
-                                <input type="text"
-                                    class="h-[50px] flex-1 w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-400 bg-white border-[1px]  border-[#e4dfdf]  rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                                    placeholder="..." />
-                                <p class="ml-[10px] mt-[10px]">dana</p>
-                            </div>
+                      </div>
+                      <div class="pl-[30px] flex border-b-[1px] border-[#e4dfdf]  py-[20px]">
+                        <div>
+                          <h3>
+                            Rok vracanja
+                          </h3>
+                          <p class="pt-[15px] max-w-[400px]">
+                            Rok vraćanja knjige je vremenski period u kojem korisnik mora vratiti posuđenu knjigu u biblioteku.
+                            Ako se rok vraćanja prekorači, korisnik može biti kažnjen ili mu se može naplatiti naknada za kašnjenje. 
+                            U nekim slučajevima, rok vraćanja knjige može biti produžen ako nema drugih korisnika koji žele posuditi knjigu.
+                          </p>
                         </div>
+                        <div class="relative flex ml-[60px] mt-[20px]">
+                          <input type="text"
+                            class="h-[50px] flex-1 w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-400 bg-white border-[1px]  border-[#e4dfdf]  rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            placeholder="…" value="<%= settings.returnDeadline %> " name="returnDeadline" />
+                          <p class="ml-[10px] mt-[10px]"> dana!</p>
+                        </div>
+                      </div>
+                      <div class="pl-[30px] flex border-b-[1px] border-[#e4dfdf]  py-[20px]">
+                        <div>
+                          <h3>
+                            Rok konflikta
+                          </h3>
+                          <p class="pt-[15px] max-w-[400px]">
+                            "Rok konflikta" se odnosi na rok do kojeg korisnik mora riješiti sve konflikte ili probleme vezane uz posuđenu knjigu.
+                            Primjer, ako je korisnik izgubio ili oštetio knjigu, mora riješiti problem do "roka konflikta" kako bi izbjegao dodatne naknade ili kazne.
+                            Ovaj termin odnosi na određenu politiku ili pravilo koje je jedinstveno za određenu bibloteku.
+                          </p>
+                        </div>
+                        <div class="relative flex ml-[60px] mt-[20px]">
+                          <input type="text"
+                            class="h-[50px] flex-1 w-full px-4 py-2 text-sm text-gray-700 placeholder-gray-400 bg-white border-[1px]  border-[#e4dfdf]  rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                            placeholder="…" value=  <%= settings.conflictDeadline %> name="conflictDeadline" />
+                          <p class="ml-[10px] mt-[10px]"> dana</p>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
-            </div>
+                <div class="flex flex-row">
+                  <div class="inline-block w-full text-white text-right py-[7px] mr-[100px]">
+                    <button type="button"
+                      class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
+                      Ponisti <i class="fas fa-times ml-[4px]"></i>
+                    </button>
+                    <button id="sacuvajPolisu" type="submit"
+                      class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]" onclick="validacijaZanr()">
+                      Sacuvaj <i class="fas fa-check ml-[4px]"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              
+              
+              
+              
         </section>
         <!-- End Content -->
     </main>
