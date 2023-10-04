@@ -66,9 +66,19 @@
                 placeholder="Password"
                 autocomplete="new-password"
               />
+              <label class="auth-label" for="confirm_password">Confirm Password</label>
+              <input
+                class="auth-input"
+                id="confirm_password"
+                name="confirm_password"
+                type="password"
+                required
+                placeholder="Confirm Password"
+                autocomplete="new-password"
+              />
 
               <label class="auth-label" for="jmbg">JMBG (Unique Identification Number)</label>
-              <input class="auth-input" id="jmbg" name="jmbg" type="text" required placeholder="JMBG" />
+              <input class="auth-input" id="jmbg" name="jmbg" type="text" required placeholder="JMBG" minlength="13" maxlength="13"/>
 
               <button class="auth-button" type="submit">Sign Up</button>
             </form>
