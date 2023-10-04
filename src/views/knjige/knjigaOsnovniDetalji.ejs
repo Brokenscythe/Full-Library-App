@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('includes/layout/styles') %>
+    <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('includes/layout/header') %>
+    <%- include('../includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('includes/layout/sidebar') %>
+        <%- include('../includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -52,7 +52,7 @@
                                 <nav class="w-full rounded">
                                     <ol class="flex list-reset">
                                         <li>
-                                            <a href="evidencijaKnjiga.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                            <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
                                                 Evidencija knjiga
                                             </a>
                                         </li>
@@ -60,7 +60,7 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="knjigaOsnovniDetalji.ejs"
+                                            <a href="/knjigaOsnovniDetalji"
                                                 class="text-[#2196f3] hover:text-blue-600">
                                                 KNJIGA-467
                                             </a>
@@ -71,19 +71,19 @@
                         </div>
                     </div>
                     <div class="pt-[24px] mr-[30px]">
-                        <a href="otpisiKnjigu.ejs" class="inline hover:text-blue-600">
+                        <a href="/otpisiKnjigu" class="inline hover:text-blue-600">
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                        <a href="izdajKnjigu.ejs" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
+                        <a href="/izdajKnjigu" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
-                        <a href="vratiKnjigu.ejs" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="/vratiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="fas fa-redo-alt mr-[3px] "></i>
                             Vrati knjigu
                         </a>
-                        <a href="rezervisiKnjigu.ejs" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="/rezervisiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="far fa-calendar-check mr-[3px] "></i>
                             Rezervisi knjigu
                         </a>
@@ -96,13 +96,13 @@
                             <div class="absolute right-0 w-56 mt-[7px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                 aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
                                 <div class="py-1">
-                                    <a href="editKnjiga.ejs" tabindex="0"
+                                    <a href="/editKnjiga" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fas fa-edit mr-[1px] ml-[5px] py-1"></i>
                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                     </a>
-                                    <a href="#" tabindex="0"
+                                    <a href="/#" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fa fa-trash mr-[5px] ml-[5px] py-1"></i>
@@ -117,16 +117,16 @@
             <div class="flex flex-row overflow-auto height-osnovniDetalji">
                 <div class="w-[80%]">
                     <div class="border-b-[1px] py-4 text-gray-500 border-[#e4dfdf] pl-[30px]">
-                        <a href="knjigaOsnovniDetalji.ejs" class="inline active-book-nav hover:text-blue-800">
+                        <a href="/knjigaOsnovniDetalji" class="inline active-book-nav hover:text-blue-800">
                             Osnovni detalji
                         </a>
-                        <a href="knjigaSpecifikacija.ejs" class="inline ml-[70px] hover:text-blue-800 ">
+                        <a href="/knjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
                             Specifikacija
                         </a>
-                        <a href="iznajmljivanjeIzdate.ejs" class="inline ml-[70px] hover:text-blue-800">
+                        <a href="/iznajmljivanjeIzdate" class="inline ml-[70px] hover:text-blue-800">
                             Evidencija iznajmljivanja
                         </a>
-                        <a href="evidencijaKnjigaMultimedija.ejs" class="inline ml-[70px] hover:text-blue-800">
+                        <a href="/evidencijaKnjigaMultimedija" class="inline ml-[70px] hover:text-blue-800">
                             Multimedija
                         </a>
                     </div>
@@ -202,13 +202,13 @@
                             <div class="text-center pb-[30px]">
                                 <p class=" bg-green-200 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">5
                                     primjeraka</p>
-                                <a href="iznajmljivanjeAktivne.ejs"><p
+                                <a href="/iznajmljivanjeAktivne"><p
                                     class=" mt-[16px] bg-yellow-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
                                     2 primjerka</p></a>
-                                    <a href="iznajmljivanjeIzdate.ejs"><p
+                                    <a href="/iznajmljivanjeIzdate"><p
                                     class=" mt-[16px] bg-blue-200 text-blue-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
                                     102 primjerka</p></a>
-                                    <a href="iznajmljivanjePrekoracenje.ejs">  <p
+                                    <a href="/iznajmljivanjePrekoracenje">  <p
                                     class=" mt-[16px] bg-red-200 text-red-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
                                     2 primjerka</p></a>
                                 <p
@@ -229,11 +229,11 @@
                             </div>
                             <div>
                                 <p>
-                                    <a href="bibliotekarProfile.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                    <a href="/bibliotekarProfile" class="text-[#2196f3] hover:text-blue-600">
                                         Valentina K.
                                     </a>
                                     je izdala knjigu
-                                    <a href="ucenikProfile.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                    <a href="/ucenikProfile" class="text-[#2196f3] hover:text-blue-600">
                                         Peru Perovicu
                                     </a>
                                     dana
@@ -243,7 +243,7 @@
                                 </p>
                             </div>
                             <div>
-                                <a href="izdavanjeDetalji.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                <a href="/izdavanjeDetalji" class="text-[#2196f3] hover:text-blue-600">
                                     pogledaj detaljnije >>
                                 </a>
                             </div>
@@ -259,11 +259,11 @@
                             </div>
                             <div>
                                 <p>
-                                    <a href="bibliotekarProfile.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                    <a href="/bibliotekarProfile" class="text-[#2196f3] hover:text-blue-600">
                                         Valentina K.
                                     </a>
                                     je izdala knjigu
-                                    <a href="ucenikProfile.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                    <a href="/ucenikProfile" class="text-[#2196f3] hover:text-blue-600">
                                         Peru Perovicu
                                     </a>
                                     dana
@@ -273,7 +273,7 @@
                                 </p>
                             </div>
                             <div>
-                                <a href="izdavanjeDetalji.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                <a href="/izdavanjeDetalji" class="text-[#2196f3] hover:text-blue-600">
                                     pogledaj detaljnije >>
                                 </a>
                             </div>
@@ -289,11 +289,11 @@
                             </div>
                             <div>
                                 <p>
-                                    <a href="bibliotekarProfile.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                    <a href="/bibliotekarProfile" class="text-[#2196f3] hover:text-blue-600">
                                         Valentina K.
                                     </a>
                                     je izdala knjigu
-                                    <a href="ucenikProfile.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                    <a href="/ucenikProfile" class="text-[#2196f3] hover:text-blue-600">
                                         Peru Perovicu
                                     </a>
                                     dana
@@ -303,13 +303,13 @@
                                 </p>
                             </div>
                             <div>
-                                <a href="izdavanjeDetalji.ejs" class="text-[#2196f3] hover:text-blue-600">
+                                <a href="/izdavanjeDetalji" class="text-[#2196f3] hover:text-blue-600">
                                     pogledaj detaljnije >>
                                 </a>
                             </div>
                         </div>
                         <div class="mt-[40px]">
-                            <a href="dashboardAktivnost.ejs?knjiga=Tom Sojer" class="text-[#2196f3] hover:text-blue-600">
+                            <a href="/dashboardAktivnost?knjiga=Tom Sojer" class="text-[#2196f3] hover:text-blue-600">
                                 <i class="fas fa-history"></i> Prikazi sve
                             </a>
                         </div>
@@ -322,10 +322,10 @@
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('includes/layout/inProgress') %>
+    <%- include('../includes/layout/inProgress') %>
 
     <!-- Scripts -->
-    <%- include('includes/layout/scripts') %>
+    <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
 
 </body>

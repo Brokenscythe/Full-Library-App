@@ -2,6 +2,8 @@ import express from "express";
 import session from "express-session";
 import path from "path";
 import csurf from "csurf";
+import bodyParser from "body-parser";
+import * as dotenv from 'dotenv';
 
 //ROUTES
 import authRoutes from "./routes/authRoutes";
@@ -18,6 +20,9 @@ import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 
 const app = express();
 const PORT = 3000;
+
+//parsira req.body
+app.use(bodyParser.json());
 
 //VIEW ENGINE SETUP
 app.set("view engine", "ejs");
@@ -41,6 +46,13 @@ app.use(mainRoutes);
 // app.use(bookRoutes);
 
 app.use(errorHandlerMiddleware);
+
+//ROUTES
+app.use('/books', BookRouter);
+app.use('/authors', AuthorRouter);
+app.use('/', SettingsRouter);
+app.use('/reservations', ReservationRouter);
+app.use(router);
 
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}.`);
