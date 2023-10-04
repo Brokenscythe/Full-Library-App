@@ -38,10 +38,6 @@
         <div class="w-full">
           <div class="auth-container">
             <h1>Online Library - ICT Cortex </h1>
-<<<<<<< HEAD
-            <h2 class="auth-heading">Sign Up</h2>
-            <form method="POST" action="/signup">
-=======
             <h2 class="auth-heading">Register</h2>
             <% if(inputData.error_message) {%>
             <section class="alert">
@@ -51,7 +47,6 @@
             <% } %>
             <form method="POST" action="/register">
               <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
->>>>>>> authentication
               <label class="auth-label" for="name">Name</label>
               <input class="auth-input" id="name" name="name" type="text" required placeholder="Name" />
 
