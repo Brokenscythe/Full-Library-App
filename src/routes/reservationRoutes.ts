@@ -1,7 +1,7 @@
 import express from "express";
 import { isLoggedIn } from "../utils/passport";
 import * as ReservationService from "../controllers/reservationController";
-import { getAllReservations,getReservation} from "../controllers/reservationController";
+import { getAllReservations, getReservation } from "../controllers/reservationController";
 const reservationRouter = express.Router();
 
 // reservationRouter.get('/',  ReservationService.getAllReservations);
