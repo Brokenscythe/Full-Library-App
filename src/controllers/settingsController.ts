@@ -1,46 +1,46 @@
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { Category } from '../models/categoryModel';
+import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import { Category } from "../models/categoryModel";
 const prisma = new PrismaClient();
 
 //polisa
 
 export const updateSettings = async (req: Request, res: Response) => {
-    const { reservationExpiry, returnDeadline, conflictDeadline } = req.body;
-  
-    try {
-      await prisma.settings.update({
-        where: { id: 1 },
-        data: {
-          reservationExpiry: parseInt(reservationExpiry),
-          returnDeadline: parseInt(returnDeadline),
-          conflictDeadline: parseInt(conflictDeadline),
-        },
-      });
-      res.redirect('/settings');
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Greska prilikom update-a polise');
-    }
-  };
+  const { reservationExpiry, returnDeadline, conflictDeadline } = req.body;
 
-  export const getSettings = async (req: Request, res: Response) => {
-    try {
-      const settings = await prisma.settings.findUnique({
-        where: { id: 1 },
-      });
-      console.log(settings);
-      res.render('settings/settingsPolisa', { settings });
-      console.log(settings);
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Greska prilok ucitavanja polise');
-    }
-  };
+  try {
+    await prisma.settings.update({
+      where: { id: 1 },
+      data: {
+        reservationExpiry: parseInt(reservationExpiry),
+        returnDeadline: parseInt(returnDeadline),
+        conflictDeadline: parseInt(conflictDeadline),
+      },
+    });
+    res.redirect("/settings");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Greska prilikom update-a polise");
+  }
+};
 
-  //kraj polise
+export const getSettings = async (req: Request, res: Response) => {
+  try {
+    const settings = await prisma.settings.findUnique({
+      where: { id: 1 },
+    });
+    console.log(settings);
+    res.render("settings/settingsPolisa", { settings: settings });
+    console.log(settings);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Greska prilok ucitavanja polise");
+  }
+};
 
-  /* //kategorije
+//kraj polise
+
+/* //kategorije
   
   export const getKategorije = async (req: Request, res: Response) => {
     try {

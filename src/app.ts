@@ -7,6 +7,7 @@ import csurf from "csurf";
 import authRoutes from "./routes/authRoutes";
 // import bookRoutes from "./routes/bookRoutes";
 import mainRoutes from "./routes/mainRoutes";
+import settingsRoutes from "./routes/settingsRoutes";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -38,6 +39,7 @@ app.use(checkAuthStatusMiddleware);
 //Routes
 app.use(authRoutes);
 app.use(mainRoutes);
+app.use(settingsRoutes);
 // app.use(bookRoutes);
 
 app.use(errorHandlerMiddleware);
