@@ -1,28 +1,24 @@
-import express from 'express';
+import express from "express";
+import * as AuthorController from "../controllers/authorController";
 import { Request, Response, NextFunction } from "express";
-import { getAuthorForm, getAllAuthors, getAuthor, addAuthor, updateAuthor, deleteAuthor, editAuthor } from '../controllers/authorController';
+//import { getAuthor, getAllAuthors, deleteAuthor, updateAuthor, addAuthor } from "../controllers/authorController";
 
-const router = express.Router();
+const AuthorRouter = express.Router();
 
-router.get('/',  getAllAuthors);
-router.get('/new-author', getAuthorForm);
-router.get('/add',  getAuthorForm);
-router.get('/:id', getAuthor);
-router.get('/editAutor/:id', editAuthor);
-router.post('/',  addAuthor);
-
-router.patch('/:id',  updateAuthor);
-router.delete('/:id',  deleteAuthor);
-
-router.use(function (req, res, next) {
-  if (req.query._method == "PATCH") {
-    req.method = "PATCH";
-    req.url = req.path;
-  }
-  next();
+AuthorRouter.get("/", AuthorController.getAllAuthors);
+//uthorRouter.get("/:id", AuthorController.getAuthor);
+AuthorRouter.get("/new-author", (req: Request, res: Response) => {
+  res.render("autori/noviAutor");
 });
+AuthorRouter.get("/edit-author", (req: Request, res: Response) => {
+  res.render("autori/editAutor"); //mora da se prebaci u kontroler i da se ubace inf koje već postoje o autoru
+});
+AuthorRouter.post("/", AuthorController.addAuthor);
+AuthorRouter.patch("/:id", AuthorController.updateAuthor); // You can use 'patch' for updating as well
+AuthorRouter.delete("delete/:id", AuthorController.deleteAuthor);
 
-router.use(function (req, res, next) {
+// middleware koji omogućava da se šalje delete request preko linka
+AuthorRouter.use(function (req, res, next) {
   if (req.query._method == "DELETE") {
     req.method = "DELETE";
     req.url = req.path;
@@ -30,4 +26,4 @@ router.use(function (req, res, next) {
   next();
 });
 
-export default router;
+export default AuthorRouter;

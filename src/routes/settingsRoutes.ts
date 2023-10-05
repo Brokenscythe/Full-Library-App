@@ -6,14 +6,16 @@ import * as FormatController from '../controllers/formatController';
 import * as GenreController from '../controllers/genreController';
 import * as LetterController from '../controllers/letterController';
 import * as PublisherController from '../controllers/publisherController';
-import * as settingsController from '../controllers/settingsController';
 
 const SettingsRouter = express.Router();
 
-SettingsRouter.get('/settings',settingsController.getSettings );
+SettingsRouter.get('/settingsPolisa', (req, res) => {
+    res.render('settings/settingsPolisa');
+});
 
-SettingsRouter.post('/settings', settingsController.updateSettings);
-
+SettingsRouter.get('/settings', (req, res) => {
+    res.render('settings/settingsPolisa');
+});
 
 SettingsRouter.get('/settingsKategorije', CategoryController.getAllCategories);
 SettingsRouter.get('/settingsZanrovi', GenreController.getAllGenres);
