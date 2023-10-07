@@ -104,7 +104,7 @@ export class Book {
     });
   }
 
-  /* static async getBook(id: number) {
+  static async getBook(id: number) {
     const book = await db.book.findUnique({
       where: {
         id,
@@ -140,7 +140,7 @@ export class Book {
       book.pdf,
       book.id
     );
-  } */
+  }
 
   async save() {
     if (this.id) {

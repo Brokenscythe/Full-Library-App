@@ -40,8 +40,8 @@ export class Category {
                 },
                 data: {
                   name: this.name,
-                  //description: this.description,
-                  //icon: this.icon,
+                  description: this.description,
+                  icon: this.icon,
                 }
             });
         } else {

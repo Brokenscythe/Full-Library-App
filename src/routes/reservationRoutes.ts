@@ -1,5 +1,4 @@
 import express from "express";
-import { isLoggedIn } from "../utils/passport";
 import * as ReservationService from "../controllers/reservationController";
 
 const ReservationRouter = express.Router();
@@ -27,6 +26,6 @@ ReservationRouter.get("/arhiviraneRezervacije", (req, res) => {
 });
 
 // zamalo da zaboravim trazenje
-ReservationRouter.get("/search", isLoggedIn, ReservationService.searchReservations);
+ReservationRouter.get("/search", ReservationService.searchReservations);
 
 export default ReservationRouter;
