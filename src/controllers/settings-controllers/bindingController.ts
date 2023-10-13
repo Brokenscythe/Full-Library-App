@@ -21,7 +21,7 @@ export async function getBinding(req: Request, res: Response, next: NextFunction
     return next(error);
   }
 }
-export async function getNewBinding(req: Request, res) {
+export async function getNewBinding(req: Request, res: Response) {
   res.render("povez/noviPovez");
 }
 

@@ -3,52 +3,49 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 export class Author {
-  id?: number;
   nameSurname: string;
   photo: string;
   biography: string;
   wikipedia: string;
-  //created_at: Date;
-  //updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
+  id?: number;
 
   constructor(
     nameSurname: string,
     photo: string,
     biography: string,
     wikipedia: string,
+    created_at?: Date,
+    updated_at?: Date,
     id?: number
-    //created_at: Date;
-    //updated_at: Date;
   ) {
     this.nameSurname = nameSurname;
     this.photo = photo;
     this.biography = biography;
     this.wikipedia = wikipedia;
+    this.created_at = created_at;
+    this.updated_at = updated_at;
     if (id) {
       this.id = id;
     }
   }
 
-  static async getAllAuthors() {
-    const authors = await db.author.findMany();
-    return authors.map((author: any) => {
-      return new Author(author.nameSurname, author.photo, author.biography, author.wikipedia, author.id);
-    });
+  static getAllAuthors() {
+    return db.author.findMany();
   }
 
-  /* static async getAuthor(id: number) {
+  static async getAuthor(id: number) {
     const author = await db.author.findUnique({
       where: {
         id,
       },
     });
-
     if (!author) {
       throw new Error("Author not found");
     }
-
-    return new Author(author.nameSurname, author.photo, author.biography, author.wikipedia, author.id);
-  } */
+    return author;
+  }
 
   async save() {
     if (this.id) {
@@ -61,7 +58,7 @@ export class Author {
           photo: this.photo,
           biography: this.biography,
           wikipedia: this.wikipedia,
-          updated_at: Date(),
+          updated_at: new Date(),
         },
       });
     } else {
@@ -71,8 +68,8 @@ export class Author {
           photo: this.photo,
           biography: this.biography,
           wikipedia: this.wikipedia,
-          created_at: Date(),
-          updated_at: Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
         },
       });
     }
@@ -80,10 +77,9 @@ export class Author {
 
   async delete() {
     if (!this.id) {
-      throw new Error("Trying to delete a non-existent item");
+      throw new Error("Trying to delete a non-existent author");
     }
-
-    await db.author.delete({
+    return await db.author.delete({
       where: {
         id: this.id,
       },
