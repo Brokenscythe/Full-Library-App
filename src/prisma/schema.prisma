@@ -59,11 +59,11 @@ model User {
 }
 
 model Category {
-  id          Int     @id @default(autoincrement())
-  name        String  @unique
-  icon        String?
+  id          Int            @id @default(autoincrement())
+  name        String         @unique
+  iconPath    String?
   description String?
-  books       Book[]
+  books       BookCategory[]
 }
 
 model Letter {
@@ -122,32 +122,41 @@ model Gallery {
 }
 
 model Book {
-  id             Int           @id @default(autoincrement())
+  id             Int            @id @default(autoincrement())
   title          String
   page_count     Int
-  letter         Letter        @relation(fields: [letterId], references: [id])
+  letter         Letter         @relation(fields: [letterId], references: [id])
   letterId       Int
-  language       Language      @relation(fields: [languageId], references: [id])
+  language       Language       @relation(fields: [languageId], references: [id])
   languageId     Int
-  binding        Binding       @relation(fields: [bindingId], references: [id])
+  binding        Binding        @relation(fields: [bindingId], references: [id])
   bindingId      Int
-  format         Format        @relation(fields: [formatId], references: [id])
+  format         Format         @relation(fields: [formatId], references: [id])
   formatId       Int
-  publisher      Publisher     @relation(fields: [publisherId], references: [id])
+  publisher      Publisher      @relation(fields: [publisherId], references: [id])
   publisherId    Int
-  isbn           String        @unique
+  isbn           String         @unique
   quantity_count Int
   rented_count   Int
   reserved_count Int
-  body           String        @db.Text
+  body           String         @db.Text
   year           Int
   pdf            String
   authors        Author[]
-  categories     Category[]
+  categories     BookCategory[]
   genres         Genre[]
   galleries      Gallery[]
   reservations   Reservation[]
   rents          Rent[]
+}
+
+model BookCategory {
+  book       Book     @relation(fields: [bookId], references: [id])
+  bookId     Int
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId Int
+
+  @@id([bookId, categoryId])
 }
 
 model BookStatus {

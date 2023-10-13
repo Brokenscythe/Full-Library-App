@@ -2,8 +2,8 @@ import express from "express";
 import session from "express-session";
 import path from "path";
 import csurf from "csurf";
+import methodOverride from "method-override";
 import bodyParser from "body-parser";
-import * as dotenv from "dotenv";
 
 //ROUTES
 import authRouter from "./routes/authRoutes";
@@ -22,6 +22,7 @@ import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
 
 const app = express();
+app.use(methodOverride("_method"));
 const PORT = 3000;
 
 //parsira req.body

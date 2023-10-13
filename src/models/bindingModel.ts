@@ -3,61 +3,54 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 export class Binding {
-    name: string;
-    id? : number;
+  id?: number;
+  name: string;
 
-    constructor(
-        name: string,
-        id?: number
-    ) {
-        this.name = name;
-        this.id = id;
-    }
+  constructor(name: string, id?: number) {
+    this.name = name;
+    this.id = id;
+  }
 
-    static async getAllBindings(){
-        const bindings = await db.binding.findMany();
-        return bindings.map((binding) => {
-            return new Binding( binding.name, binding.id );
-        });
-    }
+  static getAllBindings() {
+    return db.binding.findMany();
+  }
 
-    static async getBinding( bindingId: number ) {
-        return await db.binding.findUnique({
-            where: {
-                id: bindingId,
-            }
+  static async getBinding(bindingId: number) {
+    return await db.binding.findUnique({
+      where: {
+        id: bindingId,
+      },
     });
-    }
+  }
 
-    async save() {
-        if(this.id) {
-            return await db.binding.update({
-                where: {
-                    id: this.id,
-                },
-                data: {
-                    name: this.name,
-                }
-            });
-        }
-        else {
-            console.log("called");
-            return await db.binding.create({
-                data: {
-                    name: this.name,
-                }
-            });
-
-        }
+  async save() {
+    if (this.id) {
+      return await db.binding.update({
+        where: {
+          id: this.id,
+        },
+        data: {
+          name: this.name,
+        },
+      });
+    } else {
+      return await db.binding.create({
+        data: {
+          name: this.name,
+        },
+      });
     }
+  }
 
-    async delete() {
-        await db.binding.delete({
-            where: {
-                id: this.id
-            }
-        });
+  async delete() {
+    if (this.id) {
+      await db.binding.delete({
+        where: {
+          id: this.id,
+        },
+      });
     }
+  }
 }
 
 export default Binding;
