@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Publisher from "../models/publisherModel";
+import Publisher from "../../models/publisherModel";
 
 export async function getAllPublishers(req: Request, res: Response, next: NextFunction) {
   try {

@@ -1,11 +1,11 @@
 import express from "express";
 
-import * as BindingController from "../controllers/bindingController";
-import * as CategoryController from "../controllers/categoryController";
-import * as FormatController from "../controllers/formatController";
-import * as GenreController from "../controllers/genreController";
-import * as LetterController from "../controllers/letterController";
-import * as PublisherController from "../controllers/publisherController";
+import * as BindingController from "../controllers/settings-controllers/bindingController";
+import * as CategoryController from "../controllers/settings-controllers/categoryController";
+import * as FormatController from "../controllers/settings-controllers/formatController";
+import * as GenreController from "../controllers/settings-controllers/genreController";
+import * as LetterController from "../controllers/settings-controllers/letterController";
+import * as PublisherController from "../controllers/settings-controllers/publisherController";
 
 import configuredMulterMiddleware from "../middlewares/image-upload";
 

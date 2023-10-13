@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Genre from "../models/genreModel";
+import Genre from "../../models/genreModel";
 
 export async function getAllGenres(req: Request, res: Response, next: NextFunction) {
   try {

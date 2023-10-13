@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Format from "../models/formatModel";
+import Format from "../../models/formatModel";
 
 export async function getAllFormats(req: Request, res: Response, next: NextFunction) {
   try {

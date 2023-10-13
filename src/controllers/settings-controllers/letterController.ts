@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Letter from "../models/letterModel";
+import Letter from "../../models/letterModel";
 
 export async function getAllletters(req: Request, res: Response, next: NextFunction) {
   try {

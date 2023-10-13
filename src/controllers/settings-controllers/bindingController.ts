@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import Binding from "../models/bindingModel";
+import Binding from "../../models/bindingModel";
 
 export async function getAllbindings(req: Request, res: Response, next: NextFunction) {
   try {
