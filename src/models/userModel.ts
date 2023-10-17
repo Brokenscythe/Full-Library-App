@@ -1,81 +1,53 @@
-import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import { PrismaClient, User } from '@prisma/client';
 
-const db = new PrismaClient();
+const prisma = new PrismaClient();
 
-class User {
-  id?: number;
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  JMBG: string;
-
-  constructor({
-    name,
-    username,
-    email,
-    password,
-    JMBG,
-  }: {
-    username: string;
-    name: string;
-    email: string;
-    password: string;
-    JMBG: string;
-  }) {
-    this.username = username;
-    this.name = name;
-    this.email = email;
-    this.password = password;
-    this.JMBG = JMBG;
-  }
-  async signup() {
-    const existingUser = await this.hasMatchingJMBG();
-    if (existingUser) {
-      throw new Error("User with the same JMBG already exists.");
-    }
-    const hashedPassword = await bcrypt.hash(this.password, 12);
-    await db.user.create({
-      data: {
-        username: this.username,
-        name: this.name,
-        email: this.email,
-        password: hashedPassword,
-        JMBG: this.JMBG,
-      },
-    });
-  }
-  async hasMatchingJMBG() {
-    return db.user.findFirst({
-      where: {
-        JMBG: this.JMBG,
-      },
-    });
-  }
-  async existsAlready() {
-    const existingUser = (await this.hasMatchingUsername()) || (await this.hasMatchingEmail());
-    if (existingUser) {
-      return true;
-    }
-    return false;
-  }
-  hasMatchingPassword(hashedPassword) {
-    return bcrypt.compare(this.password, hashedPassword);
-  }
-  hasMatchingEmail() {
-    return db.user.findFirst({
-      where: {
-        email: this.email,
-      },
-    });
-  }
-  hasMatchingUsername() {
-    return db.user.findFirst({
-      where: {
-        username: this.username,
-      },
-    });
-  }
+export async function createUser(user: Omit<User, 'id'>): Promise<User> {
+  const newUser = await prisma.user.create({
+    data: user,
+  });
+  return newUser;
 }
-export default User;
+
+export async function getUserById(id: string): Promise<User | null> {
+  const user = await prisma.user.findUnique({
+    where: { id },
+  });
+  return user;
+}
+
+export async function updateUser(id: string, data: Partial<User>): Promise<User> {
+  const updatedUser = await prisma.user.update({
+    where: { id },
+    data,
+  });
+  return updatedUser;
+}
+
+export async function deleteUser(id: string): Promise<User> {
+  const deletedUser = await prisma.user.delete({
+    where: { id },
+  });
+  return deletedUser;
+}
+
+export const getAllUsers = async (options: { type?: boolean; gender?: boolean } = {}) => {
+    const users = await prisma.user.findMany({
+      include: {
+        type: options.type,
+        gender: options.gender,
+      },
+    });
+    return users;
+  };
+  
+  //za auth
+
+  export const getUser = async (email: string) => {
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    return user;
+  };
