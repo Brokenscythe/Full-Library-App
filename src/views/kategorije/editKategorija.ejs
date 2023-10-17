@@ -18,19 +18,19 @@
     <!-- End Title -->
 
     <!-- Styles -->
-    <%- include('includes/layout/styles') %>
+    <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
 </head>
 
 <body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
-    <%- include('includes/layout/header') %>
+    <%- include('../includes/layout/header') %>
     <!-- Header -->
 
     <!-- Main content -->
     <main class="flex flex-row small:hidden">
         <!-- Sidebar -->
-        <%- include('includes/layout/sidebar') %>
+        <%- include('../includes/layout/sidebar') %>
         <!-- End Sidebar -->
 
         <!-- Content -->
@@ -76,40 +76,42 @@
             </div>
             <!-- Space for content -->
             <div class="scroll height-content section-content">
-                <form method="POST" action="/" class="text-gray-700 forma">
+                <form action="/editKategorija/<%= category.id %>" method="POST">
                     <div class="flex flex-row ml-[30px]">
                         <div class="w-[50%] mb-[100px]">
-                            <div class="mt-[20px]">
-                                <p>Naziv kategorije <span class="text-red-500">*</span></p>
-                                <input type="text" name="nazivKategorijeEdit" id="nazivKategorijeEdit" value="Hrana i pice"
-                                    class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                    onkeydown="clearErrorsNazivKategorijeEdit()" />
-                                <div id="validateNazivKategorijeEdit"></div>
+                          <div class="mt-[20px]">
+                            <p>Naziv kategorije <span class="text-red-500">*</span></p>
+                            <input type="text" name="name" id="name" value="<%= category.name %>"
+                              class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                              onkeydown="clearErrorsNazivKategorijeEdit()" />
+                           
+                          </div>
+                      
+                          <div class="mt-[20px]">
+                            <p>Uploaduj ikonicu </p>
+                            <div id="empty-cover-art-ikonica"
+                              class="flex w-[90%] mt-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                              <div class="bg-gray-300 h-[40px] w-[102px] px-[20px] pt-[10px]">
+                                <label class="cursor-pointer">
+                                  <p class="leading-normal">Browse...</p>
+                                  <input id="icon" type='file' class="hidden" :multiple="multiple"
+                                    :accept="accept" />
+                                </label>
+                              </div>
+                              <div id="icon" class="h-[40px] px-[20px] pt-[7px]">
+                                <i class="<%= category.icon %>"></i>
+                              </div>
                             </div>
-
-                            <div class="mt-[20px]">
-                                <p>Uploaduj ikonicu </p>
-                                <div id="empty-cover-art-ikonica"
-                                    class="flex w-[90%] mt-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
-                                    <div class="bg-gray-300 h-[40px] w-[102px] px-[20px] pt-[10px]">
-                                        <label class="cursor-pointer">
-                                            <p class="leading-normal">Browse...</p>
-                                            <input id="icon-upload" type='file' class="hidden" :multiple="multiple"
-                                                :accept="accept" />
-                                        </label>
-                                    </div>
-                                    <div id="icon-output" class="h-[40px] px-[20px] pt-[7px]">hranaipice.jpg</div>
-                                </div>
-                            </div>
-
-                            <div class="mt-[20px]">
-                                <p class="inline-block">Opis</p>
-                                <textarea name="opisKategorije" rows="10"
-                                    class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">Lorem ipsum dolor sit amet consectetur adipisicing elit
-                                </textarea>
-                            </div>
+                          </div>
+                      
+                          <div class="mt-[20px]">
+                            <p class="inline-block">Opis</p>
+                            <textarea name="description" rows="10"
+                              class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"><%= category.description %>
+                            </textarea>
+                          </div>
                         </div>
-                    </div>
+                      </div>
                     <div class="absolute bottom-0 w-full">
                         <div class="flex flex-row">
                             <div class="inline-block w-full text-white text-right py-[7px] mr-[100px]">
@@ -119,7 +121,7 @@
                                 </button>
                                 <button id="sacuvajKategorijuEdit" type="submit"
                                     class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
-                                    onclick="validacijaKategorijaEdit()">
+                                   ">
                                     Sacuvaj <i class="fas fa-check ml-[4px]"></i>
                                 </button>
                             </div>
@@ -133,11 +135,11 @@
     <!-- End Main content -->
 
     <!-- Notification for small devices -->
-    <%- include('includes/layout/inProgress') %>
+    <%- include('../includes/layout/inProgress') %>
 
 
     <!-- Scripts -->
-    <%- include('includes/layout/scripts') %>
+    <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
 
 

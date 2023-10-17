@@ -14,6 +14,7 @@ SettingsRouter.get('/settings',settingsController.getSettings );
 
 SettingsRouter.post('/settings', settingsController.updateSettings);
 
+SettingsRouter.post('/editKategorija/:id', CategoryController.updateCategory);
 
 SettingsRouter.get('/settingsKategorije', CategoryController.getAllCategories);
 SettingsRouter.get('/settingsZanrovi', GenreController.getAllGenres);
@@ -50,6 +51,8 @@ SettingsRouter.get('/novoPismo', (req, res) => {
     res.render('pismo/novoPismo');
 });
 
+//SettingsRouter.post('/novaKategorija',settingsController.dodajKategoriju);
+
 
 SettingsRouter.post('/noviPovez',BindingController.addBinding);
 SettingsRouter.post('/novaKategorija', CategoryController.addCategory);
@@ -59,14 +62,14 @@ SettingsRouter.post('/novoPismo', LetterController.addLetter);
 SettingsRouter.post('/noviZanr', GenreController.addGenre);
 
 SettingsRouter.post('/editPovez/:id', BindingController.updateBinding);
-SettingsRouter.post('/editKategorija/:id', CategoryController.updateCategory);
+
 SettingsRouter.post('/editFormat/:id', FormatController.updateFormat);
 SettingsRouter.post('/editIzdavac/:id', PublisherController.updatePublisher);
 SettingsRouter.post('/editPismo/:id', LetterController.updateLetter);
 SettingsRouter.post('/editZanr/:id', GenreController.updateGenre);
 
 SettingsRouter.delete("/deletePovez/:id", BindingController.deleteBinding); 
-SettingsRouter.delete("/deleteKategorija/:id", CategoryController.deleteCategory); 
+SettingsRouter.get("/deleteKategorija/:id", CategoryController.deleteCategory); //sa get oce bez problema
 SettingsRouter.delete("/deleteFormat/:id", FormatController.deleteFormat); 
 SettingsRouter.delete("/deleteIzdavac/:id", PublisherController.deletePublisher); 
 SettingsRouter.delete("/deletePismo/:id", LetterController.deleteLetter); 

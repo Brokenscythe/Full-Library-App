@@ -1,6 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 import BookReservation from "../models/bookReservations";
+import Book from "../models/bookModel";
+import { Settings } from "@prisma/client";
 import { PrismaClient } from '@prisma/client';
+
+
+
 const prisma = new PrismaClient();
 export async function getReservation(req: Request, res: Response, next: NextFunction) {
     const reservationId = parseInt(req.params.id);
@@ -43,21 +48,43 @@ export async function getReservation(req: Request, res: Response, next: NextFunc
       await prisma.$disconnect();
     }
   }
-export async function getAllReservations(req: Request, res: Response, next: NextFunction) {
+  export async function getAllReservations(req: Request, res: Response, next: NextFunction) {
     try {
-        const reservations = await BookReservation.getAllReservations();
-        console.log(reservations)
-        res.render('rezervacije/aktivneRezervacije', { reservations: reservations });
+      // Fetch reservations with related user information
+      const reservationsWithUsers = await prisma.reservation.findMany({
+        include: {
+          reservationMadeByUser: true,
+          reservationMadeForUser: true,
+          book: true, // Include book information
+        },
+      });
+  
+      // Render the view with reservations and user information
+      res.render('rezervacije/aktivneRezervacije', { reservationsWithUsers: reservationsWithUsers });
     } catch (error) {
-        return next(error);
+      return next(error);
     }
-}
+  }
 
 
 
-
-export async function createReservation(req: Request, res: Response, next: NextFunction) {
+export async function createReservation(req, res) {
+  try {
+    // Extract data from the request body or wherever it is available
     const {
+      bookId,
+      reservationMadeForUserId,
+      reservationMadeByUserId,
+      closeUserId,
+      closureReasonId,
+      request_date,
+      reservation_date,
+      close_date,
+    } = req.body;
+
+    // Create a new book reservation
+    const reservation = await prisma.reservation.create({
+      data: {
         bookId,
         reservationMadeForUserId,
         reservationMadeByUserId,
@@ -66,28 +93,22 @@ export async function createReservation(req: Request, res: Response, next: NextF
         request_date,
         reservation_date,
         close_date,
-    } = req.body;
+      },
+    });
 
-    try {
-        const reservation = await BookReservation.createReservation(
-            bookId,
-            reservationMadeForUserId,
-            reservationMadeByUserId,
-            closeUserId,
-            closureReasonId,
-            request_date,
-            reservation_date,
-            close_date
-        );
-
-        res.json({
-            message: "Kreirana je rezervacija",
-            reservation: reservation,
-        });
-    } catch (error) {
-        return next(error);
-    }
+    // Send a success response
+    res.status(201).json({ message: 'Book reservation created successfully', reservation });
+  } catch (error) {
+    // Handle errors
+    console.error('Error creating book reservation:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 }
+
+
+
+
+
 
 export async function updateReservation(req: Request, res: Response, next: NextFunction) {
     const reservationId = parseInt(req.params.id);
@@ -100,7 +121,6 @@ export async function updateReservation(req: Request, res: Response, next: NextF
 
     try {
         const reservation = await BookReservation.getReservation(reservationId); 
-
   
         reservation.request_date = request_date;
         reservation.reservation_date = reservation_date;
@@ -151,4 +171,70 @@ export async function searchReservations(req: Request, res: Response, next: Next
         return next(error);
     }
 }
+
+export async function rezervisiKnjigu(req: Request, res: Response) {
+
+  try {
+    const ucenikUsers = await prisma.user.findMany({
+      where: {
+        typeId: 1, //ucenik
+      },
+      select: {
+        id:true,
+        typeId: true,
+        email: true,
+        username: true,
+        name: true,
+        active: true,
+      },
+    });
+
+    const cancellationReasons = await prisma.cancellationReason.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    });
+
+    //nadji usere koji rezervisu,m otkazuju...
+    const users = await prisma.user.findMany();
+    const reservationMadeForUserId = users.length > 0 ? users[0].id : "";
+
+
+
+    
+    const books = await prisma.book.findMany({
+      select: {
+        id: true,
+        title: true,
+        page_count: true,
+        letterId: true,
+        languageId: true,
+        bindingId: true,
+        formatId: true,
+        publisherId: true,
+        isbn: true,
+        quantity_count: true,
+        rented_count: true,
+        reserved_count: true,
+        body: true,
+        year: true,
+        pdf: true,
+      },
+    });
+
+    const availableBooks = books.filter(book => book.quantity_count - book.rented_count - book.reserved_count > 0);
+
+    res.render("rezervacije/rezervacijaTest", { ucenikUsers, cancellationReasons, books: availableBooks ,reservationMadeForUserId: reservationMadeForUserId,});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while retrieving data.");
+  } finally {
+    await prisma.$disconnect();
+  }
+}
+
+
+
+
 

@@ -79,35 +79,41 @@ export class Book {
         letter: true,
         categories: true,
         binding: true,
-        authors: true,
+        authors: {
+          select: {
+            nameSurname: true
+          }
+        },
       },
     });
-
+  
     return books.map((book: any) => {
-      return new Book(
-        book.title,
-        book.page_count,
-        book.letterId,
-        book.languageId,
-        book.bindingId,
-        book.formatId,
-        book.publisherId,
-        book.isbn,
-        book.quantity_count,
-        book.rented_count,
-        book.reserved_count,
-        book.body,
-        book.year,
-        book.pdf,
-        book.id
-      );
+      const authorNameSurname = book.authors.length > 0 ? book.authors[0].nameSurname : '';
+      return {
+        id: book.id,
+        title: book.title,
+        page_count: book.page_count,
+        letterId: book.letterId,
+        languageId: book.languageId,
+        bindingId: book.bindingId,
+        formatId: book.formatId,
+        publisherId: book.publisherId,
+        isbn: book.isbn,
+        quantity_count: book.quantity_count,
+        rented_count: book.rented_count,
+        reserved_count: book.reserved_count,
+        body: book.body,
+        year: book.year,
+        pdf: book.pdf,
+        authorNameSurname: authorNameSurname
+      };
     });
   }
 
-  /* static async getBook(id: number) {
+  static async getBook(id: number) {
     const book = await db.book.findUnique({
       where: {
-        id,
+        id: id,
       },
       include: {
         language: true,
@@ -118,29 +124,28 @@ export class Book {
         authors: true,
       },
     });
+  if (!book) {
+    throw new Error(`Book with id ${id} not found`);
+  }
 
-    if (!book) {
-      throw new Error("Book not found");
-    }
-
-    return new Book(
-      book.title,
-      book.page_count,
-      book.letterId,
-      book.languageId,
-      book.bindingId,
-      book.formatId,
-      book.publisherId,
-      book.isbn,
-      book.quantity_count,
-      book.rented_count,
-      book.reserved_count,
-      book.body,
-      book.year,
-      book.pdf,
-      book.id
-    );
-  } */
+  return new Book(
+    book.title ?? '',
+    book.page_count ?? 0,
+    book.letterId ?? 0,
+    book.languageId ?? 0,
+    book.bindingId ?? 0,
+    book.formatId ?? 0,
+    book.publisherId ?? 0,
+    book.isbn ?? '',
+    book.quantity_count ?? 0,
+    book.rented_count ?? 0,
+    book.reserved_count ?? 0,
+    book.body ?? '',
+    book.year ?? 0,
+    book.pdf ?? '',
+    book.id
+  );
+}
 
   async save() {
     if (this.id) {

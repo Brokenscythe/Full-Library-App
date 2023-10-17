@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+
 import { Category } from '../models/categoryModel';
+import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 //polisa
@@ -40,56 +41,19 @@ export const updateSettings = async (req: Request, res: Response) => {
 
   //kraj polise
 
-  /* //kategorije
+   //kategorije
   
-  export const getKategorije = async (req: Request, res: Response) => {
-    try {
-      const categoriesData = await prisma.category.findMany();
-      const categories: Category[] = categoriesData.map((categoryData) => {
-        const category = new Category(categoryData.name, categoryData.id,categoryData.icon);
-        return category;
-      });
-      res.render('settings/settingsKategorije', { categories });
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Error retrieving categories');
-    }
-  };
+   
   
+  /*
   
   export const novaKategorija = (req: Request, res: Response) => {
     res.render('kategorije/novaKategorija');
   };
+*/
 
-  export const dodajKategoriju = async (req: Request, res: Response) => {
-    console.log(req.body);
-    const { nazivKategorije } = req.body;
-    console.log(nazivKategorije);
-    try {
-      const novaKategorija = await prisma.category.create({
-        data: {
-          name: nazivKategorije,
-        },
-      });
-      res.redirect('/settings/category');
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Error creating category');
-    }
-  };
-  
-  export const deleteKategorija = async (req: Request, res: Response) => {
-    const { id } = req.params;
-    try {
-      const category = await Category.getCategory(parseInt(id));
-      await category.delete();
-      res.redirect('/settings/category');
-    } catch (error) {
-      console.log(error);
-      res.status(500).send('Error deleting category');
-    }
-  };
-  
+
+  /*
   export const prikaziIzmjenuKategorije = async (req: Request, res: Response) => {
     const categoryId = parseInt(req.params.id);
     const category = await Category.getCategory(categoryId);

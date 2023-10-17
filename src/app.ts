@@ -7,7 +7,7 @@ import methodOverride from 'method-override';
 
 
 //ROUTES
-//import authRoutes from "./routes/authRoutes";
+import authRoutes from "./routes/authRoutes";
 import AuthorRouter from "./routes/authorRoutes";
 import BookRouter from "./routes/bookRoutes";
 import ReservationRouter from "./routes/reservationRoutes";
@@ -56,6 +56,7 @@ app.use(function (req, res, next) {
 });
 
 //ROUTE
+//app.use('/login', authRoutes);
 app.use('/books', BookRouter);
 app.use('/authors', AuthorRouter);
 app.use('/', SettingsRouter);

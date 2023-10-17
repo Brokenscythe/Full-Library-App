@@ -11,16 +11,15 @@ export async function getAllCategories(req: Request, res: Response, next: NextFu
     }
 }
 
-export async function getCategory(req: Request, res:Response, next:NextFunction){
-    const CategoryId = parseInt(req.params.id.split(':')[1]);
-    let category;
+export async function getCategory(req: Request, res: Response, next: NextFunction) {
+    const categoryId = Number(req.params.id);
     try {
-        category = await category.getCategory(CategoryId);
-        res.render('kategorije/editKategorija', {category:category});
-    }catch(error) {
-        return next(error);
+      const category = await Category.getCategory(categoryId);
+      res.render('kategorije/editKategorija', { category });
+    } catch (error) {
+      return next(error);
     }
-}
+  }
 
 export async function addCategory(req: Request, res:Response, next:NextFunction){
         const name = req.body.category.toString();
@@ -43,7 +42,9 @@ export async function addCategory(req: Request, res:Response, next:NextFunction)
 
 export async function updateCategory(req: Request, res:Response, next:NextFunction){
     const CategoryId = parseInt(req.params.id.split(':')[1]);
-    const name = req.body.category.toString();
+    //const CategoryId = parseInt(req.params.id);
+    const name = req.body.name.toString();
+    console.log(name);
     const description = req.body.description.toString();
     const category = new Category(
         name,
@@ -63,14 +64,15 @@ export async function updateCategory(req: Request, res:Response, next:NextFuncti
 }
 
 export async function deleteCategory(req: Request, res:Response, next:NextFunction) {
-    const categoryId = parseInt(req.params.id.split(':')[1]);
-    const category = new Category("", "", "", categoryId);
+
+    const category = new Category("", "", "", Number(req.params.id));
     try{
         await category.delete();
-        const categories = await Category.getAllCategories();
-        console.log(categories);
-        res.render('settings/settingsKategorije', { categories : categories });
+        res.redirect('/settingsKategorije');
     }catch(error) {
         return next(error);
     }
 }
+
+
+  

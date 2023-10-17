@@ -1,7 +1,9 @@
 import express from "express";
 import { isLoggedIn } from "../utils/passport";
 import * as ReservationService from "../controllers/reservationController";
-import { getAllReservations,getReservation} from "../controllers/reservationController";
+import { getAllReservations,getReservation,rezervisiKnjigu,createReservation} from "../controllers/reservationController";
+import { PrismaClient } from "@prisma/client";
+const db = new PrismaClient();
 const reservationRouter = express.Router();
 
 // reservationRouter.get('/',  ReservationService.getAllReservations);
@@ -19,12 +21,16 @@ reservationRouter.get("/dashboard", (req, res) => {
 ///reservations/knjigePrekoracenje
 
 reservationRouter.get("/knjigePrekoracenje", (req, res) => {
-  res.render("rezervacije/knjigePrekoracenje");
+  res.render("knjige/knjigePrekoracenje");
 });
 
 reservationRouter.get("/arhiviraneRezervacije", (req, res) => {
   res.render("rezervacije/arhiviraneRezervacije");
 });
+
+reservationRouter.get("/rezervisiKnjigu", rezervisiKnjigu);
+reservationRouter.post("/createReservation", createReservation);
+
 
 // zamalo da zaboravim trazenje
 reservationRouter.get("/search", isLoggedIn, ReservationService.searchReservations);
