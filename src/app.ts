@@ -17,6 +17,8 @@ import SettingsRouter from "./routes/settingsRoutes";
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
 
+
+
 //MIDDLEWARES
 
 const app = express();
@@ -28,6 +30,14 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+
+app.use(
+  session({
+    secret: 'idemonamore', // a dje no na more....
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 //ejs setap
 app.set("view engine", "ejs");
