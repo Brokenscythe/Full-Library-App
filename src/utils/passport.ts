@@ -5,6 +5,7 @@ import { User } from "../controllers/auth-controllers/authController";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
+
 const db = new PrismaClient();
 
 passport.use(
