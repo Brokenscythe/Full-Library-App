@@ -19,10 +19,10 @@ interface Reservation {
   bookId: number;
   reservation_date: Date;
   user: {
-    username: string; // Assuming the actual field name is 'username'
+    username: string;
   };
   book: {
-    title: string; // Assuming the actual field name is 'title'
+    title: string;
   };
 }
 interface CustomSession {
@@ -58,15 +58,7 @@ export const login = async (req: Request, res: Response) => {
   if (user[0].password !== password) {
     return res.render('auth/login', { error: 'Pogresan email ili password' });
   }
-  const reservations: Reservation[] = await prisma.reservation.findMany({
-    where: {
-      reservationMadeByUserId: user[0].id, // Update the field name
-    },
-    orderBy: {
-      reservation_date: 'desc',
-    },
-    take: 5,
-  });
+  const reservations = await getReservations();
   console.log('Reservations:', reservations);
   // Update-uj last_login_at and remember_token
   await prisma.user.update({
@@ -133,3 +125,16 @@ export const postSignup = async (req: Request, res: Response) => {
   }
 };
 
+async function getReservations() {
+  const reservations = await prisma.$queryRaw`
+    SELECT username, title, reservation_date
+    FROM reservation
+    JOIN user ON user.id = reservation.reservationMadeForUserId
+    JOIN book ON book.id = reservation.bookId
+    WHERE reservation.reservationMadeByUserId = user.id
+    ORDER BY reservation_date DESC
+    LIMIT 5
+  `;
+
+  return reservations;
+}
