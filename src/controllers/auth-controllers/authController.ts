@@ -12,6 +12,19 @@ export interface User {
   password: string;
   role: string;
 }
+
+interface Reservation {
+  id: number;
+  userId: number;
+  bookId: number;
+  reservation_date: Date;
+  user: {
+    username: string; // Assuming the actual field name is 'username'
+  };
+  book: {
+    title: string; // Assuming the actual field name is 'title'
+  };
+}
 interface CustomSession {
   userName?: string;
   rememberToken?: string; // Add rememberToken to the SessionData interface
@@ -45,7 +58,16 @@ export const login = async (req: Request, res: Response) => {
   if (user[0].password !== password) {
     return res.render('auth/login', { error: 'Pogresan email ili password' });
   }
-
+  const reservations: Reservation[] = await prisma.reservation.findMany({
+    where: {
+      reservationMadeByUserId: user[0].id, // Update the field name
+    },
+    orderBy: {
+      reservation_date: 'desc',
+    },
+    take: 5,
+  });
+  console.log('Reservations:', reservations);
   // Update-uj last_login_at and remember_token
   await prisma.user.update({
     where: { id: user[0].id },
@@ -59,7 +81,7 @@ export const login = async (req: Request, res: Response) => {
   (req.session as SessionData).userId = user[0].id;
   (req.session as SessionData).userName = user[0].name;
 
-  res.render('dashboard/dashboard', { userName: user[0].name });
+  res.render('dashboard/dashboard', { userName: user[0].name, reservations });
 };
 
 export const logout = (req: Request, res: Response) => {
@@ -110,3 +132,4 @@ export const postSignup = async (req: Request, res: Response) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
