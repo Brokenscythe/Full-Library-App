@@ -1,0 +1,63 @@
+
+                    <div class="flex flex-row ml-[30px]">
+                        <div class="w-[50%] mb-[150px]">
+                            <div class="mt-[20px]">
+                                <p>Broj strana <span class="text-red-500">*</span></p>
+                                <input type="text" name="pageCount" id="brStranaEdit" value="264" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" onkeydown="clearErrorsBrStranaEdit()"/>
+                                <div id="validateBrStranaEdit"></div>
+                            </div>
+
+                            <div class="mt-[20px]">
+                                <p>Pismo <span class="text-red-500">*</span></p>
+                                <select class="flex w-[45%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="letterId" id="pismoEdit" onclick="clearErrorsPismoEdit()">
+                                    <option disabled></option>
+                                    <% for (letter in book.letters) { %>
+                                    <option selected value="<%= letter.id %>"><%= letter.name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="mt-[20px]">
+                                <p>Povez <span class="text-red-500">*</span></p>
+                                <select class="flex w-[45%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="bindingId" id="povezEdit" onclick="clearErrorsPovezEdit()">
+                                    <option disabled></option>
+                                    <% for (binding in book.bindings) { %>
+                                    <option selected value="<%= binding.id %>">
+                                        <%= binding.name %>
+                                    </option>
+                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="mt-[20px]">
+                                <p>Format <span class="text-red-500">*</span></p>
+                                <select class="flex w-[45%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="formatId" id="formatEdit">
+                                    <option disabled></option>
+                                    <% for (format in book.formats) { %>
+                                    <option value="<%= format.id %>">
+                                        <%= format.name %>
+                                    </option>
+                                    <% } %>
+                                </select>
+                            </div>
+
+                            <div class="mt-[20px]">
+                                <p>International Standard Book Num <span class="text-red-500">*</span></p>
+                                <input type="text" name="isbn" id="isbnEdit" value="1546213456878" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-0 w-full">
+                        <div class="flex flex-row">
+                            <div class="inline-block w-full text-white text-right py-[7px] mr-[100px]">
+                                <button type="button"
+                                    class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
+                                    Ponisti <i class="fas fa-times ml-[4px]"></i>
+                                </button>
+                                <button id="sacuvajSpecifikacijuEdit" type="submit"
+                                    class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]" onclick="validacijaSpecifikacijaEdit()">
+                                    Sacuvaj <i class="fas fa-check ml-[4px]"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>

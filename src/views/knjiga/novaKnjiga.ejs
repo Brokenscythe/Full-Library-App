@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="description" content="ICT Cortex Library - project for high school students..." />
+    <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
+    <meta name="author" content="bildstudio" />
+    <!-- End Meta -->
+
+    <!-- Title -->
+    <title>New book | Library - ICT Cortex student project</title>
+    <link rel="shortcut icon" href="img/library-favicon.ico" type="image/vnd.microsoft.icon" />
+    <!-- End Title -->
+
+    <!-- Styles -->
+    <%- include('../includes/layout/styles') %>
+    <!-- End Styles -->
+</head>
+
+<body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
+    <!-- Header -->
+    <%- include('../includes/layout/header') %>
+    <!-- Header -->
+
+    <!-- Main content -->
+    <main class="flex flex-row small:hidden">
+        <!-- Sidebar -->
+        <%- include('../includes/layout/sidebar') %>
+        <!-- End Sidebar -->
+
+        <!-- Content -->
+        <section class="w-screen h-screen pl-[80px] pb-4 text-gray-700">
+            <!-- Heading of content -->
+            <div class="heading">
+                <div class="flex border-b-[1px] border-[#e4dfdf]">
+                    <div class="pl-[30px] py-[10px] flex flex-col">
+                        <div>
+                            <h1>
+                                Nova knjiga
+                            </h1>
+                        </div>
+                        <div>
+                            <nav class="w-full rounded">
+                                <ol class="flex list-reset">
+                                    <li>
+                                        <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                            Evidencija knjiga
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <span class="mx-2">/</span>
+                                    </li>
+                                    <li>
+                                        <a href="/#" class="text-[#2196f3] hover:text-blue-600">
+                                            Nova knjiga
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="py-4 text-gray-500 border-b-[1px] border-[#e4dfdf] pl-[30px] tabs">
+                    <button class="tablinks" onclick="openCity(event, 'novaKnjigaOsnovno')">Osnovni Podaci</button>
+                    <button class="tablinks" onclick="openCity(event, 'novaKnjigaSpecifikacija')">Specifikacija</button>
+                    <button class="tablinks" onclick="openCity(event, 'novaKnjigaMultimedija')">Multimedija</button>
+            </div>
+            <!-- Space for content -->
+            <div class="scroll height-content section-content">
+            <form method="POST" action="/novaKnjiga" class="text-gray-700 forma">
+                        <div class="tabcontent" id="novaKnjigaOsnovno">
+                            <%- include('novaKnjigaOsnovno', {categories: categories, genres:genres, authors:authors, publishers: publishers}) %>
+                        </div>
+                        <div class="tabcontent  tabcontent1" id="novaKnjigaSpecifikacija">
+                            <%- include('novaKnjigaSpecifikacija', {letters: letters, bindings:bindings, formats:formats}) %>
+                        </div>
+                        <div class="tabcontent tabcontent1" id="novaKnjigaMultimedija">
+                            <%- include('novaKnjigaMultimedija') %>
+                        </div>>
+            </form>
+            </div>
+        </section>
+        <!-- End Content -->
+    </main>
+    <!-- End Main content -->
+
+    <!-- Notification for small devices -->
+    <%- include('../includes/layout/inProgress') %>
+
+
+    <!-- Scripts -->
+    <%- include('../includes/layout/scripts') %>
+    <!-- End Scripts -->
+
+    <script>
+    CKEDITOR.replace('kratki_sadrzaj', {
+        width: "90%",
+        height: "150px"
+    });
+    </script>
+</body>
+
+</html>
