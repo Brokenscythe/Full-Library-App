@@ -30,6 +30,7 @@ import './utils/passport';
 import errorHandlerMiddleware from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfToken from "./middlewares/csrf-token";
+import { setUserNameLocals } from './middlewares/user-session'; 
 const app = express();
 const PORT = 3000;
 dotenv.config();
@@ -52,12 +53,27 @@ app.set("views", path.join(__dirname, "views"));
 
 //staticni fajlovi
 
+
 app.use(express.static(__dirname + "/public"));
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 //mora sam ovako
-app.use(express.urlencoded({ extended: false }));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
+
+// Initialize session
+app.use(session({
+  secret: 'idemonamore',
+  resave: false,
+  saveUninitialized: false,
+}));
+app.use(setUserNameLocals);
+// Flash middleware should come after session
 app.use(flash());
+
 // middleware koji omogućava da se šalje delete request preko linka
 app.use(function (req, res, next) {
   if (req.query._method == "DELETE") {
@@ -73,24 +89,9 @@ app.use(function (req, res, next) {
 
 // Pravi redoslijed -custom  middleware nakon csurf
 
-app.use(addCsrfToken);
 
-// Add express-session middleware
-// Add express-session middleware
-app.use(cookieParser());
-app.use(
-  session({
-    secret: "your secret string. you can also save it in .env file",
-    cookie: {},
-    resave: false,
-    saveUninitialized: false
-  })
-);
-
-// Use csurf middleware after express-session
 app.use(csrf());
 
-// Use your custom middleware after csurf
 app.use(addCsrfToken);
 
 

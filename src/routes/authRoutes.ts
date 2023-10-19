@@ -42,6 +42,9 @@ export default authRouter; */
 import express from 'express'
 import { login } from '../controllers/auth-controllers/authController'
 import { logout } from '../controllers/auth-controllers/authController';
+import { postSignup } from '../controllers/auth-controllers/authController';
+import { getSignup } from '../controllers/auth-controllers/authController';
+
 const router = express.Router()
 
 // Login strana
@@ -52,4 +55,7 @@ router.get('/login', (req, res) => {
 // Login controller
 router.post('/login', login)
 router.get('/logout', logout);
+//signup kontroller
+router.post('/signup', postSignup)
+router.get('/signup', getSignup);
 export default router

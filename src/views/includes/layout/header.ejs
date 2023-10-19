@@ -121,22 +121,17 @@
                 <a href="#" class="relative inline-block px-3 py-2 focus:outline-none" id="dropdownProfile" aria-label="User profile">
                     <div class="flex flex-col items-center">
                         <div class="w-[40px] h-[40px] mt-[15px]">
+                            <!-- You can add the user's profile image here if available -->
                             <img class="rounded-full" src="img/profileExample.jpg" alt="">
                         </div>
-                        <span class="mt-1 text-sm font-medium text-gray-600"><%= userName %></span>
+                        <span class="mt-1 text-sm font-medium text-white-600"><%= userName %></span>
                     </div>
                 </a>
-            <% } else { %>
-                <!-- User is not logged in, display login and signup buttons -->
-                <a href="/login" class="inline-block px-3 py-2 focus:outline-none text-white bg-blue-500 rounded shadow-lg btn-animation hover:bg-blue-600 focus:bg-blue-700">
-                    Login
-                </a>
-                <a href="/signup" class="inline-block px-3 py-2 focus:outline-none text-white bg-green-500 rounded shadow-lg btn-animation hover:bg-green-600 focus:bg-green-700">
-                    Sign Up
-                </a>
+           
             <% } %>
         </div>
         
+
 
                 
                 

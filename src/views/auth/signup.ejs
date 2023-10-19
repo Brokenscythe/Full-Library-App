@@ -39,15 +39,17 @@
             <h1>Online Library - ICT Cortex </h1>
             <h2 class="auth-heading">Sign Up</h2>
             <form method="POST" action="/signup">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
               <label class="auth-label" for="name">Name</label>
               <input class="auth-input" id="name" name="name" type="text" required placeholder="Name" />
-
+            
               <label class="auth-label" for="username">Username</label>
               <input class="auth-input" id="username" name="username" type="text" required placeholder="Username" />
-
+            
               <label class="auth-label" for="email">Email</label>
               <input class="auth-input" id="email" name="email" type="email" required placeholder="Email" />
-
+            
               <label class="auth-label" for="password">Password</label>
               <input
                 class="auth-input"
@@ -58,20 +60,19 @@
                 placeholder="Password"
                 autocomplete="new-password"
               />
-
+            
               <label class="auth-label" for="jmbg">JMBG (Unique Identification Number)</label>
               <input class="auth-input" id="jmbg" name="jmbg" type="text" required placeholder="JMBG" />
-
+            
               <button class="auth-button" type="submit">Sign Up</button>
             </form>
+            
             <p class="auth-footer">&copy; 2021 ICT Cortex. All rights reserved.</p>
           </div>
         </div>
       </div>
     </main>
-    <!-- End Main content -->
 
-    <!-- Notification for small devices -->
     <%- include('../includes/layout/inProgress') %>
     <!-- Scripts -->
     <%- include('../includes/layout/scripts') %>
