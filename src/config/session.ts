@@ -1,5 +1,5 @@
-import session from "express-session";
-import MySQLStore from "express-mysql-session";
+const session = require('express-session');
+const MySQLStore = require('express-mysql-session')(session);
 
 const options = {
   host: process.env.DB_HOST as string,
@@ -9,9 +9,7 @@ const options = {
   database: process.env.MYSQL_DB as string,
 };
 
-const sessionStore = new (MySQLStore(session))({
-  ...options,
-});
+const sessionStore = new MySQLStore(options);
 
 export function createSessionConfig() {
   return {

@@ -26,6 +26,7 @@
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
+    
     <%- include('../includes/layout/header') %> 
     <!-- Header -->
 
@@ -471,13 +472,13 @@
                                           </td>
                                           <td class="flex flex-row items-center px-4 py-3">
                                             <% if (reservationsWithUsers[i].book) { %>
-                                                <% const bookImageSrc = reservationsWithUsers[i].book.photo_url || '/public/img/No-Book.jpg'; %>
+                                                <% const bookImageSrc = reservationsWithUsers[i].book.photo_url || '/public/img/book_cover.jpg'; %>
                                                 <img class="object-cover w-8 mr-2 h-11" src="<%= bookImageSrc %>" alt="" />
-                                                <a href="/reservation/<%= reservationsWithUsers[i].id %>">
+                                                <a href="reservation/<%= reservationsWithUsers[i].id %>">
                                                   <span class="font-medium text-center"><%= reservationsWithUsers[i].book.title %></span>
                                                 </a>
                                               <% } else { %>
-                                                <!-- Handle the case where book is undefined -->
+                                      
                                                 <span class="font-medium text-center">Book Not Found</span>
                                               <% } %>
                                               
@@ -485,19 +486,27 @@
                                           <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
                                             <%= reservationsWithUsers[i].request_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
                                           </td>
-                                          <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
+                                          <!-- pocrveni kolonu ako rezervacija istice danas-->
+                                          <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap" style="<%= reservationsWithUsers[i].reservation_date.toDateString() === new Date().toDateString() ? 'background-color: #FFECEC;' : '' %>">
                                             <%= reservationsWithUsers[i].reservation_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
                                           </td>
                                           
+                                          
                                           <td class="flex flex-row items-center px-4 py-3">
                                             <% if (reservationsWithUsers[i].reservationMadeByUser) { %>
-                                              <img class="object-cover w-8 h-8 rounded-full" src="<%= reservationsWithUsers[i].reservationMadeByUser.photo_url %>" alt="User Photo" />
+                                              <% if (reservationsWithUsers[i].reservationMadeByUser.photo_url) { %>
+                                                <img class="object-cover w-8 h-8 rounded-full" src="<%= reservationsWithUsers[i].reservationMadeByUser.photo_url %>" alt="User Photo" />
+                                              <% } else { %>
+                                                <!-- ako photo_url nije dostupna tj nema je, prikazi  avatar -->
+                                                <img class="object-cover w-8 h-8 rounded-full" src="/public/img/user_avatar.jpg" alt="Default User Avatar" />
+                                              <% } %>
                                               <a href="ucenikProfile" class="ml-2 font-medium text-center"><%= reservationsWithUsers[i].reservationMadeByUser.username %></a>
                                             <% } else { %>
-                                              <!-- Handle the case where reservationMadeByUser is undefined -->
-                                              <span class="font-medium text-center">User Not Found</span>
+                                     
+                                              <span class="font-medium text-center">Korisnik nije pronađen</span>
                                             <% } %>
                                           </td>
+                                          
                                           <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
                                             REZERVISANO
                                            
@@ -593,5 +602,13 @@
     <!-- End Scripts -->
 
 </body>
-
+<script>
+    function isToday(date) {
+      const today = new Date();
+      return date.getDate() === today.getDate() &&
+             date.getMonth() === today.getMonth() &&
+             date.getFullYear() === today.getFullYear();
+    }
+  </script>
+  
 </html>

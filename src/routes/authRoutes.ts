@@ -1,4 +1,4 @@
-import express from "express";
+/* import express from "express";
 import type { Request, Response } from "express";
 import passport from "passport";
 //import { isNotLoggedIn } from '../../utils/passport';
@@ -37,4 +37,19 @@ authRouter.get("/logout", (req, res) => {
   res.render("logout");
 });
 
-export default authRouter;
+export default authRouter; */
+
+import express from 'express'
+import { login } from '../controllers/auth-controllers/authController'
+import { logout } from '../controllers/auth-controllers/authController';
+const router = express.Router()
+
+// Login strana
+router.get('/login', (req, res) => {
+  res.render('auth/login',{ csrfToken: req.csrfToken() })
+})
+
+// Login controller
+router.post('/login', login)
+router.get('/logout', logout);
+export default router

@@ -41,6 +41,7 @@ export async function getReservation(req: Request, res: Response, next: NextFunc
         reservation.close_date
       );
       console.log(bookReservation);
+      console.log(`Reservation with ID ${reservationId} not found.`);
       res.render('izdavanje/izdavanjeDetalji', { reservation: bookReservation });
     } catch (error) {
       return next(error);
@@ -200,10 +201,27 @@ export async function rezervisiKnjigu(req: Request, res: Response) {
     const users = await prisma.user.findMany();
     const reservationMadeForUserId = users.length > 0 ? users[0].id : "";
 
-
-
+    interface Book {
+      id: number;
+      title: string;
+      page_count: number;
+      letterId: number;
+      languageId: number;
+      bindingId: number;
+      formatId: number;
+      publisherId: number;
+      isbn: string;
+      quantity_count: number;
+      rented_count: number;
+      reserved_count: number;
+      body: string;
+      year: number;
+      pdf: string;
+    }
     
-    const books = await prisma.book.findMany({
+    
+    
+    const books: Book[] = await prisma.book.findMany({
       select: {
         id: true,
         title: true,
@@ -221,9 +239,11 @@ export async function rezervisiKnjigu(req: Request, res: Response) {
         year: true,
         pdf: true,
       },
-    });
+    }) as Book[];
+    
 
-    const availableBooks = books.filter(book => book.quantity_count - book.rented_count - book.reserved_count > 0);
+    const availableBooks = books.filter(({ quantity_count, rented_count, reserved_count }) => quantity_count - rented_count - reserved_count > 0);
+
 
     res.render("rezervacije/rezervacijaTest", { ucenikUsers, cancellationReasons, books: availableBooks ,reservationMadeForUserId: reservationMadeForUserId,});
   } catch (error) {

@@ -1,3 +1,19 @@
+<script>
+function selectNavItem(itemId) {
+    console.log('Item clicked:', itemId);
+    // Remove the 'selected' class from all list items
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.classList.remove('selected');
+    });
+
+    // Add the 'selected' class to the clicked list item
+    const selectedItem = document.getElementById(itemId);
+    selectedItem.classList.add('selected');
+}
+
+</script>
+
 <nav id="sidebar"
     class="fixed z-10 flex flex-col justify-between overflow-x-hidden overflow-y-auto bg-[#EFF3F6] sidebar nav-height">
     <div class="">
@@ -9,7 +25,7 @@
         <div class="mt-[30px]">
             <ul class="text-[#2D3B48] sidebar-nav">
                 <!-- Dashboard Icon -->
-                <li class="bg-[#EAEAEA] pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA]">
+                <li id="dashboard" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA]">
                     <div class="ml-[25px]">
                         <span class="flex justify-between w-full fill-current whitespace-nowrap">
                             <div class="transition duration-300 ease-in group-hover:text-[#576cdf]">
@@ -25,7 +41,7 @@
                     </div>
                 </li>
                 <!-- Bibliotekari Icon -->
-                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                <li id="bibliotekari" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
@@ -44,7 +60,7 @@
                     </div>
                 </li>
                 <!-- Ucenici Icon -->
-                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                <li id="ucenici" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
@@ -62,7 +78,7 @@
                     </div>
                 </li>
                 <!-- Knjige Icon -->
-                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                <li id="knjige" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
@@ -80,7 +96,7 @@
                     </div>
                 </li>
                 <!-- Autori Icon -->
-                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                <li id="autori" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
@@ -98,7 +114,7 @@
                     </div>
                 </li>
                 <!-- izdate knjige Icon -->
-                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                <li id="izdate" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
@@ -118,7 +134,7 @@
                     </div>
                 </li>
                                 <!-- Izadavnje knjige Icon -->
-                                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                                <li id="izdavanje" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
                                     <div class="ml-[30px]">
                                         <span class="flex justify-between w-full whitespace-nowrap">
                                             <div>
@@ -138,7 +154,7 @@
                                     </div>
                                 </li>
                 <!-- Expand menu example -->
-                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA]">
+                <li id="expand" class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA]">
                     <div class="mx-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
