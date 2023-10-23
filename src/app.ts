@@ -19,6 +19,7 @@ import ReservationRouter from "./routes/reservationRoutes";
 import router from './routes/mainRoutes';
 import SettingsRouter from "./routes/settingsRoutes";
 import userRouter from  "./routes/userRoutes";
+import dashBoardRouter from  "./routes/dashBoardRoutes";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -117,6 +118,7 @@ app.use('/authors', AuthorRouter);
 app.use('/', SettingsRouter);
 app.use('/reservations', ReservationRouter);
 app.use('/user', userRouter);
+app.use('/dashboard', dashBoardRouter);
 app.use(router);
 
 //Ruta za obradu nepostojećih zahteva

@@ -401,36 +401,35 @@
                                     <a class="w-[145px] text-[#2196f3] hover:text-blue-600" href="izdateKnjige.ejs">
                                         Izdate knjige
                                     </a>
-                                    <div class="ml-[30px] bg-green-600 transition duration-200 ease-in  hover:bg-green-900 stats-bar-green h-[26px]">
-                                    
+                                    <div class="ml-[30px]" style="background-color: #0f0; width: <%= Number(issuedBookCount) *1,50 %>px;">
                                     </div>
                                     <p class="ml-[10px] number-green text-[#2196f3] hover:text-blue-600">
-                                        73
+                                        <%= Number(issuedBookCount) %>
                                     </p>
                                 </div>
                                 <div class="flex pb-[30px]">
                                     <a class="w-[145px] text-[#2196f3] hover:text-blue-600" href="aktivneRezervacije">
                                         Rezervisane knjige
                                     </a>
-                                    <div class="ml-[30px] bg-yellow-600 transition duration-200 ease-in  hover:bg-yellow-900 stats-bar-yellow  h-[26px]">
-                                    
+                                    <div class="ml-[30px]" style="background-color: rgb(29, 11, 109); width: <%= Number(reservedBookCount) *1,50 %>px;">
                                     </div>
                                     <p class="ml-[10px] text-[#2196f3] hover:text-blue-600 number-yellow">
-                                        44
+                                        <%= Number(reservedBookCount) %>
                                     </p>
                                 </div>
                                 <div class="flex pb-[30px]">
                                     <a class="w-[145px] text-[#2196f3] hover:text-blue-600" href="knjigePrekoracenje">
                                         Knjige u prekoracenju
                                     </a>
-                                    <div class="ml-[30px] bg-red-600 transition duration-200 ease-in hover:bg-red-900 stats-bar-red h-[26px]">
-                                    
+                                    <div class="ml-[30px]" style="background-color: rgb(240, 5, 5); width: <%= Number(overdueBookCount)*1,50  %>px;">
                                     </div>
                                     <p class="ml-[10px] text-[#2196f3] hover:text-blue-600 number-red">
-                                        25
+                                        <%= Number(overdueBookCount) %>
                                     </p>
                                 </div>
                             </div>
+                            
+                            
                             <div class="absolute h-[220px] w-[1px] bg-black top-[78px] left-[174px]">
                             </div>
                             <div class="absolute flex conte left-[175px] border-t-[1px] border-[#e4dfdf] top-[248px] pr-[87px]">
