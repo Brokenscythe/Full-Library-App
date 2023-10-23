@@ -1,5 +1,5 @@
 import express from 'express';
-import { dodajNovogUcenika, prikaziIzmjenuUcenika, prikaziNovogUcenika, prikaziSveUcenike, izmijeniUcenika, obrisiUcenika } from '../controllers/userController';
+import { dodajNovogUcenika, prikaziIzmjenuUcenika, prikaziNovogUcenika, prikaziSveUcenike, izmijeniUcenika, obrisiUcenika,prikaziSveBibliotekare } from '../controllers/userController';
 
 const router = express.Router();
 
@@ -10,4 +10,6 @@ router.get('/izmjenaUcenika/:id', prikaziIzmjenuUcenika);
 router.post('/izmjenaUcenika/:id', izmijeniUcenika);
 router.get('/brisanjeUcenika/:id', obrisiUcenika);
 
+//bibliotekari
+router.get('/bibliotekari', prikaziSveBibliotekare);
 export default router;

@@ -7,6 +7,14 @@ export const prikaziSveUcenike = async (req: Request, res: Response) => {
   const users = await prisma.user.findMany({ include: { type: true, gender: true } });
   res.render('ucenici/ucenik', { users });
 };
+export const prikaziSveBibliotekare = async (req: Request, res: Response) => {
+  const users = await prisma.user.findMany({ include: { type: true, gender: true } });
+  const bibliotekari = users.filter(user => user.type.name.toLowerCase() === 'bibliotekar');
+
+  res.render('bibliotekari/bibliotekari', { users: bibliotekari });
+};
+
+
 
 export const prikaziNovogUcenika = async (req: Request, res: Response) => {
   res.render('ucenici/noviUcenik');
