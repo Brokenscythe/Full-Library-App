@@ -86,9 +86,9 @@
                                     </td>
                                     <td class="flex flex-row items-center px-4 py-4">
                                         <img class="object-cover w-8 h-8 mr-2 rounded-full" src="<%= user.photo %>" alt=""/>
-                                        <a href="ucenikProfile.ejs">
-                                            <span class="font-medium text-center"><%= user.name %></span>
-                                        </a>
+                                        <a href="user/izmjenaUcenika/<%= user.id %>" class="font-medium text-center">
+                                            <%= user.name %>
+                                          </a>
                                     </td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap"><%= user.email %></td>
                                     <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap"><%= user.type.name %></td>
