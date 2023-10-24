@@ -4,6 +4,16 @@
 .logo-font {
   font-family: "Rubik";
 }
+.nextButton {
+  background-color: #2563eb;
+}
+
+.tabcontent1 {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
 
 /*Button - transition*/
 

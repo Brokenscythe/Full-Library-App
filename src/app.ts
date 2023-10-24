@@ -7,8 +7,10 @@ import * as dotenv from 'dotenv';
 
 //ROUTES
 import authRoutes from "./routes/authRoutes";
-// import bookRoutes from "./routes/bookRoutes";
-import mainRoutes from "./routes/mainRoutes";
+import bookRouter from "./routes/bookRoutes";
+import settingsRouter from "./routes/settingsRoutes";
+import ReservationRouter from "./routes/reservationRouter";
+import AuthorRouter from "./routes/authRoutes";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -40,18 +42,13 @@ app.use(csurf());
 app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
 
-//Routes
-app.use(authRoutes);
-app.use(mainRoutes);
-// app.use(bookRoutes);
-
 app.use(errorHandlerMiddleware);
 
 //ROUTES
-app.use('/books', BookRouter);
-app.use('/authors', AuthorRouter);
-app.use('/', SettingsRouter);
-app.use('/reservations', ReservationRouter);
+app.use(bookRouter);
+app.use(authorRouter);
+app.use(aettingsRouter);
+app.use(ReservationRouter);
 app.use(router);
 
 app.listen(PORT, () => {
