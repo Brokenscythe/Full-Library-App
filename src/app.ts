@@ -9,8 +9,8 @@ import * as dotenv from 'dotenv';
 import authRoutes from "./routes/authRoutes";
 import bookRouter from "./routes/bookRoutes";
 import settingsRouter from "./routes/settingsRoutes";
-import ReservationRouter from "./routes/reservationRouter";
-import AuthorRouter from "./routes/authRoutes";
+import ReservationRouter from "./routes/reservationRoutes";
+import AuthorRouter from "./routes/authorRoutes";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -46,10 +46,9 @@ app.use(errorHandlerMiddleware);
 
 //ROUTES
 app.use(bookRouter);
-app.use(authorRouter);
-app.use(aettingsRouter);
+app.use(AuthorRouter);
+app.use(settingsRouter);
 app.use(ReservationRouter);
-app.use(router);
 
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}.`);
