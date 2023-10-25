@@ -13,21 +13,20 @@ declare module 'express-session' {
   }
 }
 
-
-function checkAuthStatus(req, res, next) {
+function checkAuthStatus(req: Request, res: Response, next: NextFunction) {
+  
   const uid = (req.session && req.session.customData && req.session.customData.uid) || null;
 
   if (!uid) {
+    // ako 'uid' nije prisutan, korisnik nije logovan
     res.locals.isAuth = false;
-    //res.locals.csrfToken = req.csrfToken(); // Assign the CSRF token to res.locals
-   // return res.render('auth/login', { error: 'Pogresan email ili password', csrfToken: res.locals.csrfToken });
-
+    return next();
   }
 
+  // ako jeste,....ok je
   res.locals.uid = uid;
   res.locals.isAuth = true;
   next();
 }
-
 
 export default checkAuthStatus;
