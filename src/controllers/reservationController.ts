@@ -73,7 +73,7 @@ export async function createReservation(req, res) {
   try {
     // Extract data from the request body or wherever it is available
     const {
-      bookId,
+      bookId, // Don't parse it here
       reservationMadeForUserId,
       reservationMadeByUserId,
       closeUserId,
@@ -83,14 +83,20 @@ export async function createReservation(req, res) {
       close_date,
     } = req.body;
 
+    // Parse bookId as an integer
+    const parsedBookId = parseInt(bookId, 10);
+
+    // Parse closureReasonId as an integer
+    const parsedClosureReasonId = parseInt(closureReasonId, 10);
+
     // Create a new book reservation
     const reservation = await prisma.reservation.create({
       data: {
-        bookId,
+        bookId: parsedBookId,
         reservationMadeForUserId,
         reservationMadeByUserId,
         closeUserId,
-        closureReasonId,
+        closureReasonId: parsedClosureReasonId,
         request_date,
         reservation_date,
         close_date,
@@ -106,11 +112,8 @@ export async function createReservation(req, res) {
   }
 }
 
-
-
-
-
-
+  
+  
 export async function updateReservation(req: Request, res: Response, next: NextFunction) {
     const reservationId = parseInt(req.params.id);
 
@@ -219,8 +222,7 @@ export async function rezervisiKnjigu(req: Request, res: Response) {
       pdf: string;
     }
     
-    
-    
+   
     const books: Book[] = await prisma.book.findMany({
       select: {
         id: true,
@@ -245,7 +247,7 @@ export async function rezervisiKnjigu(req: Request, res: Response) {
     const availableBooks = books.filter(({ quantity_count, rented_count, reserved_count }) => quantity_count - rented_count - reserved_count > 0);
 
 
-    res.render("rezervacije/rezervacijaTest", { ucenikUsers, cancellationReasons, books: availableBooks ,reservationMadeForUserId: reservationMadeForUserId,});
+    res.render("rezervacije/rezervisiKnjigu", { ucenikUsers, cancellationReasons, books: availableBooks ,reservationMadeForUserId: reservationMadeForUserId,});
   } catch (error) {
     console.error(error);
     res.status(500).send("An error occurred while retrieving data.");

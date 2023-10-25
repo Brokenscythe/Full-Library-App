@@ -66,11 +66,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
 // Initialize session
-app.use(session({
-  secret: 'idemonamore',
-  resave: false,
-  saveUninitialized: false,
-}));
+app.use(
+  session({
+    secret: 'idemonamore',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 app.use(setUserNameLocals);
 // Flash middleware should come after session
 app.use(flash());

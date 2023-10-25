@@ -73,7 +73,7 @@ export const login = async (req: Request, res: Response) => {
   (req.session as SessionData).userId = user[0].id;
   (req.session as SessionData).userName = user[0].name;
 
-  res.render('dashboard/dashboard', { userName: user[0].name, reservations });
+  res.redirect('/dashboard');
 };
 
 export const logout = (req: Request, res: Response) => {
