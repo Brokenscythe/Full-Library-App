@@ -81,14 +81,20 @@
             <div class="scroll height-content section-content">
             <form method="POST" action="/editKnjiga/:<%= book.id %>" class="text-gray-700 forma"></form>
                 <ul class="tabs">
-                    <li class="tab">
-                        <%- include('editKnjigaOsnovno', {book:book}) %>
+                    <li class="tablinks">
+                        <div class="tabsontent" id="defaultopen" >
+                            <%- include('editKnjigaOsnovno', {book:book}) %>
+                        </div>
                     </li>
-                    <li class="tab">
+                    <li class="tablinks">
+                        <div class="tabsontent" >
                         <%- include('editKnjigaSpecifikacija', {book:book}) %>
+                        </div>
                     </li>
-                    <li class="tab">
+                    <li class="tablinks">
+                        <div class="tabsontent" >
                         <%- include('editKnjigaMultimedija', {book:book}) %>
+                    </div>
                     </li>
                 </ul>
             </form>
@@ -108,6 +114,8 @@
     <!-- End Scripts -->
 
     <script>
+    document.getElementById("defaultOpen").click();
+    
     CKEDITOR.replace('kratki_sadrzaj_edit', {
         width: "90%",
         height: "150px"
