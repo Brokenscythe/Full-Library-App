@@ -23,6 +23,8 @@ import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 const app = express();
 const PORT = 3000;
 
+dotenv.config();
+
 //parsira req.body
 app.use(bodyParser.json());
 
