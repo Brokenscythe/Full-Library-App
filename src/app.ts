@@ -114,13 +114,13 @@ app.use((err, req, res, next) => {
 
 
 //ROUTE
-app.use("/", authRoutes);
-app.use('/books', BookRouter);
-app.use('/authors', AuthorRouter);
-app.use('/', SettingsRouter);
-app.use('/reservations', ReservationRouter);
-app.use('/user', userRouter);
-app.use('/dashboard', dashBoardRouter);
+app.use("/", checkAuthStatusMiddleware, authRoutes);
+app.use('/books', checkAuthStatusMiddleware,  BookRouter);
+app.use('/authors',checkAuthStatusMiddleware, AuthorRouter);
+app.use('/',checkAuthStatusMiddleware, SettingsRouter);
+app.use('/reservations',checkAuthStatusMiddleware, ReservationRouter);
+app.use('/user',checkAuthStatusMiddleware, userRouter);
+app.use('/dashboard',checkAuthStatusMiddleware, dashBoardRouter);
 app.use(router);
 
 //Ruta za obradu nepostojećih zahteva

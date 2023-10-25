@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client';
 import { SessionData } from 'express-session';
 import { hash } from 'bcryptjs';
 import addCsrfToken from "../../middlewares/csrf-token";
+
 const prisma = new PrismaClient();
 
 export interface User {
@@ -25,21 +26,26 @@ interface Reservation {
     title: string;
   };
 }
+
 interface CustomSession {
   userName?: string;
-  rememberToken?: string; // Add rememberToken to the SessionData interface
+  rememberToken?: string; 
 }
-// Update the SessionData interface to include rememberToken
+
+
 declare module 'express-session' {
   interface SessionData {
     userId: string;
     userName?: string;
-    rememberToken?: string; // Optional, as it might not be set for all sessions
+    rememberToken?: string; 
   }
 }
 
 export const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
+
+  // uzmi CSRF token
+  const csrfToken = req.csrfToken();
 
   // Provjeri da li korisnik postoji-odje koristim cisti SQL....volim to...stara skola
   const user = await prisma.$queryRaw`
@@ -51,16 +57,18 @@ export const login = async (req: Request, res: Response) => {
   `;
 
   if (!user || !Array.isArray(user) || user.length === 0) {
-    return res.render('auth/login', { error: 'Pogresan email ili password' });
+    return res.render('auth/login', { error: 'Pogresan email ili password', csrfToken });
   }
 
   // provjeri da li je password ok
   if (user[0].password !== password) {
-    return res.render('auth/login', { error: 'Pogresan email ili password' });
+    return res.render('auth/login', { error: 'Pogresan email ili password', csrfToken });
   }
+
   const reservations = await getReservations();
   console.log('Reservations:', reservations);
   // Update-uj last_login_at and remember_token
+
   await prisma.user.update({
     where: { id: user[0].id },
     data: {
@@ -75,6 +83,7 @@ export const login = async (req: Request, res: Response) => {
 
   res.redirect('/dashboard');
 };
+
 
 export const logout = (req: Request, res: Response) => {
   const customSession = req.session as CustomSession;
