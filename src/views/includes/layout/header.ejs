@@ -146,21 +146,11 @@
             id="dropdownProfile"
             aria-label="User profile"
           >
-    <div class="ml-[10px] relative block">
-            <% if (userName) { %>
-                <!-- User is logged in, display welcome message -->
-                <a href="#" class="relative inline-block px-3 py-2 focus:outline-none" id="dropdownProfile" aria-label="User profile">
-                    <div class="flex flex-col items-center">
-                        <div class="w-[40px] h-[40px] mt-[15px]">
-                            <!-- You can add the user's profile image here if available -->
-                            <img class="rounded-full" src="img/profileExample.jpg" alt="">
-                        </div>
-                        <span class="mt-1 text-sm font-medium text-white-600"><%= userName %></span>
-                    </div>
-                </a>
-           
-            <% } %>
-        </div>
+            <div class="flex items-center h-5">
+              <div class="w-[40px] h-[40px] mt-[15px]">
+                <img class="rounded-full" src="img/profileExample.jpg" alt="" />
+              </div>
+            </div>
           </a>
         </div>
         <div
