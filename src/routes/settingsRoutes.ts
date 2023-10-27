@@ -6,18 +6,16 @@ import * as FormatController from "../controllers/settings-controllers/formatCon
 import * as GenreController from "../controllers/settings-controllers/genreController";
 import * as LetterController from "../controllers/settings-controllers/letterController";
 import * as PublisherController from "../controllers/settings-controllers/publisherController";
+import * as settingsController from '../controllers/settings-controllers/settingsController';
 
 import configuredMulterMiddleware from "../middlewares/image-upload";
 
 const SettingsRouter = express.Router();
 
-SettingsRouter.get("/settingsPolisa", (req, res) => {
-  res.render("settings/settingsPolisa");
-});
 
-SettingsRouter.get("/settings", (req, res) => {
-  res.render("settings/settingsPolisa");
-});
+SettingsRouter.get('/settings',settingsController.getSettings );
+
+SettingsRouter.post('/settings', settingsController.updateSettings);
 
 //GET routes for all...
 SettingsRouter.get("/settingsKategorije", CategoryController.getAllCategories);

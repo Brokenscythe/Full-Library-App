@@ -10,6 +10,7 @@ import authRouter from "./routes/authRoutes";
 import bookRouter from "./routes/bookRoutes";
 import mainRouter from "./routes/mainRoutes";
 import settingsRouter from "./routes/settingsRoutes";
+import dashBoardRouter from  "./routes/dashBoardRoutes";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -21,6 +22,7 @@ import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
 
+
 const app = express();
 app.use(methodOverride("_method"));
 const PORT = 3000;
@@ -29,8 +31,8 @@ const PORT = 3000;
 app.use(bodyParser.json());
 
 //VIEW ENGINE SETUP
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
 //SERVING STATIC FILES
 app.use(express.static(path.join(__dirname, "public")));
@@ -45,12 +47,14 @@ app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
 
 //ROUTES
+app.use('/dashboard',dashBoardRouter);
 app.use("/", authRouter);
 app.use("/", mainRouter);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);
 app.use("/reservations", ReservationRouter);
+
 
 app.use(errorHandlerMiddleware);
 

@@ -2,7 +2,9 @@ import express from "express";
 import * as AuthService from "../controllers/auth-controllers/authController";
 const authRouter = express.Router();
 
-authRouter.get("/login", AuthService.getLogIn);
+authRouter.get('/login', (req, res) => {
+    res.render('auth/login',{ csrfToken: req.csrfToken() })
+  })
 
 authRouter.post("/login", AuthService.login);
 

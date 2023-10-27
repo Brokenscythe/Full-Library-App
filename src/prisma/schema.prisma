@@ -215,3 +215,9 @@ model Reservation {
   close_date               DateTime
   reservationStatuses      ReservationStatus[]
 }
+model Settings {
+  id                Int     @id @default(autoincrement())
+  reservationExpiry Int     @default(7)
+  returnDeadline    Int     @default(30)
+  conflictDeadline  Int     @default(35)
+}

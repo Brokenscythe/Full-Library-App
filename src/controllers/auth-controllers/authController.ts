@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { PrismaClient } from '@prisma/client';
 // Models
 import User from "../../models/userModel";
 import UserLoginsService from "../../models/userLogins";
@@ -6,8 +7,20 @@ import UserLoginsService from "../../models/userLogins";
 import authUtil from "../../utils/authentication";
 import validation from "../../utils/validation";
 import sessionFlash from "../../utils/session-flash";
+import { SessionData } from 'express-session';
 // Interfaces
 import { UserData, loginData } from "../../interfaces/userData";
+const prisma = new PrismaClient();
+
+
+
+declare module 'express-session' {
+  interface SessionData {
+    userId: string;
+    userName?: string;
+    rememberToken?: string; 
+  }
+}
 
 export async function getRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -134,10 +147,14 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     return;
   }
 
+
+ // req.session.userName = existingUser.username;
   const passwordIsCorrect = await checkUser.hasMatchingPassword(existingUser.password);
+
+
   if (!passwordIsCorrect) {
     sessionFlash.flashDataToSession(req, sessionErrorData, function () {
-      res.redirect("/login");
+      res.redirect("dashboard");
     });
     return;
   }
@@ -156,3 +173,5 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 export async function logout(req: Request, res: Response, next: NextFunction): Promise<void> {
   authUtil.destroyUserSession(req, res);
 }
+
+
