@@ -8,9 +8,8 @@ const ReservationRouter = express.Router();
 // reservationRouter.post('/',  ReservationService.createReservation);
 // reservationRouter.patch('/:id',  ReservationService.updateReservation);
 // reservationRouter.delete('/:id',  ReservationService.deleteReservation);
-ReservationRouter.get("/aktivneRezervacije", (req, res) => {
-  res.render("rezervacije/aktivneRezervacije");
-});
+ReservationRouter.get("/aktivneRezervacije",ReservationService.getAllReservations);
+
 ReservationRouter.get("/dashboard", (req, res) => {
   res.render("dashboard/dashboard");
 });

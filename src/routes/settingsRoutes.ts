@@ -13,9 +13,9 @@ import configuredMulterMiddleware from "../middlewares/image-upload";
 const SettingsRouter = express.Router();
 
 
-SettingsRouter.get('/settings',settingsController.getSettings );
+SettingsRouter.get('/settingsPolisa',settingsController.getSettings );
 
-SettingsRouter.post('/settings', settingsController.updateSettings);
+SettingsRouter.post('/settingsPolisa', settingsController.updateSettings);
 
 //GET routes for all...
 SettingsRouter.get("/settingsKategorije", CategoryController.getAllCategories);

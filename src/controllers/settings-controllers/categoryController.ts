@@ -1,16 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import Category from "../../models/categoryModel";
 
-export async function getAllCategories(req: Request, res: Response, next: NextFunction) {
+export async function getAllCategories(req: Request, res: Response, next: NextFunction){
   try {
-    const categories = await Category.getAllCategories();
-    console.log(categories);
-    res.render("settings/settingsKategorije", { categories: categories });
+      const categories = await Category.getAllCategories();
+      console.log(categories);
+      res.render('settings/settingsKategorije', { categories : categories }); 
   } catch (error) {
-    console.error("Error fetching categories:", error);
-    return next();
+      return next(error);
   }
 }
+
 export async function getCategory(req: Request, res: Response, next: NextFunction) {
   const categoryId = parseInt(req.params.id);
   let category;
