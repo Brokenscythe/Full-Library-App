@@ -4,7 +4,8 @@ function checkAuthStatus(req: Request, res: Response, next: NextFunction) {
   const uid = (req.session as any).uid;
 
   if (!uid) {
-    return next();
+   return next();
+    //return res.redirect('/');
   }
 
   res.locals.uid = uid;

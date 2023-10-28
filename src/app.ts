@@ -41,14 +41,23 @@ app.use(express.urlencoded({ extended: false }));
 const sessionConfig = createSessionConfig();
 
 app.use(session(sessionConfig));
+// Add express-session middleware
+app.use(
+  session({
+    secret: 'your-secret-key', // Replace with your own secret key
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 app.use(csurf());
 
 app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
 
 //ROUTES
-app.use('/dashboard',dashBoardRouter);
 app.use("/", authRouter);
+app.use('/dashboard',dashBoardRouter,checkAuthStatusMiddleware);
+//app.use('/dashboard',dashBoardRouter);
 app.use("/", mainRouter);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);

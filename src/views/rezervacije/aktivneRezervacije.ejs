@@ -472,7 +472,7 @@
                                           </td>
                                           <td class="flex flex-row items-center px-4 py-3">
                                             <% if (reservationsWithUsers[i].book) { %>
-                                                <% const bookImageSrc = reservationsWithUsers[i].book.photo_url || '/public/img/book_cover.jpg'; %>
+                                                <% const bookImageSrc = reservationsWithUsers[i].book.photo_url || '../img/book_cover.jpg'; %>
                                                 <img class="object-cover w-8 mr-2 h-11" src="<%= bookImageSrc %>" alt="" />
                                                 <a href="reservation/<%= reservationsWithUsers[i].id %>">
                                                   <span class="font-medium text-center"><%= reservationsWithUsers[i].book.title %></span>
@@ -498,7 +498,7 @@
                                                 <img class="object-cover w-8 h-8 rounded-full" src="<%= reservationsWithUsers[i].reservationMadeByUser.photo_url %>" alt="User Photo" />
                                               <% } else { %>
                                                 <!-- ako photo_url nije dostupna tj nema je, prikazi  avatar -->
-                                                <img class="object-cover w-8 h-8 rounded-full" src="/public/img/user_avatar.jpg" alt="Default User Avatar" />
+                                                <img class="object-cover w-8 h-8 rounded-full" src="../img/user_avatar.jpg" alt="Default User Avatar" />
                                               <% } %>
                                               <a href="ucenikProfile" class="ml-2 font-medium text-center"><%= reservationsWithUsers[i].reservationMadeByUser.username %></a>
                                             <% } else { %>
