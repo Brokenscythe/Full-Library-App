@@ -11,6 +11,7 @@ import bookRouter from "./routes/bookRoutes";
 import mainRouter from "./routes/mainRoutes";
 import settingsRouter from "./routes/settingsRoutes";
 import dashBoardRouter from  "./routes/dashBoardRoutes";
+import rentBookRouter from  "./routes/rentBookRouter";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -41,10 +42,10 @@ app.use(express.urlencoded({ extended: false }));
 const sessionConfig = createSessionConfig();
 
 app.use(session(sessionConfig));
-// Add express-session middleware
+
 app.use(
   session({
-    secret: 'your-secret-key', // Replace with your own secret key
+    secret: 'cokolada', 
     resave: false,
     saveUninitialized: true,
   })
@@ -63,6 +64,7 @@ app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);
 app.use("/reservations", ReservationRouter);
+app.use("/", rentBookRouter);
 
 
 app.use(errorHandlerMiddleware);

@@ -23,7 +23,7 @@
         body {
             margin: 0;
             padding: 0;
-            background-image: url('/img/login.jpg');
+           background-image: url('/img/login.jpg'); 
             background-size: cover;
             background-position: center;
             height: 100vh;
@@ -180,7 +180,21 @@
     <footer>
         <div class="typewriter-text">Made with <span class="heart-icon">&hearts;</span> za potrebe kursa: Milka, Dusan, Alen</div>
     </footer>
+<!-- <script>
 
+
+    function updateBackground() {
+        const currentDate = new Date();
+        const imageIndex = (currentDate.getDate() % 7) + 1; // 7 images numbered from 1 to 7
+        const imagePath = `/img/${imageIndex}.jpg`;
+        document.body.style.backgroundImage = `url('${imagePath}')`;
+    }
+
+    // Mijenja background sliku na pocetnoj starni svakog dana, obavezno komentarisati background u css-u style iznad
+    updateBackground();
+    setInterval(updateBackground, 24 * 60 * 60 * 1000); // tajmer za promjenu 24 sata
+
+</script> -->
 </body>
 
 </html>

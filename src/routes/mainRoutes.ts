@@ -11,7 +11,7 @@ router.get('/dashboard', (req, res) => {
 });
 
 router.get('/izdateKnjige', (req, res) => {
-    res.render('rezervacije/aktivneRezervacije');
+    res.render('/rezervacije/aktivneRezervacije');
 });
 
 
