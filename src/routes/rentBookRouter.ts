@@ -6,10 +6,13 @@ const router = express.Router();
 // NOVO IZNAJMLJIVANJE
 router.post("/rent", rentBookController.rentBook);
 
-// Update iznajmljivanje sa  rentStatusId
+// Update iznajmljivanje sa rentStatusId
 router.put("/rent/:id", rentBookController.updateRentBook);
 
 // Pronadji sve dostupne knjige za iznajmljivanje
 router.get("/available-books", rentBookController.displayAvailableBooks);
+
+// Pretraga iznajmljenih knjiga po naslovu
+router.get("/search-rented-books", rentBookController.searchRentedBooks);
 
 export default router;

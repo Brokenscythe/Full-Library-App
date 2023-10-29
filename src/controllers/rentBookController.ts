@@ -82,6 +82,27 @@ const rentBookController = {
       res.status(500).json({ error: "Error while displaying all available books", details: errorMessage });
     }
   },
+  searchRentedBooks: async (req: Request, res: Response) => {
+    try {
+      const searchQuery = req.query.searchQuery as string;
+
+      // trazi po naslovu knjige
+      const rentedBooks = await prisma.book.findMany({
+        where: {
+          title: {
+            contains: searchQuery, // filter
+          },
+        },
+      });
+
+      res.status(200).json({ rentedBooks });
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+      res.status(500).json({ error: "Error while searching for rented books by title", details: errorMessage });
+    }
+  },
 };
+
+
 
 export default rentBookController;
