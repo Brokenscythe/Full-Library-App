@@ -52,23 +52,39 @@ console.log(books);
   }
 }
 
-  export async function getBook(req: Request, res: Response, next: NextFunction) {
-    try {
-      
-        const bookId = parseInt(req.params.id, 10);
-        
-      
-        const book = await Book.getBook(bookId);
+export async function getBook(req: Request, res: Response, next: NextFunction) {
+  try {
+      const bookId = parseInt(req.params.id, 10);
 
-     
-        res.json({
-            book: book,
-        //    authorNameSurname: book.authors[0]?.nameSurname || '', 
-        });
-    } catch (error) {
-        // Handluj greske
-        return next(error);
-    }
+      // Fetch the book along with related data
+      const book = await prisma.book.findUnique({
+          where: { id: bookId },
+          include: {
+              authors: true,  // Include the authors related to the book
+              categories: true,  // Include the book categories
+              genres: true,  // Include the genres
+              publisher: true,  // Include the publisher
+              letter: true,  // Include the letter
+              language: true,  // Include the language
+              binding: true,  // Include the binding
+              format: true,  // Include the format
+              reservations: true,  // Include the reservations
+              rents: true  // Include the rents
+          }
+      });
+
+      if (!book) {
+          // Handle case when the book is not found
+          res.status(404).json({ error: 'Book not found' });
+          return;
+      }
+
+      // Render the 'knjige/knjigaOsnovniDetalji' page and pass the book data to it
+      res.render('knjige/knjigaOsnovniDetalji', { book });
+  } catch (error) {
+      // Handle errors
+      return next(error);
+  }
 }
 
 

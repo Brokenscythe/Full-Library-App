@@ -40,7 +40,7 @@
             <!-- Heading of content -->
             <div class="heading mt-[7px]">
                 <h1 class="pl-[30px] pb-[21px] border-b-[1px] border-[#e4dfdf] ">
-                    Izdavanje knjiga
+                    Rezervacije - Izdavanje knjiga
                 </h1>
             </div>
             <!-- Space for content -->
@@ -463,63 +463,46 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white">
-                                    <% for (let i = 0; i < reservationsWithUsers.length; i++) { %>
-                                        <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
-                                          <td class="px-4 py-3 whitespace-no-wrap">
-                                            <label class="inline-flex items-center">
-                                              <input type="checkbox" class="form-checkbox">
-                                            </label>
-                                          </td>
-                                          <td class="flex flex-row items-center px-4 py-3">
-                                            <% if (reservationsWithUsers[i].book) { %>
-                                                <% const bookImageSrc = reservationsWithUsers[i].book.photo_url || '../img/book_cover.jpg'; %>
-                                                <img class="object-cover w-8 mr-2 h-11" src="<%= bookImageSrc %>" alt="" />
-                                                <a href="reservation/<%= reservationsWithUsers[i].id %>">
-                                                  <span class="font-medium text-center"><%= reservationsWithUsers[i].book.title %></span>
-                                                </a>
-                                              <% } else { %>
-                                      
-                                                <span class="font-medium text-center">Book Not Found</span>
-                                              <% } %>
-                                              
-                                          </td>
-                                          <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
-                                            <%= reservationsWithUsers[i].request_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
-                                          </td>
-                                          <!-- pocrveni kolonu ako rezervacija istice danas-->
-                                          <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap" style="<%= reservationsWithUsers[i].reservation_date.toDateString() === new Date().toDateString() ? 'background-color: #FFECEC;' : '' %>">
-                                            <%= reservationsWithUsers[i].reservation_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
-                                          </td>
-                                          
-                                          
-                                          <td class="flex flex-row items-center px-4 py-3">
-                                            <% if (reservationsWithUsers[i].reservationMadeByUser) { %>
-                                              <% if (reservationsWithUsers[i].reservationMadeByUser.photo_url) { %>
-                                                <img class="object-cover w-8 h-8 rounded-full" src="<%= reservationsWithUsers[i].reservationMadeByUser.photo_url %>" alt="User Photo" />
-                                              <% } else { %>
-                                                <!-- ako photo_url nije dostupna tj nema je, prikazi  avatar -->
-                                                <img class="object-cover w-8 h-8 rounded-full" src="../img/user_avatar.jpg" alt="Default User Avatar" />
-                                              <% } %>
-                                              <a href="ucenikProfile" class="ml-2 font-medium text-center"><%= reservationsWithUsers[i].reservationMadeByUser.username %></a>
+                                    <% for (let i = 0; i < reservations.length; i++) { %>
+                                      <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
+                                        <td class="px-4 py-3 whitespace-no-wrap">
+                                          <label class="inline-flex items-center">
+                                            <input type="checkbox" class="form-checkbox">
+                                          </label>
+                                        </td>
+                                        <td class="flex flex-row items-center px-4 py-3">
+                                          <img class="object-cover w-8 mr-2 h-11" src="<%= reservations[i].book.photo_url || '../img/book_cover.jpg' %>" alt="" />
+                                          <a href="reservation/<%= reservations[i].id %>">
+                                            <span class="font-medium text-center"><%= reservations[i].book.title %></span>
+                                          </a>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
+                                          <%= reservations[i].request_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                                        </td>
+                                        <!-- Add your conditional styling here based on reservation date -->
+                                        <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
+                                          <%= reservations[i].reservation_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                                        </td>
+                                        <td class="flex flex-row items-center px-4 py-3">
+                                          <% if (reservations[i].reservationMadeByUser) { %>
+                                            <% if (reservations[i].reservationMadeByUser.photo_url) { %>
+                                              <img class="object-cover w-8 h-8 rounded-full" src="<%= reservations[i].reservationMadeByUser.photo_url %>" alt="User Photo" />
                                             <% } else { %>
-                                     
-                                              <span class="font-medium text-center">Korisnik nije pronađen</span>
+                                              <img class="object-cover w-8 h-8 rounded-full" src="../img/user_avatar.jpg" alt="Default User Avatar" />
                                             <% } %>
-                                          </td>
-                                          
-                                          <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
-                                            REZERVISANO
-                                           
-                                          </td>
-                                          <!--status iznad -->
-                                        </tr>
-                                      <% } %>
-                                      
-                                   
-                                 
-                        
-                                 
-                                </tbody>
+                                            <a href="ucenikProfile" class="ml-2 font-medium text-center"><%= reservations[i].reservationMadeByUser.username %></a>
+                                          <% } else { %>
+                                            <span class="font-medium text-center">Korisnik nije pronađen</span>
+                                          <% } %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
+                                          REZERVISANO
+                                        </td>
+                                        <!-- Add your conditional styling here based on reservation date -->
+                                      </tr>
+                                    <% } %>            
+                                  </tbody>
+                                  
                             </table>
 
                             <div class="flex flex-row items-center justify-end my-2">

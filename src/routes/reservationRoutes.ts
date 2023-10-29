@@ -1,30 +1,28 @@
 import express from "express";
-import * as ReservationService from "../controllers/reservationController";
+import reservationController from "../controllers/reservationController";
 
-const ReservationRouter = express.Router();
+const router = express.Router();
 
-// reservationRouter.get('/',  ReservationService.getAllReservations);
-// // reservationRouter.get('/:id',  ReservationService.getReservation);
-// reservationRouter.post('/',  ReservationService.createReservation);
-// reservationRouter.patch('/:id',  ReservationService.updateReservation);
-// reservationRouter.delete('/:id',  ReservationService.deleteReservation);
-ReservationRouter.get("/aktivneRezervacije",ReservationService.getAllReservations);
+// Kreiraj rezervaciju
+router.post("/reservations", reservationController.createReservation);
 
-ReservationRouter.get("/dashboard", (req, res) => {
-  res.render("dashboard/dashboard");
-});
+// Pročitajte sve rezervacije
+router.get("/reservations", reservationController.getAllReservations);
+router.get("/reservations-add", reservationController.createReservationForm);
 
-///reservations/knjigePrekoracenje
+// Pročitaj pojedinacnu rezervaciju
+router.get("/reservations/:reservationId", reservationController.getReservationById);
 
-ReservationRouter.get("/knjigePrekoracenje", (req, res) => {
-  res.render("rezervacije/knjigePrekoracenje");
-});
+// Pročitajte pojedinačnu rezervaciju
+router.put("/reservations/:reservationId", reservationController.updateReservation);
 
-ReservationRouter.get("/arhiviraneRezervacije", (req, res) => {
-  res.render("rezervacije/arhiviraneRezervacije");
-});
+// Obrišite rezervaciju
+router.delete("/reservations/:reservationId", reservationController.deleteReservation);
 
-// zamalo da zaboravim trazenje
-ReservationRouter.get("/search", ReservationService.searchReservations);
+// Ruta za pretragu rezervacija po naslovu knjige
+router.get("/reservations/search/book", reservationController.searchReservationsByBookTitle);
 
-export default ReservationRouter;
+// Dodaj rutu za pretragu rezervacija po imenu korisnika
+router.get("/reservations/search/user", reservationController.searchReservationsByUserName);
+
+export default router;

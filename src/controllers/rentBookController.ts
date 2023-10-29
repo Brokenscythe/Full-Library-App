@@ -37,11 +37,31 @@ const rentBookController = {
 
       res.status(200).json({ message: "Book rented successfully", rental });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
       res.status(500).json({ error: "Error while renting the book", details: errorMessage });
     }
   },
+  viewRentedBooksByStatus: async (req: Request, res: Response) => {
+    try {
+      const rentStatusId = 2; // izdate knjige imaju status 2
 
+      const rentedBooks = await prisma.rent.findMany({
+        where: {
+          rentStatusId: rentStatusId,
+        },
+        include: {
+          book: true,
+          rentStatus: true,
+        },
+      });
+
+      //res.status(200).json({ rentedBooks }); // za provjeru
+      res.render("iznajmljivanje/iznajmljivanjeAktivne", { rentedBooks });
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
+      res.status(500).json({ error: "Error while fetching rented books by rentStatusId", details: errorMessage });
+    }
+  },
   updateRentBook: async (req: Request, res: Response) => {
     try {
       const { rentId, rentStatusId } = req.body;
@@ -59,9 +79,9 @@ const rentBookController = {
         },
       });
 
-      res.status(200).json({ message: "Rental status changed successfully", rental: updatedRental });
+      res.status(200).json({ message: "Status iznajmljene knjige je promijenjen", rental: updatedRental });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
       res.status(500).json({ error: "Error while changing rental status", details: errorMessage });
     }
   },
@@ -78,7 +98,7 @@ const rentBookController = {
 
       res.status(200).json({ availableBooks });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
       res.status(500).json({ error: "Error while displaying all available books", details: errorMessage });
     }
   },
@@ -97,8 +117,8 @@ const rentBookController = {
 
       res.status(200).json({ rentedBooks });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(500).json({ error: "Error while searching for rented books by title", details: errorMessage });
+      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
+      res.status(500).json({ error: "Greska tokom trazenja iznajmljenih knjiga po naslovu knjige, u rent kontroleru", details: errorMessage });
     }
   },
   searchRentedBooksStatus: async (req: Request, res: Response) => {
@@ -117,8 +137,8 @@ const rentBookController = {
 
       res.status(200).json({ rentedBooks });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
-      res.status(500).json({ error: "Error while searching for rented books by rentStatusId", details: errorMessage });
+      const errorMessage = error instanceof Error ? error.message : "Nepoznata greska u rent kontroleru";
+      res.status(500).json({ error: "Greska tokom trazenja po rentStatusId u rent kontroleru", details: errorMessage });
     }
   },
 };

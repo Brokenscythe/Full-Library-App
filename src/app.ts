@@ -63,7 +63,7 @@ app.use("/", mainRouter);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);
-app.use("/reservations", ReservationRouter);
+app.use("/", ReservationRouter);
 app.use("/", rentBookRouter);
 
 

@@ -44,31 +44,41 @@
                         </div>
                         <div class="pl-[15px]  flex flex-col">
                             <div>
-                                <h1>
-                                    Tom Sojer
-                                </h1>
-                            </div>
-                            <div>
                                 <nav class="w-full rounded">
                                     <ol class="flex list-reset">
                                         <li>
-                                            <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                            <a href="/books" class="text-[#2196f3] hover:text-blue-600">
                                                 Evidencija knjiga
                                             </a>
                                         </li>
                                         <li>
                                             <span class="mx-2">/</span>
                                         </li>
-                                        <li>
-                                            <a href="/knjigaOsnovniDetalji"
-                                                class="text-[#2196f3] hover:text-blue-600">
-                                                KNJIGA-467
-                                            </a>
-                                        </li>
+                                        <% for (let i = 0; i < rentedBooks.length; i++) { %>
+                                            <li>
+                                                <a href="/books/<%= rentedBooks[i].book.id %>" class="text-[#2196f3] hover:text-blue-600">
+                                                    KNJIGA-<%= rentedBooks[i].book.id %>
+                                                </a>
+                                            </li>
+                                        <% } %>
+                                    </ol>
+                                </nav>
+                            </div>
+                            <div>
+                                <nav class="w-full rounded">
+                                    <ol class="flex list-reset">
+                                        <% for (let i = 0; i < rentedBooks.length; i++) { %>
+                                            <li>
+                                                <h1>
+                                                    <%= rentedBooks[i].book.title %>
+                                                <h1>
+                                            </li>
+                                        <% } %>
                                     </ol>
                                 </nav>
                             </div>
                         </div>
+                        
                     </div>
                     <div class="pt-[24px] mr-[30px]">
                         <a href="/otpisiKnjigu" class="inline hover:text-blue-600">
@@ -117,7 +127,8 @@
             <div class="flex flex-row height-iznajmljivanje scroll">
                 <div class="w-[80%]">
                     <div class="border-b-[1px] border-[#e4dfdf] py-4  border-gray-300 pl-[30px]">
-                        <a href="/knjigaOsnovniDetalji" class="inline hover:text-blue-800">
+                        <% for (let i = 0; i < rentedBooks.length; i++) { %>
+                        <a href="/books/<%= rentedBooks[i].book.id %>" class="inline hover:text-blue-800">
                             Osnovni detalji
                         </a>
                         <a href="/knjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
@@ -158,6 +169,7 @@
                                 class="text-[20px] text-[#707070] group-hover:text-[#576cdf] fas fa-calendar-alt  mr-[3px]"></i>
                             Arhivirane rezervacije
                         </a>
+                        <% } %>
                     </div>
                     <!-- Space for content -->
                     <div class="w-full mt-[10px] ml-2 px-4">
@@ -180,58 +192,65 @@
                                 </tr>
                             </thead>
                             <tbody class="bg-white">
-                                <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
-                                    <td class="px-4 py-3 whitespace-no-wrap">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox">
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">31.04.2019</td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">10.05.2019</td>
-                                    <td class="flex flex-row items-center px-4 py-3">
-                                        <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg"
-                                            alt="" />
-                                        <a href="/ucenikProfile" class="ml-2 font-medium text-center">Pero
-                                            Perovic</a>
-                                    </td>
-                                    <td class="px-4 py-3 changeStatus">
-                                        <a href="/#" class="hover:text-green-500 mr-[5px]">
-                                            <i class="fas fa-check reservedStatus"></i>
-                                        </a>
-                                        <a href="/#" class="hover:text-red-500 ">
-                                            <i class="fas fa-times deniedStatus"></i>
-                                        </a>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-yellow-200 rounded-[10px]">
-                                            <span class="text-xs text-yellow-700">Rezervisano</span>
-                                        </div>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-red-200 rounded-[10px]">
-                                            <span class="text-xs text-red-800">Odbijeno</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
-                                        <p
-                                            class="hidden inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </p>
-                                        <div
-                                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
-                                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                                aria-labelledby="headlessui-menu-button-1"
-                                                id="headlessui-menu-items-117" role="menu">
-                                                <div class="py-1">
+                                <% for (let i = 0; i < rentedBooks.length; i++) { %>
+                                    <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
+                                        <td class="px-4 py-3 whitespace-no-wrap">
+                                            <label class="inline-flex items-center">
+                                                <input type="checkbox" class="form-checkbox">
+                                            </label>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
+                                            <%= rentedBooks[i].issue_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
+                                            <%= rentedBooks[i].return_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+                                        </td>
+                                        <td class="flex flex-row items-center px-4 py-3">
+                                            <% if (rentedBooks[i].borrowUser) { %>
+                                                <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg" alt="" />
+                                                <a href="/ucenikProfile" class="ml-2 font-medium text-center"><%= rentedBooks[i].borrowUser.name %></a>
+                                            <% } else { %>
+                                                <span class="font-medium text-center">User Not Found</span>
+                                            <% } %>
+                                        </td>
+                                        
+                                        <td class="px-4 py-3 changeStatus">
+                                            <!-- Add your status icons here based on rentStatusId -->
+                                            <!-- Example: -->
+                                            <% if (rentedBooks[i].rentStatus.bookStatusId === 2) { %>
+                                                <a href="/#" class="hover:text-green-500 mr-[5px]">
+                                                    <i class="fas fa-check reservedStatus"></i>
+                                                </a>
+                                            <% } else { %>
+                                                <a href="/#" class="hover:text-red-500">
+                                                    <i class="fas fa-times deniedStatus"></i>
+                                                </a>
+                                            <% } %>
+                                        </td>
+                                        <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
+                                            <div class="inline-block px-[6px] py-[2px] font-medium bg-yellow-200 rounded-[10px]">
+                                                <span class="text-xs text-yellow-700">Rezervisano</span>
+                                            </div>
+                                        </td>
+                                        <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
+                                            <div class="inline-block px-[6px] py-[2px] font-medium bg-red-200 rounded-[10px]">
+                                                <span class="text-xs text-red-800">Odbijeno</span>
+                                            </div>
+                                        </td>
+                                        <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
+                                            <p class="hidden inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
+                                                <i class="fas fa-ellipsis-v"></i>
+                                            </p>
+                                            <div class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
+                                                <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+                                                    aria-labelledby="headlessui-menu-button-1"
+                                                    id="headlessui-menu-items-117" role="menu">
                                                     <a href="/izdajKnjigu" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
                                                         <span class="px-4 py-0">Izdaj knjigu</span>
                                                     </a>
-
                                                     <a href="/#" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
@@ -240,346 +259,11 @@
                                                     </a>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
-                                    <td class="px-4 py-3 whitespace-no-wrap">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox">
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">05.11.2020</td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">25.11.2020</td>
-                                    <td class="flex flex-row items-center px-4 py-3">
-                                        <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg"
-                                            alt="" />
-                                        <a href="/ucenikProfile" class="ml-2 font-medium text-center">Pero
-                                            Perovic</a>
-                                    </td>
-                                    <td class="px-4 py-3 changeStatus">
-                                        <a href="/#" class="hover:text-green-500 mr-[5px]">
-                                            <i class="fas fa-check reservedStatus"></i>
-                                        </a>
-                                        <a href="/#" class="hover:text-red-500 ">
-                                            <i class="fas fa-times deniedStatus"></i>
-                                        </a>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-yellow-200 rounded-[10px]">
-                                            <span class="text-xs text-yellow-700">Rezervisano</span>
-                                        </div>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-red-200 rounded-[10px]">
-                                            <span class="text-xs text-red-800">Odbijeno</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
-                                        <p
-                                            class="hidden inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </p>
-                                        <div
-                                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
-                                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                                aria-labelledby="headlessui-menu-button-1"
-                                                id="headlessui-menu-items-117" role="menu">
-                                                <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Izdaj knjigu</span>
-                                                    </a>
-
-                                                    <a href="/#" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="fas fa-undo mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Otkazi rezervaciju</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
-                                    <td class="px-4 py-3 whitespace-no-wrap">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox">
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">31.02.2021</td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">10.03.2021</td>
-                                    <td class="flex flex-row items-center px-4 py-3">
-                                        <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg"
-                                            alt="" />
-                                        <a href="/ucenikProfile" class="ml-2 font-medium text-center">Pero
-                                            Perovic</a>
-                                    </td>
-                                    <td class="px-4 py-3 changeStatus">
-                                        <a href="/#" class="hover:text-green-500 mr-[5px]">
-                                            <i class="fas fa-check reservedStatus"></i>
-                                        </a>
-                                        <a href="/#" class="hover:text-red-500 ">
-                                            <i class="fas fa-times deniedStatus"></i>
-                                        </a>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-yellow-200 rounded-[10px]">
-                                            <span class="text-xs text-yellow-700">Rezervisano</span>
-                                        </div>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-red-200 rounded-[10px]">
-                                            <span class="text-xs text-red-800">Odbijeno</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
-                                        <p
-                                            class="hidden inline cursor-pointer text-[20px] py-[10px] px-[30px] border-[#e4dfdf] dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </p>
-                                        <div
-                                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
-                                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                                aria-labelledby="headlessui-menu-button-1"
-                                                id="headlessui-menu-items-117" role="menu">
-                                                <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Izdaj knjigu</span>
-                                                    </a>
-
-                                                    <a href="/#" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="fas fa-undo mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Otkazi rezervaciju</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
-                                    <td class="px-4 py-3 whitespace-no-wrap">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox">
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">31.04.2019</td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">10.05.2019</td>
-                                    <td class="flex flex-row items-center px-4 py-3">
-                                        <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg"
-                                            alt="" />
-                                        <a href="/ucenikProfile" class="ml-2 font-medium text-center">Pero
-                                            Perovic</a>
-                                    </td>
-                                    <td class="px-4 py-3 changeStatus">
-                                        <a href="/#" class="hover:text-green-500 mr-[5px]">
-                                            <i class="fas fa-check reservedStatus"></i>
-                                        </a>
-                                        <a href="/#" class="hover:text-red-500 ">
-                                            <i class="fas fa-times deniedStatus"></i>
-                                        </a>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-yellow-200 rounded-[10px]">
-                                            <span class="text-xs text-yellow-700">Rezervisano</span>
-                                        </div>
-                                    </td>
-                                    <td class="hidden px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-red-200 rounded-[10px]">
-                                            <span class="text-xs text-red-800">Odbijeno</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
-                                        <p
-                                            class="hidden inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </p>
-                                        <div
-                                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
-                                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                                aria-labelledby="headlessui-menu-button-1"
-                                                id="headlessui-menu-items-117" role="menu">
-                                                <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Izdaj knjigu</span>
-                                                    </a>
-
-                                                    <a href="/#" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="fas fa-undo mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Otkazi rezervaciju</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-200 hover:shadow-md border-b-[1px] border-[#e4dfdf]">
-                                    <td class="px-4 py-3 whitespace-no-wrap">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox">
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">31.04.2019</td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">10.05.2019</td>
-                                    <td class="flex flex-row items-center px-4 py-3">
-                                        <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg"
-                                            alt="" />
-                                        <a href="/ucenikProfile" class="ml-2 font-medium text-center">Pero
-                                            Perovic</a>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-yellow-200 rounded-[10px]">
-                                            <span class="text-xs text-yellow-700">Rezervisano</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
-                                        <p
-                                            class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </p>
-                                        <div
-                                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
-                                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                                aria-labelledby="headlessui-menu-button-1"
-                                                id="headlessui-menu-items-117" role="menu">
-                                                <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Izdaj knjigu</span>
-                                                    </a>
-
-                                                    <a href="/#" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="fas fa-undo mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Otkazi rezervaciju</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-200 hover:shadow-md border-b-[1px] border-[#e4dfdf]">
-                                    <td class="px-4 py-3 whitespace-no-wrap">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox">
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">31.04.2019</td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">10.05.2019</td>
-                                    <td class="flex flex-row items-center px-4 py-3">
-                                        <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg"
-                                            alt="" />
-                                        <a href="/ucenikProfile" class="ml-2 font-medium text-center">Pero
-                                            Perovic</a>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-yellow-200 rounded-[10px]">
-                                            <span class="text-xs text-yellow-700">Rezervisano</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
-                                        <p
-                                            class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </p>
-                                        <div
-                                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
-                                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                                aria-labelledby="headlessui-menu-button-1"
-                                                id="headlessui-menu-items-117" role="menu">
-                                                <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Izdaj knjigu</span>
-                                                    </a>
-
-                                                    <a href="/#" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="fas fa-undo mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Otkazi rezervaciju</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr class="hover:bg-gray-200 hover:shadow-md border-b-[1px] border-[#e4dfdf]">
-                                    <td class="px-4 py-3 whitespace-no-wrap">
-                                        <label class="inline-flex items-center">
-                                            <input type="checkbox" class="form-checkbox">
-                                        </label>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">31.04.2019</td>
-                                    <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">10.05.2019</td>
-                                    <td class="flex flex-row items-center px-4 py-3">
-                                        <img class="object-cover w-8 h-8 rounded-full" src="img/profileStudent.jpg"
-                                            alt="" />
-                                        <a href="/ucenikProfile" class="ml-2 font-medium text-center">Pero
-                                            Perovic</a>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-blue-900 whitespace-no-wrap">
-                                        <div
-                                            class="inline-block px-[6px] py-[2px] font-medium bg-red-200 rounded-[10px]">
-                                            <span class="text-xs text-red-800">Odbijeno</span>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3 text-sm leading-5 text-right whitespace-no-wrap">
-                                        <p
-                                            class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsIznajmljivanjeAktivneRezervacijeTabela hover:text-[#606FC7]">
-                                            <i class="fas fa-ellipsis-v"></i>
-                                        </p>
-                                        <div
-                                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 iznajmljivanje-aktivne-rezervacije">
-                                            <div class="absolute right-0 w-56 mt-2 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                                aria-labelledby="headlessui-menu-button-1"
-                                                id="headlessui-menu-items-117" role="menu">
-                                                <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Izdaj knjigu</span>
-                                                    </a>
-
-                                                    <a href="/#" tabindex="0"
-                                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                                        role="menuitem">
-                                                        <i class="fas fa-undo mr-[10px] ml-[5px] py-1"></i>
-                                                        <span class="px-4 py-0">Otkazi rezervaciju</span>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                <% } %>
                             </tbody>
+                            
                         </table>
 
                         <div class="flex flex-row items-center justify-end my-2">
