@@ -101,7 +101,28 @@ const rentBookController = {
       res.status(500).json({ error: "Error while searching for rented books by title", details: errorMessage });
     }
   },
+  searchRentedBooksStatus: async (req: Request, res: Response) => {
+    try {
+      const rentStatusId = parseInt(req.query.rentStatusId as string, 10); // Parse the rentStatusId from the query string
+
+      const rentedBooks = await prisma.rent.findMany({
+        where: {
+          rentStatusId: rentStatusId, // Filter  rentStatusId tako trazimo izdate,vracene,prekoracenje itd
+        },
+        include: {
+          book: true, // ukljucujuci i detalje o knjizi
+          rentStatus: true, // ukljucujuci i rent status
+        },
+      });
+
+      res.status(200).json({ rentedBooks });
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : "An unknown error occurred";
+      res.status(500).json({ error: "Error while searching for rented books by rentStatusId", details: errorMessage });
+    }
+  },
 };
+
 
 
 

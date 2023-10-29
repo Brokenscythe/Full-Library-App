@@ -15,4 +15,7 @@ router.get("/available-books", rentBookController.displayAvailableBooks);
 // Pretraga iznajmljenih knjiga po naslovu
 router.get("/search-rented-books", rentBookController.searchRentedBooks);
 
+// Pretraga iznajmljenih knjiga po rentStatusId
+router.get("/search-rented-books-status", rentBookController.searchRentedBooksStatus);
+
 export default router;
