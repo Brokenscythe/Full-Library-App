@@ -10,7 +10,7 @@ import authRouter from "./routes/authRoutes";
 import bookRouter from "./routes/bookRoutes";
 import mainRouter from "./routes/mainRoutes";
 import settingsRouter from "./routes/settingsRoutes";
-
+import userRouter from "./routes/userRoutes";
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
 
@@ -18,7 +18,7 @@ import createSessionConfig from "./config/session";
 import errorHandlerMiddleware from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
-import ReservationRouter from "./routes/reservationRoutes";
+// import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
 
 const app = express();
@@ -47,10 +47,11 @@ app.use(checkAuthStatusMiddleware);
 //ROUTES
 app.use("/", authRouter);
 app.use("/", mainRouter);
+app.use("/", userRouter);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);
-app.use("/reservations", ReservationRouter);
+// app.use("/reservations", ReservationRouter);
 
 app.use(errorHandlerMiddleware);
 

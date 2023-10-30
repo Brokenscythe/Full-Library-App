@@ -25,14 +25,14 @@ model UserGender {
 model UserLogins {
   id         Int       @id @default(autoincrement())
   user       User      @relation(fields: [userId], references: [id])
-  userId     String
+  userId     Int
   date       DateTime
   created_at DateTime?
   updated_at DateTime?
 }
 
 model User {
-  id                String        @id @default(uuid())
+  id                Int           @id @default(autoincrement())
   type              UserType?     @relation(fields: [typeId], references: [id])
   typeId            Int?
   gender            UserGender?   @relation(fields: [genderId], references: [id])
@@ -48,7 +48,7 @@ model User {
   last_login_at     DateTime?
   created_at        DateTime?     @default(now())
   updated_at        DateTime?
-  login_count       Int?
+  login_count       Int?          @default(0)
   active            Int?
   logins            UserLogins[]
   rent              Rent[]        @relation("rents")
@@ -177,9 +177,9 @@ model Rent {
   book         Book       @relation(fields: [bookId], references: [id])
   bookId       Int
   rentUser     User       @relation("rents", fields: [rentUserId], references: [id])
-  rentUserId   String
+  rentUserId   Int
   borrowUser   User       @relation("borrows", fields: [borrowUserId], references: [id])
-  borrowUserId String
+  borrowUserId Int
   issue_date   DateTime
   return_date  DateTime
   rentStatus   RentStatus @relation(fields: [rentStatusId], references: [id])
@@ -203,11 +203,11 @@ model Reservation {
   book                     Book                @relation(fields: [bookId], references: [id])
   bookId                   Int
   reservationMadeForUser   User                @relation("reservationFor", fields: [reservationMadeForUserId], references: [id])
-  reservationMadeForUserId String
+  reservationMadeForUserId Int
   reservationMadeByUser    User                @relation("reservationBy", fields: [reservationMadeByUserId], references: [id])
-  reservationMadeByUserId  String
+  reservationMadeByUserId  Int
   closeUser                User                @relation("reservationClosed", fields: [closeUserId], references: [id])
-  closeUserId              String
+  closeUserId              Int
   closureReason            CancellationReason  @relation(fields: [closureReasonId], references: [id])
   closureReasonId          Int
   request_date             DateTime

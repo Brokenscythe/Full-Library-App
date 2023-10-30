@@ -1,31 +1,31 @@
-import express from "express";
-import * as ReservationService from "../controllers/reservationController";
+// import express from "express";
+// import * as ReservationService from "../controllers/reservationController";
 
-const ReservationRouter = express.Router();
+// const ReservationRouter = express.Router();
 
-// reservationRouter.get('/',  ReservationService.getAllReservations);
-// // reservationRouter.get('/:id',  ReservationService.getReservation);
-// reservationRouter.post('/',  ReservationService.createReservation);
-// reservationRouter.patch('/:id',  ReservationService.updateReservation);
-// reservationRouter.delete('/:id',  ReservationService.deleteReservation);
-ReservationRouter.get("/aktivneRezervacije", (req, res) => {
-  res.render("rezervacije/aktivneRezervacije");
-});
-ReservationRouter.get("/dashboard", (req, res) => {
-  res.render("dashboard/dashboard");
-});
+// // reservationRouter.get('/',  ReservationService.getAllReservations);
+// // // reservationRouter.get('/:id',  ReservationService.getReservation);
+// // reservationRouter.post('/',  ReservationService.createReservation);
+// // reservationRouter.patch('/:id',  ReservationService.updateReservation);
+// // reservationRouter.delete('/:id',  ReservationService.deleteReservation);
+// ReservationRouter.get("/aktivneRezervacije", (req, res) => {
+//   res.render("rezervacije/aktivneRezervacije");
+// });
+// ReservationRouter.get("/dashboard", (req, res) => {
+//   res.render("dashboard/dashboard");
+// });
 
-///reservations/knjigePrekoracenje
+// ///reservations/knjigePrekoracenje
 
-ReservationRouter.get("/knjigePrekoracenje", (req, res) => {
-  res.render("rezervacije/knjigePrekoracenje");
-});
+// ReservationRouter.get("/knjigePrekoracenje", (req, res) => {
+//   res.render("rezervacije/knjigePrekoracenje");
+// });
 
-ReservationRouter.get("/arhiviraneRezervacije", (req, res) => {
-  res.render("rezervacije/arhiviraneRezervacije");
-});
+// ReservationRouter.get("/arhiviraneRezervacije", (req, res) => {
+//   res.render("rezervacije/arhiviraneRezervacije");
+// });
 
-// zamalo da zaboravim trazenje
-ReservationRouter.get("/search", ReservationService.searchReservations);
+// // zamalo da zaboravim trazenje
+// ReservationRouter.get("/search", ReservationService.searchReservations);
 
-export default ReservationRouter;
+// export default ReservationRouter;

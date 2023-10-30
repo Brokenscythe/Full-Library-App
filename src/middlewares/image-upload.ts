@@ -3,7 +3,6 @@ import multer, { Multer } from "multer";
 import { v4 as uuidv4 } from "uuid";
 import path from "path";
 
-// Define the storage directory
 const storageDirectory = path.join(__dirname, "../public/uploads");
 
 const storage = multer.diskStorage({
@@ -26,6 +25,6 @@ const upload: Multer = multer({
     }
   },
 });
-const configuredMulterMiddleware = upload.single("icon");
+const configuredMulterMiddleware = upload.single("image");
 
 export default configuredMulterMiddleware;

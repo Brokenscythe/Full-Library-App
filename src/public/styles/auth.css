@@ -1,5 +1,17 @@
 html {
   font-family: "Abhaya Libre", serif;
+
+  --color-error-100: rgb(255, 192, 180);
+  --color-error-500: rgb(199, 51, 15);
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  --border-radius-small: 4px;
+  --border-radius-medium: 6px;
 }
 .auth-container {
   max-width: 500px;
@@ -28,6 +40,14 @@ html {
   color: #333;
   text-align: center;
   margin-bottom: 20px;
+}
+.alert {
+  width: 30%;
+  margin: 0 auto;
+  padding: var(--space-4);
+  border-radius: var(--border-radius-small);
+  background-color: var(--color-error-100);
+  color: black;
 }
 
 .auth-label {

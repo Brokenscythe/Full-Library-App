@@ -13,4 +13,5 @@ function userDetailsAreValid(username: string, name: string, email: string, pass
 function passwordIsConfirmed(password: string, confirmPassword: string): boolean {
   return password === confirmPassword;
 }
+
 export default { userDetailsAreValid, passwordIsConfirmed };
