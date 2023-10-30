@@ -61,22 +61,72 @@ async function getIssuedBookCount(): Promise<number> {
 
   export async function getReservationsData(req: Request, res: Response) {
     try {
-      const reservations = await getReservations();
       const userData = req.session.userData as UserData || {};
       const userName = userData.username || '';
+      const madeByUserPhoto = '/img/user_avatar.jpg'; 
+      const madeByUserName: string = 'User Name';
+      const title: string = 'naslov';
+      const madeForUserName: string='User name';
+      const reservation_date = formatirajDatumToDdMmYyyy(new Date());
+      
+      
+
+
+
+      const reservations = await prisma.$queryRaw`
+      SELECT 
+        r.reservation_date,
+        r.request_date,
+        u1.name as madeByUserName,
+        u1.email as madeByUserEmail,
+        u1.username as madeByUserUsername,
+        u1.photo as madeByUserPhoto,
+        u2.name as madeForUserName,
+        u2.email as madeForUserEmail,
+        u2.username as madeForUserUsername,
+        u2.photo as madeForUserPhoto
+      FROM reservation r
+      JOIN user u1 ON r.reservationMadeByUserId = u1.id
+      JOIN user u2 ON r.reservationMadeForUserId = u2.id
+      WHERE r.reservationMadeByUserId = u1.id
+      ORDER BY r.reservation_date DESC
+      LIMIT 5
+    `;
+const now = new Date();
+const reservationDate = new Date(reservation_date); 
+
+const timeDifference = now.getTime() - reservationDate.getTime();
+const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+const daysDifference = Math.floor(hoursDifference / 24);
+
+
       const issuedBookCount = await getIssuedBookCount();
       const overdueBookCount = await getOverdueBookCount();
       const reservedBookCount = await getReservedBookCount();
-      console.log(reservations);
-    res.render('dashboard/dashboard', {
+  
+      res.render('dashboard/dashboard', {
         userName,
         reservations,
         issuedBookCount,
         overdueBookCount,
         reservedBookCount,
+        madeByUserPhoto,
+        title,
+        madeByUserName, 
+        madeForUserName,
+        reservation_date,
+        relativeTime: daysDifference >= 1 ? `${daysDifference} dana prije` : `${hoursDifference} sati prije`,
       });
     } catch (error) {
       console.error('Error fetching reservations:', error);
       res.status(500).send('Internal Server Error');
     }
+  }
+  
+  function formatirajDatumToDdMmYyyy(date) {
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+  
+    return `${day}.${month}.${year}`;
   }

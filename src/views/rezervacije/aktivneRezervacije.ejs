@@ -472,7 +472,7 @@
                                         </td>
                                         <td class="flex flex-row items-center px-4 py-3">
                                           <img class="object-cover w-8 mr-2 h-11" src="<%= reservations[i].book.photo_url || '../img/book_cover.jpg' %>" alt="" />
-                                          <a href="reservation/<%= reservations[i].id %>">
+                                          <a href="reservations/<%= reservations[i].id %>">
                                             <span class="font-medium text-center"><%= reservations[i].book.title %></span>
                                           </a>
                                         </td>
@@ -504,7 +504,8 @@
                                   </tbody>
                                   
                             </table>
-
+                           
+                              
                             <div class="flex flex-row items-center justify-end my-2">
                                 <div>
                                     <p class="inline text-md">
@@ -567,7 +568,49 @@
                             </div>
 
                         </div>
+                        
                     </div>
+                    <div class="border-b-[1px] border-[#e4dfdf] shadow-md p-[10px] rounded-[10px] text-right">
+                        <div class="ml-[30px] mr-[70px] mt-[20px] flex flex-row justify-between">
+                          <div class="text-gray-500">
+                         
+                            <p>Na raspolaganju:</p>
+                            <p class="mt-[20px]">Rezervisano:</p>
+                            <p class="mt-[20px]">Izdato:</p>
+                            <p class="mt-[20px]">U prekoracenju:</p>
+                            <p class="mt-[20px]">Ukupna kolicina:</p>
+                          </div>
+                          <div class="text-center pb-[30px]">
+                            <p class="bg-green-200 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
+                              <!-- Display the availableBooks count here -->
+                              <%= availableBooks %> primjeraka
+                            </p>
+                            <a href="/iznajmljivanjeAktivne">
+                              <p class="mt-[16px] bg-yellow-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
+                                <!-- Display the reservedBooks count here -->
+                                <%= reservedBooks %> primjerka
+                              </p>
+                            </a>
+                            <a href="/iznajmljivanjeIzdate">
+                              <p class="mt-[16px] bg-blue-200 text-blue-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
+                                <!-- Display the rentedBooks count here -->
+                                <%= rentedBooks %> primjerka
+                              </p>
+                            </a>
+                            <a href="/iznajmljivanjePrekoracenje">
+                              <p class="mt-[16px] bg-red-200 text-red-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
+                                <!-- Calculate the "In Overdue" count by subtracting rentedBooks and reservedBooks from totalBooks -->
+                                <%= totalBooks - (rentedBooks + reservedBooks) %> primjerka
+                              </p>
+                            </a>
+                            <p class="mt-[16px] border-[1px] border-green-700 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
+                              <!-- Display the totalBooks count here -->
+                              <%= totalBooks %> primjeraka
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                      
                 </div>
             </div>
         </section>

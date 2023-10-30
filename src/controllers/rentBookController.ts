@@ -44,7 +44,7 @@ const rentBookController = {
   viewRentedBooksByStatus: async (req: Request, res: Response) => {
     try {
       const rentStatusId = 2; // izdate knjige imaju status 2
-
+  
       const rentedBooks = await prisma.rent.findMany({
         where: {
           rentStatusId: rentStatusId,
@@ -54,14 +54,36 @@ const rentBookController = {
           rentStatus: true,
         },
       });
-
-      //res.status(200).json({ rentedBooks }); // za provjeru
-      res.render("iznajmljivanje/iznajmljivanjeAktivne", { rentedBooks });
+  
+      // ukupan broj knjiga
+      const totalBooks = await prisma.book.count();
+  
+      // ukupan broj iznajmljenih knjiga
+      const rentedBooksResult = await prisma.book.aggregate({
+        _sum: {
+          rented_count: true,
+        },
+      });
+      const rentedCount = rentedBooksResult._sum.rented_count || 0;
+  
+      // ukupan broj rezervisanih knjiga
+      const reservedBooksResult = await prisma.book.aggregate({
+        _sum: {
+          reserved_count: true,
+        },
+      });
+      const reservedCount = reservedBooksResult._sum.reserved_count || 0;
+  
+      // ukupan broj dostupnih knjiga
+      const availableCount = totalBooks - (rentedCount + reservedCount);
+  
+      res.render("iznajmljivanje/iznajmljivanjeAktivne", { rentedBooks, totalBooks, rentedCount, reservedCount, availableCount });
     } catch (error: any) {
       const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
       res.status(500).json({ error: "Error while fetching rented books by rentStatusId", details: errorMessage });
     }
   },
+  
   updateRentBook: async (req: Request, res: Response) => {
     try {
       const { rentId, rentStatusId } = req.body;
