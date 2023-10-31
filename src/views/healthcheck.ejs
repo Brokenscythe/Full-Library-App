@@ -75,7 +75,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script>
-        
+          var csrfToken = '<%= csrfToken %>';
         let responseTimeChart = null;
         const responseTimeData = [];
         const timeStamps = [];
@@ -155,7 +155,7 @@ function fetchHealthCheckAndUpdateGraph() {
 
         document.getElementById('restartButton').addEventListener('click', () => {
         // posalji zahtjev za restart servera
-        fetch('/restart-server', {
+        fetch('health/restart-server', {
     method: 'POST',
     headers: {
         'X-CSRF-Token': csrfToken,  // odje treba razraditi kod za token, ali me nije volja....treba ga poslati iz kontrollera,ali ko ce to sada...uh...ima kad

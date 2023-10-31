@@ -56,36 +56,71 @@ export async function getBook(req: Request, res: Response, next: NextFunction) {
   try {
       const bookId = parseInt(req.params.id, 10);
 
-      // Fetch the book along with related data
+    
       const book = await prisma.book.findUnique({
           where: { id: bookId },
           include: {
-              authors: true,  // Include the authors related to the book
-              categories: true,  // Include the book categories
-              genres: true,  // Include the genres
-              publisher: true,  // Include the publisher
-              letter: true,  // Include the letter
-              language: true,  // Include the language
-              binding: true,  // Include the binding
-              format: true,  // Include the format
-              reservations: true,  // Include the reservations
-              rents: true  // Include the rents
+              authors: true,  
+              categories: true,  
+              genres: true,  
+              publisher: true, 
+              letter: true,  
+              language: true, 
+              binding: true,  
+              format: true,  
+              reservations: true,  
+              rents: true 
           }
       });
 
       if (!book) {
-          // Handle case when the book is not found
+         
           res.status(404).json({ error: 'Book not found' });
           return;
       }
 
-      // Render the 'knjige/knjigaOsnovniDetalji' page and pass the book data to it
-      res.render('knjige/knjigaOsnovniDetalji', { book });
+    //  res.json({ book:book});
+    res.render('knjige/knjigaOsnovniDetalji', { book });
   } catch (error) {
-      // Handle errors
+      
       return next(error);
   }
 }
+
+
+export const getBookDetails = async (req, res) => {
+  try {
+    const bookId = parseInt(req.params.id, 10);
+
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+      include: {
+        authors: true,
+        categories: true,
+        genres: true,
+        publisher: true,
+        letter: true,
+        language: true,
+        binding: true,
+        format: true,
+        reservations: true,
+        rents: true,
+      },
+    });
+
+    if (!book) {
+      res.status(404).json({ error: 'Book not found' });
+      return;
+    }
+
+    res.json({ book }); // detalji knjige kao JSON za rezervisiKnjigu stranicu
+  } catch (error: any) {
+    console.error('Error while fetching book details:', error);
+    res.status(500).json({ error: 'An error occurred while fetching book details', details: error.message });
+  }
+};
+
+
 
 
 export async function addBook(req: Request, res: Response, next: NextFunction): Promise<void> {

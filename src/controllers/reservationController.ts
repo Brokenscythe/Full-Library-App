@@ -49,22 +49,31 @@ const reservationController = {
   },
   createReservationForm: async (req: Request, res: Response) => {
     try {
-      // Fetch data needed for the reservation form
+     
       const books = await prisma.book.findMany();
-      const ucenikUsers = await prisma.user.findMany(); // Fetch all users
+      const ucenikUsers = await prisma.user.findMany();
       const cancellationReasons = await prisma.cancellationReason.findMany();
-
+  
+/*       res.json({
+        books,
+        ucenikUsers,
+        cancellationReasons,
+      
+      }); */
       res.render("rezervacije/rezervisiKnjigu", {
         books,
         ucenikUsers,
         cancellationReasons,
-        // Pass any other data you need here
+        csrfToken: req.csrfToken(), 
       });
     } catch (error: any) {
+      console.error("Error while fetching data for reservation form:", error);
+  
       const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske u kontroleru trezervacija";
-      res.status(500).json({ error: "Doslo je do greske tokom kreiranja rezervacije, u kontroleru rezervacija", details: errorMessage });
+      res.status(500).json({ error: "Doslo je do greske tokom prikazivanja forme rezervacije, u kontroleru rezervacija", details: errorMessage });
     }
   },
+  
   
   
 

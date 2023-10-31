@@ -126,6 +126,7 @@
             <!-- Space for content -->
             <div class="scroll height-content section-content">
                 <form id="reservationForm" class="text-gray-700 forma">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="flex flex-row ml-[30px]">
                 
                         <ul id="bookDetailsList">
@@ -151,15 +152,16 @@
                             <h3 class="mt-[20px] mb-[10px]">Rezervisi knjigu</h3>
                             <div class="mt-[20px]">
                                 <p>Select book <span class="text-red-500">*</span></p>
-                                <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"  id="bookReservation" onchange="getSelectedBookDetails()">
+                                <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" id="bookReservation" onchange="getSelectedBookDetails()">
                                     <option disabled selected></option>
                                     <% books.forEach(function(book) { %>
-                                        <% if (book.quantity_count - book.rented_count - book.reserved_count > 0) { %>
-                                            <option value="<%= book.id %>"><%= book.title %> - <%= book.author %></option>
-                                        <% } %>
+                                      <% if (book.quantity_count - book.rented_count - book.reserved_count > 0) { %>
+                                        <option value="<%= book.id %>" data-book-id="<%= book.id %>"><%= book.title %> - <%= book.author %></option>
+                                      <% } %>
                                     <% }); %>
-                                </select>
-                                <div id="validateBookReservation"></div>
+                                  </select>
+                                  
+                              <!--   <div id="validateBookReservation"></div> -->
                             </div>
                             
                             <div class="mt-[20px]">
@@ -171,7 +173,7 @@
                                             <option value="<%= user.id + '|' + user.name %>"><%= user.id %> - <%= user.name %></option>
                                         <% }); %>
                                     </select>
-                                    <div id="validateUcenikRezervisanje"></div>
+                                  <!--  <div id="validateUcenikRezervisanje"></div>-->
                                 </div>
                                 
                                 <div class="mt-[20px]">
@@ -182,7 +184,7 @@
                                             <option value="<%= user.id + '|' + user.name %>"><%= user.id %> - <%= user.name %></option>
                                         <% }); %>
                                     </select>
-                                    <div id="validateUcenikRezervisanje"></div>
+                                 <!--    <div id="validateUcenikRezervisanje"></div> -->
                                 </div>
                             </div>
                             <div class="mt-[20px]">
@@ -261,22 +263,46 @@
 
 </body>
 <script>
-    async function getSelectedBookDetails() {
-      const bookId = document.getElementById('bookReservation').value;
-  
-      if (bookId) {
-        try {
-          const response = await fetch(`/books/${bookId}`);
+async function getSelectedBookDetails() {
+  const bookSelect = document.getElementById('bookReservation');
+  const selectedOption = bookSelect.options[bookSelect.selectedIndex];
+
+  if (selectedOption) {
+    const bookId = selectedOption.value;
+    document.getElementById('bookId').value = bookId;
+
+    if (bookId) {
+      try {
+        const response = await fetch(`books/details/${bookId}`);
+     
+   
+if (response.ok) {
+  try {
+    const bookDetails = await response.json(); // Read and parse the response body as JSON
+    updateBookDetailsInForm(bookDetails);
+  } catch (error) {
+    console.error('Error parsing JSON response:', error);
+  }
+} else {
+  console.error('Error fetching book details. Status:', response.status);
+}
+
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
           const bookDetails = await response.json();
-  
-          // Now you have the details of the selected book, update the UI as needed
           updateBookDetailsInForm(bookDetails);
-        } catch (error) {
-          console.error('Error fetching book details:', error);
+        } else {
+          console.error('Error: Response is not JSON.');
         }
+      } catch (error) {
+        console.error('Error fetching book details:', error);
       }
     }
-  
+  }
+}
+
+
+
     function updateBookDetailsInForm(bookDetails) {
       // Update the ul list with the book details
       const bookDetailsList = document.getElementById('bookDetailsList');
@@ -347,7 +373,7 @@
       close_date: new Date(document.getElementById('close_date').value),
       // ... add other form fields
     };
-
+    console.log('bookId from form:', document.getElementById('bookId').value);
     const bookId = parseInt(document.getElementById('bookId').value, 10);
 
     if (!isNaN(bookId)) {

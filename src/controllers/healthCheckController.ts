@@ -71,7 +71,7 @@ export async function getHealthCheck(req: Request, res: Response) {
 }
 
 export const restartServer = (req: Request, res: Response) => {
-
+// treba instalirati npm install child_process
     const exec = require('child_process').exec;
     exec('npm restart', (error, stdout, stderr) => {
         if (error) {
@@ -83,3 +83,5 @@ export const restartServer = (req: Request, res: Response) => {
         }
     });
 };
+//moze se dodati i npm install os-utils
+//radi mjerenja CPU % opterecenja,totalMemory,usedMemory,freeMemory...
