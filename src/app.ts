@@ -12,6 +12,7 @@ import mainRouter from "./routes/mainRoutes";
 import settingsRouter from "./routes/settingsRoutes";
 import dashBoardRouter from  "./routes/dashBoardRoutes";
 import rentBookRouter from  "./routes/rentBookRouter";
+import healthCheckRouter from  "./routes/healthCheckRouter";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -65,6 +66,7 @@ app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);
 app.use("/", ReservationRouter);
 app.use("/", rentBookRouter);
+app.use("/health", healthCheckRouter);
 
 
 app.use(errorHandlerMiddleware);
