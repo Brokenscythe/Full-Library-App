@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Health Check</title>
+    <title>Online Library :: Health Check</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -54,7 +54,7 @@
             <p>Poruka: <%= healthcheck.message %></p>
         </div>
         <div class="uptime">
-            <p>Uptime: <%= healthcheck.uptime.years %> years, <%= healthcheck.uptime.months %> months, <%= healthcheck.uptime.days %> days, <%= healthcheck.uptime.hours %> hours, <%= healthcheck.uptime.minutes %> minutes, <%= healthcheck.uptime.seconds %> seconds</p>
+            <p>Uptime: <%= healthcheck.uptime.years %> godina, <%= healthcheck.uptime.months %> mjeseco, <%= healthcheck.uptime.days %> dana, <%= healthcheck.uptime.hours %> sati, <%= healthcheck.uptime.minutes %> minuta, <%= healthcheck.uptime.seconds %> sekundi</p>
         </div>
         <div class="responsetime">
             <p>Response Time: <span id="responseTime"><%= healthcheck.responsetime %></span> ms</p>
