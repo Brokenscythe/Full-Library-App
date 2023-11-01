@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 
 const db = new PrismaClient();
 
-class User {
+class Librarian {
   name: string = "";
   username: string = "";
   email: string = "";
@@ -38,10 +38,10 @@ class User {
     this.photo = data.photo || "";
     this.id = data.id;
   }
-  static async getAllUsers() {
+  static async getAllLibrarians() {
     const userType = await db.userType.findFirst({
       where: {
-        name: "Ucenik",
+        name: "Bibliotekar",
       },
     });
     return db.user.findMany({
@@ -53,8 +53,8 @@ class User {
       },
     });
   }
-  static async getUser(id: number) {
-    const user = await db.user.findUnique({
+  static async getLibrarian(id: number) {
+    const librarian = await db.user.findUnique({
       where: {
         id,
       },
@@ -71,12 +71,12 @@ class User {
         },
       },
     });
-    if (!user) {
-      throw new Error("User not found");
+    if (!librarian) {
+      throw new Error("Librarian not found");
     }
-    const lastLoginDate = user.logins[0]?.date || null;
+    const lastLoginDate = librarian.logins[0]?.date || null;
     return {
-      ...user,
+      ...librarian,
       lastLoginDate,
     };
   }
@@ -84,7 +84,7 @@ class User {
     const hashedPassword = await bcrypt.hash(this.password, 12);
     const userType = await db.userType.findFirst({
       where: {
-        name: "Ucenik",
+        name: "Bibliotekar",
       },
     });
     if (!userType) {
@@ -162,6 +162,10 @@ class User {
     }
   }
   static async changePassword(userId: number, newPassword: string) {
+    if (!newPassword || newPassword.trim() === "") {
+      throw new Error("New password is empty or invalid.");
+    }
+
     try {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
       await db.user.update({
@@ -175,48 +179,5 @@ class User {
       throw new Error("Failed to change password");
     }
   }
-
-  async existsAlready() {
-    const existingUser = await db.user.findFirst({
-      where: {
-        OR: [
-          {
-            username: this.username,
-          },
-          {
-            email: this.email,
-          },
-          {
-            JMBG: this.JMBG,
-          },
-        ],
-      },
-    });
-    return !!existingUser;
-  }
-  hasMatchingPassword(hashedPassword) {
-    return bcrypt.compare(this.password, hashedPassword);
-  }
-  hasMatchingUsername() {
-    return db.user.findFirst({
-      where: {
-        username: this.username,
-      },
-    });
-  }
-  hasMatchingEmail() {
-    return db.user.findFirst({
-      where: {
-        email: this.email,
-      },
-    });
-  }
-  async hasMatchingJMBG() {
-    return db.user.findFirst({
-      where: {
-        JMBG: this.JMBG,
-      },
-    });
-  }
 }
-export default User;
+export default Librarian;

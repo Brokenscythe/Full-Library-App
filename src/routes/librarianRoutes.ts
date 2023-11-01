@@ -1,22 +1,22 @@
 import express from "express";
-import * as userService from "../controllers/user-controllers/userController";
-const userRouter = express.Router();
+import * as librarianService from "../controllers/librarian-controllers/librarianController";
+const librarianRouter = express.Router();
 import configuredMulterMiddleware from "../middlewares/image-upload";
 
-userRouter.get("/ucenik", userService.getAllUsers);
+librarianRouter.get("/bibliotekari", librarianService.getAllLibrarians);
 
-userRouter.get("/editUcenik/:id", userService.getEditUser);
+librarianRouter.get("/editBibliotekar/:id", librarianService.getEditLibrarian);
 
-userRouter.get("/ucenikProfile/:id", userService.getUser);
+librarianRouter.get("/bibliotekarProfile/:id", librarianService.getLibrarian);
 
-userRouter.get("/noviUcenik", userService.getNewUser);
+librarianRouter.get("/noviBibliotekar", librarianService.getNewLibrarian);
 
-userRouter.post("/noviUcenik", configuredMulterMiddleware, userService.addUser);
+librarianRouter.post("/noviBibliotekar", configuredMulterMiddleware, librarianService.addLibrarian);
 
-userRouter.post("/editUcenik/:id", configuredMulterMiddleware, userService.updateUser);
+librarianRouter.post("/editBibliotekar/:id", configuredMulterMiddleware, librarianService.updateLibrarian);
 
-userRouter.post("/ucenikProfile/:id", userService.updatePassword);
+librarianRouter.post("/bibliotekarProfile/:id", librarianService.updatePassword);
 
-userRouter.delete("/deleteUcenik/:id", userService.deleteUser);
+librarianRouter.delete("/deleteBibliotekar/:id", librarianService.deleteLibrarian);
 
-export default userRouter;
+export default librarianRouter;

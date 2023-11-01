@@ -11,6 +11,7 @@ import bookRouter from "./routes/bookRoutes";
 import mainRouter from "./routes/mainRoutes";
 import settingsRouter from "./routes/settingsRoutes";
 import userRouter from "./routes/userRoutes";
+import librarianRouter from "./routes/librarianRoutes";
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
 
@@ -48,6 +49,7 @@ app.use(checkAuthStatusMiddleware);
 app.use("/", authRouter);
 app.use("/", mainRouter);
 app.use("/", userRouter);
+app.use("/", librarianRouter);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);
