@@ -477,6 +477,24 @@ if (response.ok) {
 
   </script> -->
   
+  <script>
+    // Funkcija koja vadio query paramatera iz URL adrese
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
   
+    // uzmi bookId iz URL adrese
+    const bookId = getQueryParam('bookId');
+  
+    // izaberi opciju u select baziranu na izvadjenom bookId-u
+    const select = document.getElementById('bookReservation');
+    if (bookId) {
+      const option = select.querySelector(`[value="${bookId}"]`);
+      if (option) {
+        option.setAttribute('selected', 'selected');
+      }
+    }
+  </script>
 
 </html>
