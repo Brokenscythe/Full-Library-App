@@ -62,6 +62,7 @@ const reservationController = {
 
 
   createReservationForm: async (req: Request, res: Response) => {
+    const bookId = req.query.bookId as string;
     try {
      
       const books = await prisma.book.findMany();
