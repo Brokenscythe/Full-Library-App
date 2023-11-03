@@ -156,8 +156,8 @@ const reservationController = {
         res.status(404).json({ error: "Rezervacija nije nadjenja" });
       } else {
         // postman za kontrolu
-        res.status(200).json({ reservation });
-       // res.render('rezervacije/rezervisiKnjigu', { reservation });
+      //  res.status(200).json({ reservation });
+        res.render('rezervacije/rezervacijaDetalji', { reservation });
       }
     } catch (error: any) {
       const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske u kontroleru trezervacija";

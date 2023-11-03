@@ -122,7 +122,36 @@ const daysDifference = Math.floor(hoursDifference / 24);
       res.status(500).send('Internal Server Error');
     }
   }
+  export async function getAllActivities(req: Request, res: Response) {
+    try {
+      const activities = await prisma.$queryRaw`
+      SELECT 
+        r.reservation_date,
+        r.request_date,
+        u1.name as madeByUserName,
+        u1.email as madeByUserEmail,
+        u1.username as madeByUserUsername,
+        u1.photo as madeByUserPhoto,
+        u2.name as madeForUserName,
+        u2.email as madeForUserEmail,
+        u2.username as madeForUserUsername,
+        u2.photo as madeForUserPhoto
+      FROM reservation r
+      JOIN user u1 ON r.reservationMadeByUserId = u1.id
+      JOIN user u2 ON r.reservationMadeForUserId = u2.id
+      WHERE r.reservationMadeByUserId = u1.id
+      ORDER BY r.reservation_date DESC
+      LIMIT 35
+    `;
   
+      res.render('dashboard/dashboardAktivnost', { activities });
+    } catch (error) {
+      console.error('Error fetching activities:', error);
+      res.status(500).send('Internal Server Error');
+    } finally {
+      await prisma.$disconnect();
+    }
+  }
   function formatirajDatumToDdMmYyyy(date) {
     const day = date.getDate().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0');

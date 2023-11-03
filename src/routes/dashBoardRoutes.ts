@@ -1,9 +1,13 @@
 import express from 'express';
-import { getReservationsData } from '../controllers/dashBoardController'; 
+import { getReservationsData,getAllActivities } from '../controllers/dashBoardController'; 
 
 const router = express.Router();
 
 
 router.get('/', getReservationsData);
+router.get('/activities-all', getAllActivities);
+
+
+
 
 export default router;
