@@ -7,46 +7,60 @@ const reservationController = {
   createReservation: async (req: Request, res: Response) => {
     try {
       const { bookId, reservationMadeForUserId, reservationMadeByUserId, closureReasonId, request_date, reservation_date, close_date, closeUserId } = req.body;
-  
+
+      // Convert dates to ISO-8601 format
+      const requestDateISO = new Date(request_date).toISOString();
+      const reservationDateISO = new Date(reservation_date).toISOString();
+      const closeDateISO = new Date(close_date).toISOString();
+
       const reservation = await prisma.reservation.create({
         data: {
           book: {
             connect: {
-              id: bookId,
+              id: parseInt(bookId, 10), // Parse bookId as an integer
             },
           },
           reservationMadeForUser: {
             connect: {
-              id: reservationMadeForUserId,
+              id: parseInt(reservationMadeForUserId, 10),
             },
           },
           reservationMadeByUser: {
             connect: {
-              id: reservationMadeByUserId,
+              id: parseInt(reservationMadeByUserId, 10),
             },
           },
           closeUser: {
             connect: {
-              id: closeUserId,
+              id: 1,
             },
           },
           closureReason: {
             connect: {
-              id: closureReasonId,
+              id: parseInt(closureReasonId, 10),
             },
           },
-          request_date,
-          reservation_date,
-          close_date,
+          request_date: requestDateISO,
+          reservation_date: reservationDateISO,
+          close_date: closeDateISO,
         }
       });
-  
-      res.status(201).json({ message: "Rezervisana knjiga uspjesno!", reservation });
+
+    //  res.status(201).json({ message: "Rezervisana knjiga uspjesno!", reservation });
+   // req.flash('success', 'Rezervisana knjiga uspjesno!');
+   //TypeScript ne prepoznaje svojstvo flash na objektu Request jer to svojstvo nije standardno definisano u TypeScript tipovima za Express.Treba custom tip"
+
+
+    // Redirect to the /reservations page
+    res.redirect('/reservations');
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske u kontroleru trezervacija";
+      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske u kontroleru rezervacija";
+      console.log(errorMessage);
       res.status(500).json({ error: "Doslo je do greske tokom kreiranja rezervacije, u kontroleru rezervacija", details: errorMessage });
     }
   },
+
+
   createReservationForm: async (req: Request, res: Response) => {
     try {
      

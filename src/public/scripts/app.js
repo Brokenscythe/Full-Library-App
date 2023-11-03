@@ -2486,7 +2486,7 @@ $('.checkOthers').change(function () {
     $('tr').children().eq(3).html('<a class="text-blue-800 border-l-2 border-gray-200" href="otpisiKnjigu.ejs"><i class="fas fa-level-up-alt ml-4"></i>  Otpisi knjigu</a>')
     $('tr').children().eq(4).html('<a class="text-blue-800" href="izdajKnjigu.ejs"><i class="far fa-hand-scissors"></i>  Izdaj knjigu</a>')
     $('tr').children().eq(5).html('<a class="text-blue-800" href="vratiKnjigu.ejs"><i class="fas fa-redo-alt"></i>  Vrati knjigu</a>')
-    $('tr').children().eq(6).html('<a class="text-blue-800" href="otpisiKnjigu.ejs"><i class="far fa-calendar-check"></i>  Rezervisi knjigu</a>')
+    $('tr').children().eq(6).html('<a class="text-blue-800" href="/reservations"><i class="far fa-calendar-check"></i>  Rezervisi knjigu</a>')
     $('tr').children().eq(7).html('<a class="text-blue-800 border-l-2 border-gray-200" href="otpisiKnjigu.ejs"><i class="fa fa-trash ml-4"></i>  Izbrisi knjigu</a>')
     $('tr').children().eq(8).html('')
   } else if (checked >= 2) {

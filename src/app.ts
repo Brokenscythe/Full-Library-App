@@ -4,6 +4,7 @@ import path from "path";
 import csurf from "csurf";
 import methodOverride from "method-override";
 import bodyParser from "body-parser";
+import flash from 'connect-flash';
 
 
 //ROUTES
@@ -14,6 +15,8 @@ import settingsRouter from "./routes/settingsRoutes";
 import dashBoardRouter from  "./routes/dashBoardRoutes";
 import rentBookRouter from  "./routes/rentBookRouter";
 import healthCheckRouter from  "./routes/healthCheckRouter";
+import userRouter from "./routes/userRoutes";
+import librarianRouter from "./routes/librarianRoutes";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -27,9 +30,9 @@ import AuthorRouter from "./routes/authorRoutes";
 
 
 const app = express();
-app.use(methodOverride("_method"));
-const PORT = 3000;
 
+const PORT = 3000;
+app.use(methodOverride("_method"));
 //parsira req.body
 app.use(bodyParser.json());
 
@@ -49,18 +52,27 @@ app.use(
   session({
     secret: 'cokolada', 
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
   })
 );
 app.use(csurf());
-
+app.use(flash());
 app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
+
+//bez ovoga 1000x put greska oko tokena
+app.use(function (req, res, next) {
+  req.csrfToken();
+  res.locals._csrf = req.csrfToken();
+  next();
+});
 
 //ROUTES
 app.use("/", authRouter);
 app.use('/dashboard',dashBoardRouter,checkAuthStatusMiddleware);
 //app.use('/dashboard',dashBoardRouter);
+app.use("/", userRouter);
+app.use("/", librarianRouter);
 app.use("/", mainRouter);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);

@@ -1,26 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import { PrismaClient } from '@prisma/client';
-// Models
+import bcrypt from "bcrypt";
 import User from "../../models/userModel";
 import UserLoginsService from "../../models/userLogins";
-// Utils
 import authUtil from "../../utils/authentication";
 import validation from "../../utils/validation";
 import sessionFlash from "../../utils/session-flash";
-import { SessionData } from 'express-session';
-// Interfaces
-import { UserData, loginData } from "../../interfaces/userData";
-const prisma = new PrismaClient();
-
-
-
-declare module 'express-session' {
-  interface SessionData {
-    userId: string;
-    userName?: string;
-    rememberToken?: string; 
-  }
-}
 
 export async function getRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -57,7 +41,7 @@ export async function getLogIn(req: Request, res: Response, next: NextFunction):
 }
 
 export async function signup(req: Request, res: Response): Promise<void | Response<any, Record<string, any>>> {
-  const enteredData: UserData = {
+  const enteredData = {
     username: req.body.username,
     name: req.body.name,
     email: req.body.email,
@@ -66,19 +50,13 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
     JMBG: req.body.jmbg,
   };
 
-  const newUser = new User({
-    username: req.body.username,
-    name: req.body.name,
-    email: req.body.email,
-    password: req.body.password,
-    JMBG: req.body.jmbg,
-  });
+  const newUser = new User(enteredData);
   try {
     const existsAlready = await newUser.existsAlready();
     if (existsAlready) {
       sessionFlash.flashDataToSession(
         req,
-        { error_message: "User already exists! Please check your username,email and JMBG!", ...enteredData },
+        { error_message: "User already exists! Please check your username, email, and JMBG!", ...enteredData },
         function () {
           res.redirect("/register");
         }
@@ -113,11 +91,12 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
     }
     await newUser.register();
   } catch (error) {
-    console.error("Error during registartion:", error);
+    console.error("Error during registration:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
   res.redirect("/login");
 }
+
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -126,7 +105,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     });
     return;
   }
-  const checkUser = new User(email, password);
+  const checkUser = new User({ email, password });
   let existingUser;
   try {
     existingUser = await checkUser.hasMatchingEmail();
@@ -147,10 +126,7 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     return;
   }
 
-
- // req.session.userName = existingUser.username;
   const passwordIsCorrect = await checkUser.hasMatchingPassword(existingUser.password);
-
 
   if (!passwordIsCorrect) {
     sessionFlash.flashDataToSession(req, sessionErrorData, function () {
@@ -173,5 +149,3 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
 export async function logout(req: Request, res: Response, next: NextFunction): Promise<void> {
   authUtil.destroyUserSession(req, res);
 }
-
-

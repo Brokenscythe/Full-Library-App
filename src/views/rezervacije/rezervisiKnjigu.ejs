@@ -44,8 +44,8 @@
                         </div>
                         <div class="pl-[15px]  flex flex-col">
                             <div>
-                                <h1>
-                                    Tom Sojer
+                               <h1 id="bookTitle">
+                                    -----
                                 </h1>
                             </div>
                             <div>
@@ -60,16 +60,13 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/books"
-                                                class="text-[#2196f3] hover:text-blue-600">
-                                                KNJIGA-467
-                                            </a>
+                                          <a href="/books" class="text-[#2196f3] hover:text-blue-600" id="bookId2">KNJIGA-</a>
                                         </li>
                                         <li>
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="rezervisiKnjigu.ejs"
+                                            <a href="/reservations-add"
                                                 class="text-[#2196f3] hover:text-blue-600">
                                                 Rezervisi knjigu
                                             </a>
@@ -125,128 +122,108 @@
             </div>
             <!-- Space for content -->
             <div class="scroll height-content section-content">
-                <form id="reservationForm" class="text-gray-700 forma">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <div class="flex flex-row ml-[30px]">
-                
-                        <ul id="bookDetailsList">
-                            <!-- Book details will be dynamically added here -->
-                          </ul>
-                      
-                          <input type="hidden" id="bookId" name="bookId">
-                          <input type="hidden" name="id" id="id">
-                          <input type="hidden" name="title" id="title">
-                          <input type="hidden" name="page_count" id="page_count">
-                          <input type="hidden" name="isbn" id="isbn">
-                          <input type="hidden" name="publisherId" id="publisherId">
-                          
-                          <input type="hidden" name="letterId" id="letterId">
-                          <input type="hidden" name="languageId" id="languageId">
-                          <input type="hidden" name="bindingId" id="bindingId">
-                          
-                          <input type="hidden" name="closeUserId" id="closeUserId">
-                          <input type="hidden" name="closureReasonId" id="closureReasonId">
-
-              
-                        <div class="w-[50%] mb-[100px]">
-                            <h3 class="mt-[20px] mb-[10px]">Rezervisi knjigu</h3>
-                            <div class="mt-[20px]">
-                                <p>Select book <span class="text-red-500">*</span></p>
-                                <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" id="bookReservation" onchange="getSelectedBookDetails()">
-                                    <option disabled selected></option>
-                                    <% books.forEach(function(book) { %>
-                                      <% if (book.quantity_count - book.rented_count - book.reserved_count > 0) { %>
-                                        <option value="<%= book.id %>" data-book-id="<%= book.id %>"><%= book.title %> - <%= book.author %></option>
-                                      <% } %>
-                                    <% }); %>
-                                  </select>
-                                  
-                              <!--   <div id="validateBookReservation"></div> -->
-                            </div>
-                            
-                            <div class="mt-[20px]">
-                                <div class="mt-[20px]">
-                                    <p>Izaberi ucenika za koga se knjiga rezervise <span class="text-red-500">*</span></p>
-                                    <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="reservationMadeForUserId" id="reservationMadeForUserId" onclick="clearErrorsUcenikRezervisanje()">
-                                        <option disabled selected></option>
-                                        <% ucenikUsers.forEach(function(user) { %>
-                                            <option value="<%= user.id + '|' + user.name %>"><%= user.id %> - <%= user.name %></option>
-                                        <% }); %>
-                                    </select>
-                                  <!--  <div id="validateUcenikRezervisanje"></div>-->
-                                </div>
-                                
-                                <div class="mt-[20px]">
-                                    <p>Izaberi ko je rezervisao knjigu: <span class="text-red-500">*</span></p>
-                                    <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="reservationMadeByUserId" id="reservationMadeByUserId" onclick="clearErrorsUcenikRezervisanje()">
-                                        <option disabled selected></option>
-                                        <% ucenikUsers.forEach(function(user) { %>
-                                            <option value="<%= user.id + '|' + user.name %>"><%= user.id %> - <%= user.name %></option>
-                                        <% }); %>
-                                    </select>
-                                 <!--    <div id="validateUcenikRezervisanje"></div> -->
-                                </div>
-                            </div>
-                            <div class="mt-[20px]">
-                                <p>Datum rezervisanja <span class="text-red-500">*</span></p>
-                                <label class="text-gray-700" for="date">
-                                    <input type="date" name="reservation_date" id="datumRezervisanja"
-                                        class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                        onclick="clearErrorsDatumRezervisanja()" />
-                                </label>
-                                <div id="validateDatumRezervisanja"></div>
-                            </div>
-                            
-                            <div class="mt-[20px]">
-                                <p>Datum za preuzimanje <span class="text-red-500">*</span></p>
-                                <label class="text-gray-700" for="date">
-                                    <input type="date" name="request_date" id="request_date"
-                                        class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                        onclick="clearErrorsDatumRezervisanja()" />
-                                </label>
-                                <div id="validateDatumRezervisanja"></div>
-                            </div>
-
-                            <div class="mt-[20px]">
-                                <p>Datum za zatvaranje <span class="text-red-500">*</span></p>
-                                <label class="text-gray-700" for="date">
-                                    <input type="date" name="close_date" id="close_date"
-                                        class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                        onclick="clearErrorsDatumRezervisanja()" />
-                                </label>
-                                <div id="validateDatumRezervisanja"></div>
-                            </div>
-                        </div>
+              <form method="POST" action="/reservations" class="text-gray-700 forma">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" id="bookId" name="bookId" value="">
+                <div class="flex flex-row ml-[30px]">
+                    <div class="w-[50%] mb-[100px]">
+                        <h3 class="mt-[20px] mb-[10px]">Rezerviši knjigu</h3>
                         <div class="mt-[20px]">
-                            <p>Select Cancellation Reason <span class="text-red-500">*</span></p>
-                            <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="closureReasonId" id="closureReasonId" onclick="clearErrorsUcenikRezervisanje()">
-                                <option disabled selected></option>
-                                <% cancellationReasons.forEach(function(reason) { %>
-                                    <option value="<%= reason.id %>"><%= reason.name %></option>
-                                <% }); %>
+                          <p>Select book <span class="text-red-500">*</span></p>
+                          <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" id="bookReservation" onchange="getSelectedBookDetails()">
+                              <option disabled selected></option>
+                              <% books.forEach(function(book) { %>
+                                <% if (book.quantity_count - book.rented_count - book.reserved_count > 0) { %>
+                                  <option value="<%= book.id %>" data-book-id="<%= book.id %>"><%= book.title %> - <%= book.author %></option>
+                                <% } %>
+                              <% }); %>
                             </select>
                             
-                            <div id="validateClosureReason"></div>
+                        <!--   <div id="validateBookReservation"></div> -->
+                      </div>
+                        <div class="mt-[20px]">
+                            <p>Izaberi učenika za koga se knjiga rezerviše <span class="text-red-500">*</span></p>
+                            <select
+                                class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                name="reservationMadeForUserId" id="ucenikRezervisanje" onclick="clearErrorsUcenikRezervisanje()">
+                                <option disabled selected></option>
+                                <% ucenikUsers.forEach((ucenik) => { %>
+                                    <option value="<%= ucenik.id %>">
+                                        <%= ucenik.name %>
+                                    </option>
+                                <% }); %>
+                            </select>
+                            <div id="validateUcenikRezervisanje"></div>
                         </div>
-                    </div>
-                    
+                        <div class="mt-[20px]">
+                          <p>Izaberi ko je rezervisao knjigu: <span class="text-red-500">*</span></p>
+                          <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="reservationMadeByUserId" id="reservationMadeByUserId" onclick="clearErrorsUcenikRezervisanje()">
+                              <option disabled selected></option>
+                              <% ucenikUsers.forEach(function(user) { %>
+                                  <option value="<%= user.id + '|' + user.name %>"><%= user.id %> - <%= user.name %></option>
+                              <% }); %>
+                          </select>
+                       <!--    <div id="validateUcenikRezervisanje"></div> -->
+                      </div>
+                        <div class="mt-[20px]">
+                            <p>Datum rezervisanja <span class="text-red-500">*</span></p>
+                            <label class="text-gray-700" for="date">
+                                <input type="date" name="reservation_date" id="datumRezervisanja"
+                                    class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                    onclick="clearErrorsDatumRezervisanja()" />
+                            </label>
+                            <div id="validateDatumRezervisanja"></div>
+                        </div>
+                        <div class="mt-[20px]">
+                          <p>Datum request-a <span class="text-red-500">*</span></p>
+                          <label class="text-gray-700" for="date">
+                              <input type="date" name="request_date" id="datumRequesta"
+                                  class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                  onclick="clearErrorsDatumRezervisanja()" />
+                          </label>
+                          <div id="validateDatumRezervisanja"></div>
+                      </div>
 
-                    <div class="absolute bottom-0 w-full bg-white">
-                        <div class="flex flex-row">
-                            <div class="inline-block w-full text-right py-[7px] mr-[100px] text-white">
-                                <button type="button"
-                                    class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
-                                    Ponisti <i class="fas fa-times ml-[4px]"></i>
-                                </button>
-                                <button id="rezervisiKnjigu" type="submit"
-                                    class="btn-animation shadow-lg disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
-                                    onclick="validacijaRezervisanje()">
-                                    Rezervisi knjigu <i class="fas fa-check ml-[4px]"></i>
-                                </button>
-                            </div>
+                      <div class="mt-[20px]">
+                        <p>Datum zatvaranja <span class="text-red-500">*</span></p>
+                        <label class="text-gray-700" for="date">
+                            <input type="date" name="close_date" id="datumRequesta"
+                                class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                onclick="clearErrorsDatumRezervisanja()" />
+                        </label>
+                        <div id="validateDatumRezervisanja"></div>
+                    </div>
+                    <div class="mt-[20px]">
+                      <p>Select Cancellation Reason <span class="text-red-500">*</span></p>
+                      <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="closureReasonId" id="closureReasonId" onclick="clearErrorsUcenikRezervisanje()">
+                          <option disabled selected></option>
+                          <% cancellationReasons.forEach(function(reason) { %>
+                              <option value="<%= reason.id %>"><%= reason.name %></option>
+                          <% }); %>
+                      </select>
+                      
+                      <div id="validateClosureReason"></div>
+                  </div>
+                    </div>
+                </div>
+            
+                <div class="absolute bottom-0 w-full bg-white">
+                    <div class="flex flex-row">
+                        <div class="inline-block w-full text-right py-[7px] mr-[100px] text-white">
+                            <button type="button"
+                                class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
+                                Ponisti <i class="fas fa-times ml-[4px]"></i>
+                            </button>
+                            <button id="rezervisiKnjigu" type="submit"
+                                class="btn-animation shadow-lg disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
+                                onclick="validacijaRezervisanje()">
+                                Rezerviši knjigu <i class="fas fa-check ml-[4px]"></i>
+                            </button>
                         </div>
                     </div>
-                </form>
+                </div>
+            </form>
+            
             </div>
         </section>
         <!-- End Content -->
@@ -262,7 +239,74 @@
     <!-- End Scripts -->
 
 </body>
+
+
+<!-- Your form HTML -->
+
+
 <script>
+
+  function getSelectedBookDetails() {
+    const select = document.getElementById('bookReservation');
+    const selectedOption = select.options[select.selectedIndex];
+    const bookIdElement = document.getElementById('bookId');
+    const bookIdElement2 = document.getElementById('bookId2');
+    const bookTitleElement = document.getElementById('bookTitle');
+    const requestDateInput = document.getElementById('request_date');
+    const reservationDateInput = document.getElementById('reservation_date');
+    const closeDateInput = document.getElementById('close_date');
+
+    if (!selectedOption) {
+      // Handle the case when no book is selected
+      return;
+    }
+
+    const bookId = selectedOption.value;
+
+    //AJAX za detalje o knjizi
+    fetch(`/books/details/${bookId}`)
+      .then((response) => response.json())
+      .then((bookDetails) => {
+        console.log(bookDetails);
+
+        // bookId
+        if (bookIdElement) {
+          bookIdElement.value = parseInt(bookDetails.book.id, 10);
+          bookIdElement.textContent = parseInt(bookDetails.book.id, 10);
+        }
+
+        if (bookIdElement2) {
+          bookIdElement2.textContent = "KNJIGA-" + parseInt(bookDetails.book.id, 10);
+
+        }
+
+        //naslov knjige
+        if (bookTitleElement) {
+          bookTitleElement.textContent = bookDetails.book.title;
+        }
+
+        // odje moze jos
+        // ...
+        
+        // datumi u ISO-8601 format
+        if (requestDateInput && reservationDateInput && closeDateInput) {
+          requestDateInput.value = new Date().toISOString();
+          reservationDateInput.value = new Date().toISOString();
+          closeDateInput.value = new Date().toISOString();
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching book details:', error);
+      });
+  }
+</script>
+
+
+
+
+
+
+<!-- <script>
 async function getSelectedBookDetails() {
   const bookSelect = document.getElementById('bookReservation');
   const selectedOption = bookSelect.options[bookSelect.selectedIndex];
@@ -431,7 +475,7 @@ if (response.ok) {
   // Other initialization code or event listeners can be added here
 });
 
-  </script>
+  </script> -->
   
   
 
