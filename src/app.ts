@@ -5,6 +5,8 @@ import csurf from "csurf";
 import methodOverride from "method-override";
 import bodyParser from "body-parser";
 import flash from 'connect-flash';
+import compress from 'compression';
+
 
 
 //ROUTES
@@ -27,6 +29,7 @@ import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
+import CORS from './middlewares/CORS';
 
 
 const app = express();
@@ -43,16 +46,32 @@ app.set('views', path.join(__dirname, 'views'));
 //SERVING STATIC FILES
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
+//CORS
+CORS.mount(app);
+//Limiter
+app.use(express.urlencoded({
+  limit: '10mb', // limit fajlova na 10MB.
+  parameterLimit: 1 * 1024 * 1024, //  parameter limit = 1MB..sluzi za ogranicenje velicine paramatara u reequstima,sluzi za prevenciju DoS napada
+  extended: false
+}));
+
+app.use(compress({
+  level: 9, // Maksimalan nivo kompresije
+}));
+app.disable('x-powered-by');
 
 const sessionConfig = createSessionConfig();
 
 app.use(session(sessionConfig));
 
+// sesija
 app.use(
   session({
-    secret: 'cokolada', 
+    secret: 'cokolada',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, 
+    name: 'Bibliotek4',
   })
 );
 app.use(csurf());
@@ -84,6 +103,27 @@ app.use("/health", healthCheckRouter);
 
 app.use(errorHandlerMiddleware);
 
-app.listen(PORT, () => {
-  console.log(`Server started at port ${PORT}.`);
+
+
+const server = app.listen(PORT, () => {
+  console.log(`Server radi na portu ${PORT}`);
 });
+
+process.on('SIGTERM', () => {
+  console.log('Primljen SIGTERM signal. Lagano gasim server...');
+
+  // Ugasi server i oslobodi port.
+  server.close((err) => {
+    if (err) {
+      console.error('Greska u gasenju servera:', err);
+      process.exit(1); // Ugasi process sa error kodom.
+    } else {
+      console.log('Server ugasen.Izlazim..');
+      process.exit(0); // Uspjesno ugasi proces.
+    }
+  });
+});
+
+
+
+

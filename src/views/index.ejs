@@ -195,6 +195,13 @@
     setInterval(updateBackground, 24 * 60 * 60 * 1000); // tajmer za promjenu 24 sata
 
 </script> -->
+<script>
+    // dodaj 'loading="lazy"' na sve 'img' tagove
+    const imgTags = document.querySelectorAll('img');
+    imgTags.forEach(img => {
+        img.setAttribute('loading', 'lazy');
+    });
+</script>
 </body>
 
 </html>

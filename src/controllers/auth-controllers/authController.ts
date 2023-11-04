@@ -5,6 +5,7 @@ import UserLoginsService from "../../models/userLogins";
 import authUtil from "../../utils/authentication";
 import validation from "../../utils/validation";
 import sessionFlash from "../../utils/session-flash";
+import { UserData, loginData } from "../../interfaces/userData";
 
 export async function getRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -129,11 +130,15 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
   const passwordIsCorrect = await checkUser.hasMatchingPassword(existingUser.password);
 
   if (!passwordIsCorrect) {
+    
+    
     sessionFlash.flashDataToSession(req, sessionErrorData, function () {
+     
       res.redirect("dashboard");
     });
     return;
   }
+  
 
   authUtil.createUserSession(req, existingUser, async function () {
     try {

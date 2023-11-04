@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
 
+
 interface UserData {
   username: string;
-  name: string;
+  name: string ;
   email: string;
   password: string;
   confirmPassword: string;
