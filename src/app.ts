@@ -9,6 +9,7 @@ import compress from 'compression';
 
 
 
+
 //ROUTES
 import authRouter from "./routes/authRoutes";
 import bookRouter from "./routes/bookRoutes";
@@ -30,7 +31,9 @@ import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
 import CORS from './middlewares/CORS';
+//import { setupCluster } from './middlewares/clusterSetup';
 
+require('dotenv').config();
 
 const app = express();
 
@@ -54,7 +57,7 @@ app.use(express.urlencoded({
   parameterLimit: 1 * 1024 * 1024, //  parameter limit = 1MB..sluzi za ogranicenje velicine paramatara u reequstima,sluzi za prevenciju DoS napada
   extended: false
 }));
-
+//Kompresija
 app.use(compress({
   level: 9, // Maksimalan nivo kompresije
 }));
@@ -70,7 +73,11 @@ app.use(
     secret: 'cokolada',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, 
+    cookie: {
+      httpOnly: true,         
+      sameSite: 'strict',     
+      secure: process.env.NODE_ENV === 'production' 
+    },
     name: 'Bibliotek4',
   })
 );
@@ -111,7 +118,10 @@ const server = app.listen(PORT, () => {
 
 process.on('SIGTERM', () => {
   console.log('Primljen SIGTERM signal. Lagano gasim server...');
-
+// super za fresh start i memory mgmnt.Minusa ima dosta ali u ovom slucaju vrijeme inicijalizacije je duze
+for (const key in require.cache) {
+  delete require.cache[key];
+}
   // Ugasi server i oslobodi port.
   server.close((err) => {
     if (err) {

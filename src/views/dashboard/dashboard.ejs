@@ -52,11 +52,12 @@
       </div>
       <div class="">
         <p>
-          <a href="bibliotekarProfile" class="text-[#2196f3] hover:text-blue-600">
+          <a href="/bibliotekarProfile/<%= madeByUserId %>" class="text-[#2196f3] hover:text-blue-600">
             <%= madeByUserName ? madeByUserName : 'No activity recorded' %>
           </a>
+          
           je izdala knjigu <span class="font-medium"><%= title ? title : 'No activity recorded' %></span>
-          <a href="ucenikProfile" class="text-[#2196f3] hover:text-blue-600">
+          <a href="/ucenikProfile/<%= madeForUserId %>"  class="text-[#2196f3] hover:text-blue-600">
             <%= madeForUserName ? madeForUserName : 'No activity recorded' %>
           </a>
           dana <span class="font-medium"><%= reservation_date ? reservation_date : 'No activity recorded' %></span>

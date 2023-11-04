@@ -68,30 +68,35 @@ async function getIssuedBookCount(): Promise<number> {
       const title: string = 'naslov';
       const madeForUserName: string='User name';
       const reservation_date = formatirajDatumToDdMmYyyy(new Date());
+      const madeByUserId = 1; 
+      const madeForUserId = 9; 
+      
       
       
 
 
 
       const reservations = await prisma.$queryRaw`
-      SELECT 
-        r.reservation_date,
-        r.request_date,
-        u1.name as madeByUserName,
-        u1.email as madeByUserEmail,
-        u1.username as madeByUserUsername,
-        u1.photo as madeByUserPhoto,
-        u2.name as madeForUserName,
-        u2.email as madeForUserEmail,
-        u2.username as madeForUserUsername,
-        u2.photo as madeForUserPhoto
-      FROM reservation r
-      JOIN user u1 ON r.reservationMadeByUserId = u1.id
-      JOIN user u2 ON r.reservationMadeForUserId = u2.id
-      WHERE r.reservationMadeByUserId = u1.id
-      ORDER BY r.reservation_date DESC
-      LIMIT 5
+      SELECT
+  r.reservation_date,
+  r.request_date,
+  u1.id as madeByUserId,
+  u1.name as madeByUserName,
+  u1.email as madeByUserEmail,
+  u1.username as madeByUserUsername,
+  u1.photo as madeByUserPhoto,
+  u2.id as madeForUserId,
+  u2.name as madeForUserName,
+  u2.email as madeForUserEmail,
+  u2.username as madeForUserUsername,
+  u2.photo as madeForUserPhoto
+FROM reservation r
+JOIN user u1 ON r.reservationMadeByUserId = u1.id
+JOIN user u2 ON r.reservationMadeForUserId = u2.id
+ORDER BY r.reservation_date DESC
+LIMIT 5
     `;
+    
 const now = new Date();
 const reservationDate = new Date(reservation_date); 
 
@@ -115,6 +120,8 @@ const daysDifference = Math.floor(hoursDifference / 24);
         madeByUserName, 
         madeForUserName,
         reservation_date,
+       madeByUserId, // Include madeByUserId
+        madeForUserId, // Include madeForUserId
         relativeTime: daysDifference >= 1 ? `${daysDifference} dana prije` : `${hoursDifference} sati prije`,
       });
     } catch (error) {
