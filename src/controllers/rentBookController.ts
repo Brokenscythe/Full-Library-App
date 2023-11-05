@@ -13,7 +13,13 @@ const rentBookController = {
       const parsedRentUserId = parseInt(rentUserId, 10);
       const parsedRentStatusId = parseInt(rentStatusId, 10);
       const parsedBorrowUserId = parseInt(borrowUserId, 10);
-       // Log the received data to the console for debugging
+       // Log da vidim dje je greska
+
+        // vazda isto ISO-8601 DateTime format
+      const formattedIssueDate = new Date(issue_date).toISOString();
+      const formattedReturnDate = new Date(return_date).toISOString();
+
+
        console.log('Received Data:');
        console.log('bookId:', bookId);
        console.log('rentUserId:', rentUserId);
@@ -34,8 +40,8 @@ const rentBookController = {
               id: parsedRentUserId,
             },
           },
-          issue_date,
-          return_date,
+          issue_date: formattedIssueDate,
+          return_date: formattedReturnDate,
           rentStatus: {
             connect: {
               id: parsedRentStatusId,

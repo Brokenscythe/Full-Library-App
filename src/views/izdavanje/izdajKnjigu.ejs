@@ -70,7 +70,7 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href=/rent/display/<%= book.id %>"
+                                            <a href="/books/izdajKnjigu/<%= book.id %>"
                                                 class="text-[#2196f3] hover:text-blue-600">
                                                 Izdaj knjigu
                                             </a>
@@ -85,7 +85,7 @@
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                        <a href=/rent/display/<%= book.id %>" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
+                        <a href="/books/izdajKnjigu/<%= book.id %>" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
@@ -139,13 +139,23 @@
                                 <p>Izaberi ucenika koji zaduzuje knjigu <span class="text-red-500">*</span></p>
                                 <select
                                 class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                name="ucenik" id="ucenikIzdavanje" onchange="clearErrorsUcenikIzdavanje()">
+                                name="borrowUserId" id="ucenikIzdavanje" onchange="clearErrorsUcenikIzdavanje()">
                                 <option disabled selected>Odaberi ucenika</option>
                               </select>
                                 <div id="validateUcenikIzdavanje"></div>
                             </div>
+
+                            <div class="mt-[20px]">
+                                <p>Izaberi bibliotekara koji izdaje knjigu <span class="text-red-500">*</span></p>
+                                <select
+                                class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                name="rentUserId" id="bibliotekarIzdavanje" onchange="clearErrorsUcenikIzdavanje()">
+                                <option disabled selected>Odaberi ucenika</option>
+                              </select>
+                     
+                            </div>
                             <div class="mt-[20px] flex justify-between w-[90%]">
-                                <div class="w-[50%]">
+                                <div class="w-[33%]">
                                     <p>Datum izdavanja <span class="text-red-500">*</span></p>
                                     <label class="text-gray-700" for="datumIzdavanja">
                                       <input type="date" name="issue_date" id="datumIzdavanja" class="flex w-[90%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" onchange="clearErrorsDatumIzdavanja(); updateReturnDate();" />
@@ -153,13 +163,29 @@
                                     <div id="validateDatumIzdavanja"></div>
                                   </div>
                                   
-                                  <div class="w-[50%]">
+                                  <div class="w-[33%]">
                                     <p>Datum vracanja <span class="text-red-500">*</span></p>
                                     <label class="text-gray-700" for="datumVracanja">
                                         <input type="date" name="return_date" id="datumVracanja" class="flex w-[90%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" onchange="clearErrorsDatumVracanja();" required />
                                     </label>
                                     <div id="validateDatumVracanja"></div>
                                 </div>
+                                <div class="mt-[33]">
+                                    <p>Izaberi status iznajmljivanja <span class="text-red-500">*</span></p>
+                                    <select
+                                        class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                        name="rentStatusId" id="statusIznajmljivanja" onchange="clearErrorsStatusIznajmljivanja()">
+                                        <option value="0">0</option>
+                                        <option value="1" selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                    <div id="validateStatusIznajmljivanja"></div>
+                                </div>
+                                
                                 
                                   
                             </div>
@@ -213,24 +239,32 @@
     <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-          const selectElement = document.getElementById('ucenikIzdavanje');
-        
-          // skini usernameove putem AJAX-a
-          fetch('/api/users') //ruta samo za JSON 
-            .then((response) => response.json())
-            .then((data) => {
-              data.forEach((user) => {
-                const option = document.createElement('option');
-                option.value = user.name; 
-                option.textContent = user.name;
-                selectElement.appendChild(option);
-              });
-            })
-            .catch((error) => {
-              console.error(error);
-            });
-        });
+       document.addEventListener('DOMContentLoaded', function() {
+  const selectUcenik = document.getElementById('ucenikIzdavanje');
+  const selectBibliotekar = document.getElementById('bibliotekarIzdavanje');
+
+  // Fetch user data using AJAX
+  fetch('/api/users') // Update the route to match your Express route for fetching user data
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((user) => {
+        // Create an option element for each user
+        const option = document.createElement('option');
+        option.value = user.id; // Use the user's id as the value
+        option.textContent = user.name; // Display the user's name
+
+        // Append the option to the "Ucenik" select element
+        selectUcenik.appendChild(option);
+
+        // Clone the option for the "Bibliotekar" select element
+        selectBibliotekar.appendChild(option.cloneNode(true));
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
 
         function updateReturnDate() {
   const datumIzdavanjaInput = document.getElementById('datumIzdavanja');
