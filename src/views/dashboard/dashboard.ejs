@@ -3,13 +3,14 @@
 
 <head>
     <!-- Meta -->
+    <script src="../scripts/lazy-load-images.js"> </script>
     <%- include('../includes/layout/meta') %> 
 
 
     <!-- Styles -->
     <%- include('../includes/layout/styles') %> 
     <!-- End Styles -->
-    <script src="../scripts/lazy-load-images.js"></script>
+
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
@@ -37,9 +38,16 @@
                     <div class="mr-[30px]">
                         <h3 class="uppercase mb-[20px]">Aktivnosti</h3>
 <!-- Activity Cards -->
+<div>
+  <% if (typeof message !== 'undefined') { %>
+    <div class="alert alert-success">
+      <%= message %>
+    </div>
+  <% } %>
+</div>
 <div class="activity-card flex flex-row mb-[30px]">
     <div class="w-[60px] h-[60px]">
-      <img class="rounded-full" src="<%= madeByUserPhoto ? madeByUserPhoto : '/img/user_avatar.jpg' %>" alt="">
+      <img class="rounded-full" src="<%= madeByUserPhoto ? madeByUserPhoto : '/img/user_avatar.jpg' %>" alt="" loading="lazy">
     </div>
     <div class="ml-[15px] mt-[5px] flex flex-col">
       <div class="text-gray-500 mb-[5px]">
@@ -90,7 +98,7 @@
                                             <td class="flex flex-row items-center px-2 py-4">
                                                 <!-- Assuming you have a profile image URL in your reservation data -->
                                                 <img class="object-cover w-8 h-8 rounded-full"
-                                                  src="<%= reservation.photo || '/img/user_avatar.jpg' %>" alt="" />
+                                                  src="<%= reservation.photo || '/img/user_avatar.jpg' %>" alt="" loading="lazy"/>
                                                 <a href="ucenikProfile.ejs" class="ml-2 font-medium text-center">
                                                   <%= reservation.username ?? 'Unknown User' %>
                                                 </a>

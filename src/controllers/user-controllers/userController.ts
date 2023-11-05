@@ -15,6 +15,17 @@ export async function getAllUsers(req: Request, res: Response, next: NextFunctio
   }
 }
 
+export async function getAllUsersAPI(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const users = await User.getAllUsers(); // Assuming you have a method to fetch user data
+
+    // Send user data as JSON
+    res.json(users);
+  } catch (error) {
+    return next(error);
+  }
+}
+
 export async function getUser(req: Request, res: Response, next: NextFunction) {
   const userId = parseInt(req.params.id);
   let user;

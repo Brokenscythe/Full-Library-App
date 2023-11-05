@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import { UserData } from "../interfaces/userData";
 
+
 const prisma = new PrismaClient();
 declare module "express-session" {
   interface Session {
@@ -9,6 +10,7 @@ declare module "express-session" {
   }
 }
 
+const message = 'success';
 async function getReservations() {
   const reservations = await prisma.$queryRaw`
     SELECT username, title, reservation_date
@@ -150,8 +152,10 @@ const daysDifference = Math.floor(hoursDifference / 24);
       ORDER BY r.reservation_date DESC
       LIMIT 35
     `;
-  
-      res.render('dashboard/dashboardAktivnost', { activities });
+    const message = 'success';
+      //res.render('dashboard/dashboardAktivnost', { activities });
+      res.render('dashboard/dashboardAktivnost',  { activities, message });
+
     } catch (error) {
       console.error('Error fetching activities:', error);
       res.status(500).send('Internal Server Error');

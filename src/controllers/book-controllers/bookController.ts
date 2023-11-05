@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import Book from "../../models/bookModel";
 import { PrismaClient } from '@prisma/client';
+import { UserData } from "../../interfaces/userData"; // Import the UserData interface
 const prisma = new PrismaClient();
 /* export async function getAllBooks(req: Request, res:Response, next:NextFunction){
     let books;
@@ -205,3 +206,42 @@ export async function deleteBook(req: Request, res:Response, next:NextFunction) 
     });
 }
 
+export async function rentBook(req: Request, res: Response, next: NextFunction) {
+  try {
+    
+    const bookId = parseInt(req.body.bookId, 10);
+    const rentUserId = parseInt(req.body.rentUserId, 10);
+    const borrowUserId = parseInt(req.body.borrowUserId, 10);
+    const issueDate = new Date(req.body.issue_date);
+    const returnDate = new Date(req.body.return_date);
+    const rentStatusId = parseInt(req.body.rentStatusId, 10);
+
+    
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+    });
+
+    if (!book) {
+      res.status(404).json({ error: 'Book not found' });
+      return;
+    }
+
+ 
+    const rental = await prisma.rent.create({
+      data: {
+        book: { connect: { id: bookId } },
+        rentUser: { connect: { id: rentUserId } },
+        borrowUser: { connect: { id: borrowUserId } },
+        issue_date: issueDate,
+        return_date: returnDate,
+        rentStatus: { connect: { id: rentStatusId } },
+      },
+    });
+
+    res.status(201).json({ message: 'Knjiga uspjesno iznajmljena', rental });
+  } catch (error) {
+    console.error('Greska tokom iznajmljivanje knjige:', error);
+    const err = error as Error;
+    res.status(500).json({ error: 'Doslo je do greske tokom iznajmljivanja', details: err.message });
+  }
+}

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
       const currentDate = new Date();
       //mijenja naslovnu tj background sliku svakog dana
       const imageIndex = (currentDate.getDate() % 7) + 1; // 7 slika od 1 do 7
-      const imagePath = `/img/${imageIndex}.jpg`;
+      const imagePath = `../img/${imageIndex}.jpg`;
   
 
       const bodyElement = document.body;

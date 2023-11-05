@@ -8,28 +8,42 @@ const rentBookController = {
     try {
       const { bookId, rentUserId, issue_date, return_date, rentStatusId, borrowUserId } = req.body;
 
+      // sve kao Int
+      const parsedBookId = parseInt(bookId, 10);
+      const parsedRentUserId = parseInt(rentUserId, 10);
+      const parsedRentStatusId = parseInt(rentStatusId, 10);
+      const parsedBorrowUserId = parseInt(borrowUserId, 10);
+       // Log the received data to the console for debugging
+       console.log('Received Data:');
+       console.log('bookId:', bookId);
+       console.log('rentUserId:', rentUserId);
+       console.log('issue_date:', issue_date);
+       console.log('return_date:', return_date);
+       console.log('rentStatusId:', rentStatusId);
+       console.log('borrowUserId:', borrowUserId);
+      
       const rental = await prisma.rent.create({
         data: {
           book: {
             connect: {
-              id: bookId,
+              id: parsedBookId,
             },
           },
           rentUser: {
             connect: {
-              id: rentUserId,
+              id: parsedRentUserId,
             },
           },
           issue_date,
           return_date,
           rentStatus: {
             connect: {
-              id: rentStatusId,
+              id: parsedRentStatusId,
             },
           },
           borrowUser: {
             connect: {
-              id: borrowUserId,
+              id: parsedBorrowUserId,
             },
           },
         },
@@ -163,6 +177,33 @@ const rentBookController = {
       res.status(500).json({ error: "Greska tokom trazenja po rentStatusId u rent kontroleru", details: errorMessage });
     }
   },
+
+  displayBookDetails: async (req: Request, res: Response) => {
+    try {
+      const { bookId } = req.params; //izvuci Id iz url-a
+
+      // vazda muka...Int
+      const parsedBookId = parseInt(bookId, 10);
+
+      // detalji knjige
+      const book = await prisma.book.findUnique({
+        where: {
+          id: parsedBookId,
+        },
+      });
+
+      if (!book) {
+        return res.status(404).send('Knjiga nije nadjena');
+      }
+
+      // Render  EJS stranicu
+      res.render('izdavanje/izdajKnjigu', { book });
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : 'Doslo je do nepoznate greske';
+      res.status(500).json({ error: 'Greska tokom pronalazenja detalja knjige, u rent controlleru', details: errorMessage });
+    }
+  },
+
 };
 
 
