@@ -231,6 +231,31 @@ const rentBookController = {
     try {
         const rentStatusId = parseInt(req.query.rentStatusId as string, 10);
 
+        
+        let pageTitle = "";
+        switch (rentStatusId) {
+            case 2:
+                pageTitle = "Izdate Knjige";
+                break;
+            case 3:
+                pageTitle = "Vracene knjige";
+                break;
+            case 4:
+                pageTitle = "Knjige u prekoracenju";
+                break;
+            case 5:
+                pageTitle = "Otpisane knjige";
+                break;
+            case 6:
+                pageTitle = "Nema na stanju";
+                break;
+            case 7:
+                pageTitle = "Arhivirane knjige";
+                break;
+            default:
+                pageTitle = "Nepoznato";
+        }
+
         const rentedBooks = await prisma.rent.findMany({
             where: {
                 rentStatusId: rentStatusId,
@@ -252,12 +277,15 @@ const rentBookController = {
         });
 
         console.log("Rented Books Data:", rentedBooks);
-        res.render("izdavanje/izdateKnjige", { rentedBooks });
+
+        // Pass the pageTitle to the res.render function
+        res.render("izdavanje/izdateKnjige", { rentedBooks, pageTitle });
     } catch (error: any) {
         const errorMessage = error instanceof Error ? error.message : "Nepoznata greska u rent kontroleru";
         res.status(500).json({ error: "Greska tokom trazenja po rentStatusId u rent kontroleru", details: errorMessage });
     }
 },
+
 
 
   displayBookDetails: async (req: Request, res: Response) => {

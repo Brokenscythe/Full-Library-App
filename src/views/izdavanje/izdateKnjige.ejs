@@ -39,8 +39,10 @@
             <!-- Heading of content -->
             <div class="heading mt-[7px]">
                 <h1 class="pl-[30px] pb-[21px] border-b-[1px] border-[#e4dfdf] ">
-                    Izdavanje knjiga
+                    <%= pageTitle || 'Izdavanje knjiga' %>
                 </h1>
+                
+                
             </div>
             <!-- Space for content -->
             <div class="scroll height-dashboard">
@@ -66,15 +68,16 @@
                                         <span
                                             class=" whitespace-nowrap w-full text-[25px]  flex justify-between fill-current">
                                             <div
-                                                class="py-[15px] px-[20px] w-[268px] cursor-pointer bg-[#EFF3F6] rounded-[10px]">
+                                                class="py-[15px] px-[20px] w-[268px] cursor-pointer group hover:bg-[#EFF3F6] rounded-[10px]">
                                                 <a href="/search-rented-books-status?rentStatusId=2" aria-label="Sve knjige"
                                                     class="flex items-center">
                                                     <i
-                                                        class="transition duration-300 ease-in group-hover:text-[#576cdf] text-[#576cdf] far fa-copy text-[20px]"></i>
+                                                        class="text-[#707070] transition duration-300 ease-in group-hover:text-[#576cdf] far fa-copy text-[20px]"></i>
                                                     <div>
                                                         <p
-                                                            class="transition duration-300 ease-in group-hover:text-[#576cdf] text-[#576cdf] text-[15px] ml-[18px]">
-                                                            Izdate knjige</p>
+                                                            class="transition duration-300 ease-in group-hover:text-[#576cdf]  text-[15px] ml-[18px]">
+                                                            Izdate knjige
+                                                        </p>
                                                     </div>
                                                 </a>
                                             </div>
@@ -87,14 +90,15 @@
                                             class=" whitespace-nowrap w-full text-[25px] flex justify-between fill-current">
                                             <div
                                                 class="group hover:bg-[#EFF3F6] py-[15px] px-[20px] w-[268px] rounded-[10px] cursor-pointer">
-                                                <a href="/vraceneKnjige" aria-label="Izdate knjige"
+                                                <a href="/search-rented-books-status?rentStatusId=3" aria-label="Vracene knjige"
                                                     class="flex items-center">
                                                     <i
-                                                        class="text-[#707070] text-[20px] fas fa-file transition duration-300 ease-in group-hover:text-[#576cdf]"></i>
+                                                        class="transition duration-300 ease-in  text-[#707070] text-[20px] fas fa-file group-hover:text-[#576cdf]"></i>
                                                     <div>
                                                         <p
-                                                            class="text-[15px] ml-[21px] transition duration-300 ease-in group-hover:text-[#576cdf]">
-                                                            Vracene knjige</p>
+                                                            class="transition duration-300 ease-in  text-[15px] ml-[21px] group-hover:text-[#576cdf]">
+                                                            Vracene knjige
+                                                        </p>
                                                     </div>
                                                 </a>
                                             </div>
@@ -107,10 +111,10 @@
                                             class=" whitespace-nowrap w-full text-[25px] flex justify-between fill-current">
                                             <div
                                                 class="group hover:bg-[#EFF3F6] py-[15px] px-[20px] w-[268px] rounded-[10px] cursor-pointer">
-                                                <a href="/knjigePrekoracenje" aria-label="Knjige na raspolaganju"
+                                                <a href="/search-rented-books-status?rentStatusId=4" aria-label="Knjige na raspolaganju"
                                                     class="flex items-center">
                                                     <i
-                                                        class="text-[#707070] text-[20px] fas fa-exclamation-triangle transition duration-300 ease-in group-hover:text-[#576cdf]"></i>
+                                                        class="group-hover:text-[#576cdf] text-[#707070] text-[20px] fas fa-exclamation-triangle transition duration-300 ease-in "></i>
                                                     <div>
                                                         <p
                                                             class="text-[15px] ml-[17px] transition duration-300 ease-in group-hover:text-[#576cdf]">
@@ -126,14 +130,14 @@
                                         <span
                                             class=" whitespace-nowrap w-full text-[25px] flex justify-between fill-current">
                                             <div
-                                                class="group hover:bg-[#EFF3F6] py-[15px] px-[20px] w-[268px] rounded-[10px] cursor-pointer">
-                                                <a href="/aktivneRezervacije" aria-label="Rezervacije"
+                                                class="group bg-[#EFF3F6] hover:bg-[#EFF3F6] py-[15px] px-[20px] w-[268px] rounded-[10px] cursor-pointer">
+                                                <a href="/reservations" aria-label="Rezervacije"
                                                     class="flex items-center">
                                                     <i
-                                                        class="text-[#707070] text-[20px] far fa-calendar-check transition duration-300 ease-in group-hover:text-[#576cdf]"></i>
+                                                        class="text-[#576cdf] text-[20px] far fa-calendar-check transition duration-300 ease-in"></i>
                                                     <div>
                                                         <p
-                                                            class="text-[15px] ml-[19px] transition duration-300 ease-in group-hover:text-[#576cdf]">
+                                                            class="text-[15px] ml-[19px] transition duration-300 ease-in text-[#576cdf]">
                                                             Aktivne rezervacije</p>
                                                     </div>
                                                 </a>
@@ -144,10 +148,10 @@
                                 <li class="mb-[4px]">
                                     <div class="w-[300px] pl-[32px]">
                                         <span
-                                            class=" whitespace-nowrap w-full text-[25px] flex justify-between fill-current">
+                                            class=" whitespace-nowrap w-full text-[25px] flex justify-between">
                                             <div
                                                 class="group hover:bg-[#EFF3F6] py-[15px] px-[20px] w-[268px] rounded-[10px] cursor-pointer">
-                                                <a href="/arhiviraneRezervacije" aria-label="Rezervacije"
+                                                <a href="/search-rented-books-status?rentStatusId=7" aria-label="Rezervacije"
                                                     class="flex items-center">
                                                     <i
                                                         class="text-[#707070] text-[20px] fas fa-calendar-alt transition duration-300 ease-in group-hover:text-[#576cdf]"></i>
@@ -162,6 +166,7 @@
                                     </div>
                                 </li>
                             </ul>
+                   
                         </div>
 
                         <div class="w-full mt-[10px] ml-2 px-2">
@@ -549,8 +554,9 @@
                                                 </label>
                                             </td>
                                             <td class="flex flex-row items-center px-4 py-3">
-                                                <img class="object-cover w-8 mr-2 h-11" src="<%= book.book.image_url %>" alt="" />
-                                                <a href="/knjigaOsnovniDetalji">
+                                                <img class="object-cover w-8 mr-2 h-11" src="<%= book.book.image_url || '/img/book_cover.jpg' %>" alt="" />
+
+                                                <a href="/books/<%= book.bookId %>">
                                                     <span class="font-medium text-center"><%= book.book.title %></span>
                                                 </a>
                                             </td>
