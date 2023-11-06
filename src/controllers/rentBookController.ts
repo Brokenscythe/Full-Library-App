@@ -229,30 +229,36 @@ const rentBookController = {
   },
   searchRentedBooksStatus: async (req: Request, res: Response) => {
     try {
-      const rentStatusId = parseInt(req.query.rentStatusId as string, 10); // Parse the rentStatusId from the query string
-  
-      const rentedBooks = await prisma.rent.findMany({
-        where: {
-          rentStatusId: rentStatusId,
-        },
-        include: {
-          book: true,
-          rentStatus: true,
-          rentUser: {
-            select: {
-              name: true, // Include the user's name
+        const rentStatusId = parseInt(req.query.rentStatusId as string, 10);
+
+        const rentedBooks = await prisma.rent.findMany({
+            where: {
+                rentStatusId: rentStatusId,
             },
-          },
-        },
-      });
-      console.log("Rented Books Data:", rentedBooks);
-      res.render("izdavanje/izdateKnjige", { rentedBooks });
+            include: {
+                book: true,
+                rentStatus: true,
+                rentUser: {
+                    select: {
+                        name: true,
+                    },
+                },
+                borrowUser: {
+                    select: {
+                        name: true,
+                    },
+                },
+            },
+        });
+
+        console.log("Rented Books Data:", rentedBooks);
+        res.render("izdavanje/izdateKnjige", { rentedBooks });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "Nepoznata greska u rent kontroleru";
-      res.status(500).json({ error: "Greska tokom trazenja po rentStatusId u rent kontroleru", details: errorMessage });
+        const errorMessage = error instanceof Error ? error.message : "Nepoznata greska u rent kontroleru";
+        res.status(500).json({ error: "Greska tokom trazenja po rentStatusId u rent kontroleru", details: errorMessage });
     }
-  },
-  
+},
+
 
   displayBookDetails: async (req: Request, res: Response) => {
     try {
