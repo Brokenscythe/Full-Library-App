@@ -12,57 +12,54 @@ document.addEventListener("DOMContentLoaded", function () {
       openPasswordChangeModal();
     });
   });
-
+  
   var passwordResetForm = document.getElementById("password-reset-form");
   var librarianId = passwordResetForm.dataset.librarianId;
 
   passwordResetForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    var password1 = document.getElementById("pwResetBibliotekar").value;
-    var password2 = document.getElementById("pw2ResetBibliotekar").value;
+    var formData = new FormData(passwordResetForm);
 
-    var validatePassword1 = document.getElementById("validatePwResetBibliotekar");
-    var validatePassword2 = document.getElementById("validatePw2ResetBibliotekar");
+    // Ensure that the field names match the names in your HTML form
+    formData.append("pwResetBibliotekar", document.getElementById("pwResetBibliotekar").value);
+    formData.append("pw2ResetBibliotekar", document.getElementById("pw2ResetBibliotekar").value);
+
     const buttonElement = document.getElementsByName("resetPassword")[0];
     const csrfToken = buttonElement.getAttribute("data-csrf");
 
-    if (password1 !== password2) {
-      validatePassword1.innerHTML = "Morate unijeti iste sifre!";
-      validatePassword2.innerHTML = "Morate unijeti iste sifre!";
-      validatePassword1.style.color = "red";
-      validatePassword2.style.color = "red";
-      validatePassword1.style.fontSize = "13px";
-      validatePassword2.style.fontSize = "13px";
-      return;
-    } else if (password1.trim() === "" || password2.trim() === "") {
-      validatePassword1.innerHTML = "Morate unijeti sifru!";
-      validatePassword2.innerHTML = "Morate unijeti sifru!";
-      validatePassword1.style.color = "red";
-      validatePassword2.style.color = "red";
-      validatePassword1.style.fontSize = "13px";
-      validatePassword2.style.fontSize = "13px";
-      return;
-    }
-    validatePassword1.innerHTML = "";
-    validatePassword2.innerHTML = "";
-
-    var formData = new FormData(passwordResetForm);
-
-    fetch(`/bibliotekarProfile/${librarianId}` + "?_csrf=" + csrfToken, {
+    fetch(`/bibliotekarProfile/${librarianId}`, {
       method: "POST",
       body: formData,
+      headers: {
+        "CSRF-Token": csrfToken, // Add the CSRF token header
+      },
     })
       .then(function (response) {
         if (response.ok) {
-          response.json("Password changed succesfully");
+          return response.json(); // Return the response JSON
         } else {
-          response.json("Password changed unsuccesfully");
+          return response.json().then(function (data) {
+            console.error("Password change failed:", data);
+            // Display an error message to the user
+            const errorElement = document.getElementById("validatePwResetBibliotekar");
+            errorElement.innerHTML = "Password change failed: " + data.message; // You can customize the error message from the server
+            errorElement.style.color = "red";
+            errorElement.style.fontSize = "13px";
+          });
         }
+      })
+      .then(function (data) {
+        console.log("Password changed successfully", data);
+        // You can display a success message here if required
       })
       .catch(function (error) {
         console.error("Error:", error);
-        // Handle the error here
+        const errorElement = document.getElementById("validatePwResetBibliotekar");
+        errorElement.innerHTML =
+          "An error occurred while changing the password. Please try again later.";
+        errorElement.style.color = "red";
+        errorElement.style.fontSize = "13px";
       });
   });
 });

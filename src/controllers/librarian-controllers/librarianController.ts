@@ -66,7 +66,8 @@ export async function getNewLibrarian(req: Request, res: Response, next: NextFun
 }
 export async function updatePassword(req: Request, res: Response, next: NextFunction) {
   const librarianId = parseInt(req.params.id);
-  const { pwResetBibliotekar } = req.body;
+  const { pwResetBibliotekar, pw2ResetBibliotekar } = req.body;
+  console.log(pwResetBibliotekar, pw2ResetBibliotekar)
   try {
     return await Librarian.changePassword(librarianId, pwResetBibliotekar);
   } catch (error) {
