@@ -63,7 +63,7 @@ model Category {
   name        String         @unique
   iconPath    String?
   description String?
-  books       BookCategory[]
+  books       Book[]
 }
 
 model Letter {
@@ -143,21 +143,13 @@ model Book {
   year           Int
   pdf            String
   authors        Author[]
-  categories     BookCategory[]
+  categories     Category[]
   genres         Genre[]
   galleries      Gallery[]
   reservations   Reservation[]
   rents          Rent[]
 }
 
-model BookCategory {
-  book       Book     @relation(fields: [bookId], references: [id])
-  bookId     Int
-  category   Category @relation(fields: [categoryId], references: [id])
-  categoryId Int
-
-  @@id([bookId, categoryId])
-}
 
 model BookStatus {
   id           Int          @id @default(autoincrement())

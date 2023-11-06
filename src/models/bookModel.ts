@@ -11,10 +11,10 @@ type Author = {
 }
 
 type Category = {
-    id?: number;
     name: string;
     icon: string | null;
     description: string | null;
+    id?: number;
 }
 
 type Genre = {
@@ -120,8 +120,29 @@ class Book {
       }
   });
     return (await books).map((book) => {
-      return new Book(book.title, book.page_count, book.letterId, book.languageId, book.bindingId, book.formatId, book.publisherId, book.isbn, book.quantity_count, book.rented_count, book.reserved_count, book.body, book.year, book.pdf, book.authors, book.categories, book.genres, book.galleries, book.reservations, book.rents);
-    })
+      return new Book(
+        book.title, 
+        book.page_count, 
+        book.letterId, 
+        book.languageId, 
+        book.bindingId, 
+        book.formatId, 
+        book.publisherId, 
+        book.isbn, 
+        book.quantity_count, 
+        book.rented_count, 
+        book.reserved_count, 
+        book.body, 
+        book.year, 
+        book.pdf, 
+        
+        book.authors, 
+        book.categories, 
+        book.genres, 
+        book.galleries, 
+        book.reservations, 
+        book.rents);
+    });
   }
 
   static async getBook(id: number) {

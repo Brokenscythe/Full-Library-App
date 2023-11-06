@@ -1,24 +1,23 @@
 import express from "express";
-import * as BookController from "../controllers/bookController";
 
 import * as AuthorController from "../controllers/authorController";
-import * as BindingController from "../controllers/bindingController";
-import * as CategoryController from "../controllers/categoryController";
-import * as FormatController from "../controllers/formatController";
-import * as GenreController from "../controllers/genreController";
-import * as LetterController from "../controllers/letterController";
-import * as PublisherController from "../controllers/publisherController";
+import * as BindingController from "../controllers/settings-controllers/bindingController";
+import * as CategoryController from "../controllers/settings-controllers/categoryController";
+import * as FormatController from "../controllers/settings-controllers/formatController";
+import * as GenreController from "../controllers/settings-controllers/genreController";
+import * as LetterController from "../controllers/settings-controllers/letterController";
+import * as PublisherController from "../controllers/settings-controllers/publisherController";
+import * as BookController from "../controllers/bookController";
 
 const bookRouter = express.Router();
 
 bookRouter.get("/editKnjiga/:id", (req, res, next) => {
   const book = BookController.getBook(req, res, next);
-  /*const authors = AuthorController.getAllAuthors(req,res,next);
+  const authors = AuthorController.getAllAuthors(req,res,next);
     const categories = CategoryController.getAllCategories(req, res, next);
     const genres = GenreController.getAllGenres(req,res,next);
     const publishers = PublisherController.getAllPublishers(req,res,next);
-    res.render('knjige/editKnjiga', {book: book, authors:authors, categories:categories, genres:genres, publishers:publishers}); */
-  res.render("knjige/editKnjiga", { book: book });
+    res.render('knjige/editKnjiga', {book: book, authors:authors, categories:categories, genres:genres, publishers:publishers});
 });
 bookRouter.get("/editKnjigaMultimedija/:id", (req, res, next) => {
   const book = BookController.getBook(req, res, next);
@@ -82,7 +81,7 @@ bookRouter.get("/vratiKnjigu", (req, res) => {
 });
 /////
 
-bookRouter.post("/editKnjiga/:id", BookController.updateBook);
+/* bookRouter.post("/editKnjiga/:id", BookController.updateBook);
 bookRouter.post("/editKnjigaMultimedija/:id", BookController.updateBook);
 bookRouter.post("/editKnjigaSpecifikacija/:id", BookController.updateBook);
 
@@ -90,17 +89,5 @@ bookRouter.post("/novaKnjiga", BookController.addBook);
 bookRouter.post("/novaKnjigaMultimedija", BookController.addBook);
 bookRouter.post("/novaKnjigaSpecifikacija", BookController.addBook);
 
-bookRouter.delete("/deleteBook/:id", BookController.deleteBook);
-import express from "express";
-import * as BookController from "../controllers/book-controllers/bookController";
-import { getBook, getAllBooks, deleteBook, updateBook, addBook } from "../controllers/book-controllers/bookController";
-
-const bookRouter = express.Router();
-
-bookRouter.get("/", BookController.getAllBooks);
-bookRouter.get("/:id", BookController.getBook);
-bookRouter.post("/", BookController.addBook);
-bookRouter.patch("/:id", BookController.updateBook);
-bookRouter.delete("/:id", BookController.deleteBook);
-
+bookRouter.delete("/deleteBook/:id", BookController.deleteBook); */
 export default bookRouter;
