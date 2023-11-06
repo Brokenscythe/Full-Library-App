@@ -124,8 +124,11 @@ export class Book {
     })
   }
 
-  static async getBook(id:number){
-     const book = await db.book.findUnique({
+  static async getBook(id: number) {
+    const book = await db.book.findUnique({
+      where: {
+        id,
+      },
       include: {
         authors: true,
         categories: true,
@@ -140,10 +143,26 @@ export class Book {
      });
      if(!book) {
       throw new Error("Book not found");
-     }else{
-      return new Book(book.title, book.page_count, book.letterId, book.languageId, book.bindingId, book.formatId, book.publisherId, book.isbn, book.quantity_count, book.rented_count, book.reserved_count, book.body, book.year, book.pdf, book.authors, book.categories, book.genres, book.galleries, book.reservations, book.rents);
-     }
-  }
+    }
+
+    return new Book(
+      book.title,
+      book.page_count,
+      book.letterId,
+      book.languageId,
+      book.bindingId,
+      book.formatId,
+      book.publisherId,
+      book.isbn,
+      book.quantity_count,
+      book.rented_count,
+      book.reserved_count,
+      book.body,
+      book.year,
+      book.pdf,
+      book.id
+    );
+  } */
 
   async save(){
     if(this.id) {

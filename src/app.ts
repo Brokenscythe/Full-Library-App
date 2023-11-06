@@ -2,8 +2,8 @@ import express from "express";
 import session from "express-session";
 import path from "path";
 import csurf from "csurf";
+import methodOverride from "method-override";
 import bodyParser from "body-parser";
-import * as dotenv from 'dotenv';
 
 //ROUTES
 import authRoutes from "./routes/authRoutes";
@@ -19,8 +19,11 @@ import createSessionConfig from "./config/session";
 import errorHandlerMiddleware from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
+import ReservationRouter from "./routes/reservationRoutes";
+import AuthorRouter from "./routes/authorRoutes";
 
 const app = express();
+app.use(methodOverride("_method"));
 const PORT = 3000;
 
 dotenv.config();
@@ -44,13 +47,15 @@ app.use(csurf());
 app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
 
-app.use(errorHandlerMiddleware);
-
 //ROUTES
-app.use(bookRouter);
-app.use(AuthorRouter);
-app.use(settingsRouter);
-app.use(ReservationRouter);
+app.use("/", authRouter);
+app.use("/", mainRouter);
+app.use("/books", bookRouter);
+app.use("/authors", AuthorRouter);
+app.use("/", settingsRouter);
+app.use("/reservations", ReservationRouter);
+
+app.use(errorHandlerMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server started at port ${PORT}.`);
