@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { v4 as uuidv4 } from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 // Models
 import User from "../../models/userModel";
 import UserLoginsService from "../../models/userLogins";
@@ -61,6 +61,7 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
+    confirmation_token: uuidv4(),
     JMBG: req.body.jmbg,
     created_at: new Date(),
     updated_at: new Date(),
@@ -105,6 +106,15 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
       return;
     }
     await newUser.save();
+    // const info = transport.sendMail({
+    //   from: "cortexprojectlibrary@gmail.com",
+    //   to: newUser.email,
+    //   subject: "Potvrdi svoju registraciju.",
+    //   html: `<h1>Provjera sigurnosti</h1>
+    //     <p> Poštovani,
+    //       da bi potvrdili svoju registraciju pritisnite na sledeći link: http://localhost:3000/confirm/:token
+    //   `,
+    // });
     console.log(newUser);
   } catch (error) {
     console.error("Error during registartion:", error);
@@ -112,6 +122,12 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
   }
   res.redirect("/login");
 }
+// export async function emailConfirm(req: Request, res: Response, next: NextFunction): Promise<void> {
+//   const token = req.params.token;
+//   const user = await User.findOne({ where:{
+//     confirmationToken: token });
+//   }
+
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email, password } = req.body;
 

@@ -32,31 +32,32 @@ model UserLogins {
 }
 
 model User {
-  id                Int           @id @default(autoincrement())
-  type              UserType?     @relation(fields: [typeId], references: [id])
-  typeId            Int?
-  gender            UserGender?   @relation(fields: [genderId], references: [id])
-  genderId          Int?
-  name              String
-  JMBG              String        @unique
-  email             String        @unique
-  username          String        @unique
-  password          String
-  photo             String?
-  remember_token    String?
+  id                 Int           @id @default(autoincrement())
+  type               UserType?     @relation(fields: [typeId], references: [id])
+  typeId             Int?
+  gender             UserGender?   @relation(fields: [genderId], references: [id])
+  genderId           Int?
+  name               String
+  JMBG               String        @unique
+  email              String        @unique
+  username           String        @unique
+  password           String
+  photo              String?
+  remember_token     String?
   confirmation_token String?
-  email_verified_at DateTime?
-  last_login_at     DateTime?
-  created_at        DateTime?     @default(now())
-  updated_at        DateTime?
-  login_count       Int?          @default(0)
-  active            Int?
-  logins            UserLogins[]
-  rent              Rent[]        @relation("rents")
-  borrow            Rent[]        @relation("borrows")
-  reservationsFor   Reservation[] @relation("reservationFor")
-  reservationsBy    Reservation[] @relation("reservationBy")
-  resrvationsClosed Reservation[] @relation("reservationClosed")
+  confirmed          Boolean
+  email_verified_at  DateTime?
+  last_login_at      DateTime?
+  created_at         DateTime?     @default(now())
+  updated_at         DateTime?
+  login_count        Int?          @default(0)
+  active             Int?
+  logins             UserLogins[]
+  rent               Rent[]        @relation("rents")
+  borrow             Rent[]        @relation("borrows")
+  reservationsFor    Reservation[] @relation("reservationFor")
+  reservationsBy     Reservation[] @relation("reservationBy")
+  resrvationsClosed  Reservation[] @relation("reservationClosed")
 }
 
 model Category {

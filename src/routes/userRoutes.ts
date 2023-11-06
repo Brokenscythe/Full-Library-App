@@ -11,9 +11,10 @@ userRouter.get("/ucenikProfile/:id", userService.getUser);
 
 userRouter.get("/noviUcenik", userService.getNewUser);
 
-userRouter.get('/confirm/:token', async function emailConfirm (req, res)  {
-    const token = req.params.token
-})
+// userRouter.get('/confirm/:token', async function emailConfirm (req, res)  {
+//     const token = req.params.token
+//     const user = await User.findOne({ confirmationToken: token });
+// })
 
 userRouter.post("/noviUcenik", configuredMulterMiddleware, userService.addUser);
 

@@ -1,13 +1,12 @@
-
-import nodemailer from 'nodemailer';
+import nodemailer from "nodemailer";
 
 const transport = nodemailer.createTransport({
-  service: 'Gmail',
+  service: "Gmail",
   host: "smtp.forwardemail.net",
   port: 465,
-  secure: true, 
+  secure: true,
   auth: {
-    user: 'cortexprojectlibrary@gmail.com',
+    user: "cortexprojectlibrary@gmail.com",
     pass: process.env.EMAIL_PASS,
   },
 });

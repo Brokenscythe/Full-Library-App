@@ -15,6 +15,7 @@ class User {
   created_at?: Date;
   updated_at?: Date;
   email_verified_at?: Date;
+  confirmation_token?: string;
   last_login_at?: Date | null;
 
   constructor(data: {
@@ -28,6 +29,7 @@ class User {
     id?: number;
     created_at?: Date;
     updated_at?: Date;
+    confirmation_token?: string;
   }) {
     this.name = data.name || "";
     this.username = data.username || "";
