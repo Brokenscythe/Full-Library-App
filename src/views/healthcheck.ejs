@@ -70,6 +70,10 @@
     </div>
     <div class="card-footer">
         <button id="restartButton" class="btn">Restart Server</button>
+        <form action="/health/backup-database" method="get" onsubmit="return false;">
+            <button type="submit" onclick="showAlert();">Backup Database</button>
+        </form>
+        
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -175,6 +179,10 @@ function fetchHealthCheckAndUpdateGraph() {
             alert('Doslo je do greske tokom restarta servera');
         });
     });
+
+    function showAlert() {
+        alert("Bekap jos nije implementiran.....");
+    }
     </script>
 </body>
 </html>

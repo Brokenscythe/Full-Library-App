@@ -1,5 +1,12 @@
 import { Request, Response } from 'express';
 
+
+/* import { spawn } from 'child_process';
+import fs from 'fs';
+import dotenv from 'dotenv'; */
+/* 
+dotenv.config();
+ */
 interface UptimeData {
     years: number;
     months: number;
@@ -85,3 +92,50 @@ export const restartServer = (req: Request, res: Response) => {
 };
 //moze se dodati i npm install os-utils
 //radi mjerenja CPU % opterecenja,totalMemory,usedMemory,freeMemory...
+// bekap baze podataka
+/* 
+export const backupDatabase = async (req: Request, res: Response) => {
+    const {
+      DB_HOST,
+      DB_USER,
+      DB_PASS,
+      MYSQL_DB,
+      DB_PORT,
+    } = process.env;
+  
+
+    const host = DB_HOST || 'localhost';
+    const user = DB_USER || 'root';
+    const password = DB_PASS || 'admin';
+    const database = MYSQL_DB || 'full-library-app';
+    const port = DB_PORT || 3306;
+  
+    const timestamp = new Date()
+      .toISOString()
+      .replace(/[-T:]/g, '')
+      .split('.')[0];
+    const backupFileName = `backup_${timestamp}.sql`;
+  
+    const backupProcess = spawn('mysqldump', [
+      `--host=${host}`,
+      `--port=${port}`,
+      `--user=${user}`,
+      `--password=${password}`,
+      database,
+    ]);
+  
+    backupProcess.stdout.pipe(fs.createWriteStream(backupFileName));
+  
+    backupProcess.on('exit', (code) => {
+      if (code === 0) {
+        res.download(backupFileName, (err) => {
+          if (err) {
+            res.status(500).json({ error: 'Error sending the backup file' });
+          }
+          fs.unlinkSync(backupFileName); // obrisi nakon slanja
+        });
+      } else {
+        res.status(500).json({ error: 'Error creating the database backup' });
+      }
+    });
+  }; */
