@@ -55,9 +55,18 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then(function (response) {
         if (response.ok) {
-          response.json("Password changed succesfully");
+          return response.json(); // This should return a promise
         } else {
-          response.json("Password changed unsuccesfully");
+          return response.json();
+        }
+      })
+      .then(function (data) {
+        if (data === "Password changed succesfully") {
+          // Handle success
+          // For example, show a success message to the user
+        } else {
+          // Handle failure
+          // For example, show an error message to the user
         }
       })
       .catch(function (error) {
