@@ -1,34 +1,28 @@
-import { db } from "../src/utils/db.server";
-import {
-  Author,
-  Category,
-  Binding,
-  Format,
-  Letter,
-  Language,
-  UserType,
-  Book,
-  UserGender,
-  Publisher,
-} from "./schema.prisma";
+/* import { PrismaClient } from "@prisma/client";
 
+const db = new PrismaClient();
+
+//treba rucno napraviti tipove
 async function seed() {
   await Promise.all(
     getAuthors().map((author) => {
       return db.author.create({
         data: {
-          name: author.name,
+          nameSurname: author.nameSurname,
+          photo: "",
+          wikipedia: "",
+          biography: ""
         },
       });
     })
   );
   const author = await db.author.findFirst({
     where: {
-      name: "William Shakespeare",
+      nameSurname: "William Shakespeare",
     },
   });
 
-  /* await Promise.all(
+  await Promise.all(
     getCategories().map((category) => {
       return db.category.create({
         data: {
@@ -36,7 +30,7 @@ async function seed() {
         },
       });
     })
-  ); */
+  );
 
   await Promise.all(
     getBindings().map((binding) => {
@@ -98,7 +92,7 @@ function getAuthors(): Array<Author> {
   ];
 }
 
-/* function getCategories(): Array<Category> {
+function getCategories(): Array<Category> {
   return [
     {
       name: "Roman",
@@ -116,7 +110,7 @@ function getAuthors(): Array<Author> {
       name: "Ljubavni",
     },
   ];
-} */
+} 
 
 function getBindings(): Array<Binding> {
   return [
@@ -173,3 +167,4 @@ function getLanguages(): Array<Language> {
     },
   ];
 }
+ */
