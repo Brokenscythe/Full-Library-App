@@ -141,6 +141,12 @@ const reservationController = {
   getReservationById: async (req: Request, res: Response) => {
     try {
       const { reservationId } = req.params;
+  
+      if (!reservationId) {
+        res.status(400).json({ error: "Invalid reservation ID" });
+        return;
+      }
+  
       const reservation = await prisma.reservation.findUnique({
         where: { id: Number(reservationId) },
         include: {
@@ -153,17 +159,17 @@ const reservationController = {
       });
   
       if (!reservation) {
-        res.status(404).json({ error: "Rezervacija nije nadjenja" });
+        res.status(404).json({ error: "Rezervacija nije pronađena" });
       } else {
-        // postman za kontrolu
-      //  res.status(200).json({ reservation });
+        // You can render the reservation details
         res.render('rezervacije/rezervacijaDetalji', { reservation });
       }
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske u kontroleru trezervacija";
-      res.status(500).json({ error: "Doslo je do nepoznate greske prilikom trazenja rezervacija po ID, u kontroleru rezervacija", details: errorMessage });
+      const errorMessage = error instanceof Error ? error.message : "Došlo je do nepoznate greške u kontroleru rezervacija";
+      res.status(500).json({ error: "Došlo je do greške prilikom traženja rezervacije po ID, u kontroleru rezervacija", details: errorMessage });
     }
   },
+  
   
 
   updateReservation: async (req: Request, res: Response) => {

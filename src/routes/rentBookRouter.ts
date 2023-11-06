@@ -21,4 +21,9 @@ router.get("/search-rented-books-status", rentBookController.searchRentedBooksSt
 //http://localhost:3000/search-rented-books-status?rentStatusId=2
 
 router.get('/rent/display/:bookId', rentBookController.displayBookDetails);
+
+router.get("/rent", rentBookController.viewRentedBooksByStatusID);
+
+
+
 export default router;
