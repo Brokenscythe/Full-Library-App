@@ -23,6 +23,8 @@ import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 import AuthorRouter from "./routes/authorRoutes";
 
 const app = express();
+app.use(express.json())
+
 app.use(methodOverride("_method"));
 const PORT = 3000;
 
