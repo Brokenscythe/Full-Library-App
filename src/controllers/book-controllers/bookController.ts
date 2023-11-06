@@ -1,16 +1,5 @@
 import { Request, Response, NextFunction } from "express";
 import Book from "../../models/bookModel";
-/* export async function getAllBooks(req: Request, res:Response, next:NextFunction){
-    let books;
-    try{
-        books = await Book.getAllBooks();
-    }catch(error) {
-        return next(error);
-    }
-    res.json({
-        books: books,
-    });
-} */
 
 export async function getAllBooks(req: Request, res: Response, next: NextFunction) {
   try {
@@ -88,15 +77,19 @@ export async function updateBook(req: Request, res: Response, next: NextFunction
   res.json({ message: "book updated", book: book });
 }
 
+
 export async function deleteBook(req: Request, res: Response, next: NextFunction) {
   let bookId = parseInt(req.params.id.split(":")[1]);
-  let book = new Book("", -1, -1, -1, -1, -1, -1, "", -1, -1, -1, "", -1, "", bookId);
+  let book = new Book("", -1, -1, -1, -1, -1, -1, "", -1, -1, -1, "", -1, "", []);
   try {
-    book.delete();
+    await Book.delete(bookId);
   } catch (error) {
     return next(error);
   }
   res.json({
-    mesage: "Book deleted",
+    message: "Book deleted",
   });
 }
+
+
+

@@ -19,8 +19,7 @@ import createSessionConfig from "./config/session";
 import errorHandlerMiddleware from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
-import ReservationRouter from "./routes/reservationRoutes";
-import AuthorRouter from "./routes/authorRoutes";
+import dotenv from "dotenv";
 
 const app = express();
 app.use(methodOverride("_method"));
@@ -48,8 +47,7 @@ app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
 
 //ROUTES
-app.use("/", authRouter);
-app.use("/", mainRouter);
+app.use("/", authRoutes);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);

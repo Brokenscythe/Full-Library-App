@@ -36,7 +36,7 @@ type Rent = {
   id: number;
 }
 
-export class Book {
+class Book {
   title: string;
   pageCount: number;
   letterId: number;
@@ -137,9 +137,7 @@ export class Book {
         reservations: true,
         rents: true,
       },
-      where: {
-        id: id,
-      }
+
      });
      if(!book) {
       throw new Error("Book not found");
@@ -160,9 +158,15 @@ export class Book {
       book.body,
       book.year,
       book.pdf,
+      book.authors,
+      book.categories,
+      book.genres,
+      book.galleries,
+      book.reservations,
+      book.rents,
       book.id
     );
-  } */
+  } 
 
   async save(){
     if(this.id) {
