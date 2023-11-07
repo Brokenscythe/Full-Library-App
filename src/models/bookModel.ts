@@ -8,33 +8,33 @@ type Author = {
   //photo: string;
   biography: string;
   //wikipedia: string;
-}
+};
 
 type Category = {
-    name: string;
-    icon: string | null;
-    description: string | null;
-    id?: number;
-}
+  name: string;
+  iconPath: string | null;
+  description: string | null;
+  id?: number;
+};
 
 type Genre = {
   name: string;
-  id? : number;
-}
+  id?: number;
+};
 
 type Gallery = {
   id?: number;
   photo: string;
   cover: number;
-}
+};
 
 type Reservation = {
   id: number;
-}
+};
 
 type Rent = {
   id: number;
-}
+};
 
 class Book {
   title: string;
@@ -108,7 +108,7 @@ class Book {
     this.id = id;
   }
 
-  static async getAllBooks(){
+  static async getAllBooks() {
     const books = db.book.findMany({
       include: {
         authors: true,
@@ -116,32 +116,33 @@ class Book {
         genres: true,
         galleries: true,
         reservations: true,
-        rents: true
-      }
-  });
+        rents: true,
+      },
+    });
     return (await books).map((book) => {
       return new Book(
-        book.title, 
-        book.page_count, 
-        book.letterId, 
-        book.languageId, 
-        book.bindingId, 
-        book.formatId, 
-        book.publisherId, 
-        book.isbn, 
-        book.quantity_count, 
-        book.rented_count, 
-        book.reserved_count, 
-        book.body, 
-        book.year, 
-        book.pdf, 
-        
-        book.authors, 
-        book.categories, 
-        book.genres, 
-        book.galleries, 
-        book.reservations, 
-        book.rents);
+        book.title,
+        book.page_count,
+        book.letterId,
+        book.languageId,
+        book.bindingId,
+        book.formatId,
+        book.publisherId,
+        book.isbn,
+        book.quantity_count,
+        book.rented_count,
+        book.reserved_count,
+        book.body,
+        book.year,
+        book.pdf,
+
+        book.authors,
+        book.categories,
+        book.genres,
+        book.galleries,
+        book.reservations,
+        book.rents
+      );
     });
   }
 
@@ -158,9 +159,8 @@ class Book {
         reservations: true,
         rents: true,
       },
-
-     });
-     if(!book) {
+    });
+    if (!book) {
       throw new Error("Book not found");
     }
 
@@ -187,10 +187,10 @@ class Book {
       book.rents,
       book.id
     );
-  } 
+  }
 
-  async save(){
-    if(this.id) {
+  async save() {
+    if (this.id) {
       //UPDATE
       return await db.book.update({
         where: {
@@ -218,10 +218,10 @@ class Book {
                   nameSurname: this.authors[0].nameSurname,
                 },
                 create: {
-                   nameSurname: this.authors[0].nameSurname,
-                   photo: "",
-                   biography: "",
-                   wikipedia: "",
+                  nameSurname: this.authors[0].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
                 },
               },
               {
@@ -229,10 +229,10 @@ class Book {
                   nameSurname: this.authors[1].nameSurname,
                 },
                 create: {
-                   nameSurname: this.authors[1].nameSurname,
-                   photo: "",
-                   biography: "",
-                   wikipedia: "",
+                  nameSurname: this.authors[1].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
                 },
               },
               {
@@ -240,57 +240,57 @@ class Book {
                   nameSurname: this.authors[2].nameSurname,
                 },
                 create: {
-                   nameSurname: this.authors[2].nameSurname,
-                   photo: "",
-                   biography: "",
-                   wikipedia: "",
+                  nameSurname: this.authors[2].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
                 },
-              }
-            ]
+              },
+            ],
           },
-          categories : {
-            connectOrCreate : [
+          categories: {
+            connectOrCreate: [
               {
                 where: {
                   name: this.categories[0].name,
                 },
                 create: {
                   name: this.categories[0].name,
-                  icon: "",
+                  iconPath: "",
                   description: "",
-                }
+                },
               },
               {
                 where: {
                   name: this.categories[1].name,
                 },
-                 create: {
+                create: {
                   name: this.categories[1].name,
-                  icon: "",
+                  iconPath: "",
                   description: "",
-                }
+                },
               },
               {
                 where: {
                   name: this.categories[2].name,
                 },
-                 create: {
+                create: {
                   name: this.categories[2].name,
-                  icon: "",
+                  iconPath: "",
                   description: "",
-                }
-              }
-            ]
+                },
+              },
+            ],
           },
-          genres : {
-            connectOrCreate : [
+          genres: {
+            connectOrCreate: [
               {
                 where: {
                   name: this.genres[0].name,
                 },
                 create: {
                   name: this.genres[0].name,
-                }
+                },
               },
               {
                 where: {
@@ -298,7 +298,7 @@ class Book {
                 },
                 create: {
                   name: this.genres[1].name,
-                }
+                },
               },
               {
                 where: {
@@ -306,11 +306,11 @@ class Book {
                 },
                 create: {
                   name: this.genres[2].name,
-                }
+                },
               },
-            ]
+            ],
           },
-          galleries : {
+          galleries: {
             connectOrCreate: [
               {
                 where: {
@@ -319,7 +319,7 @@ class Book {
                 create: {
                   photo: this.galleries[0].photo,
                   cover: this.galleries[0].cover,
-                }
+                },
               },
               {
                 where: {
@@ -328,7 +328,7 @@ class Book {
                 create: {
                   photo: this.galleries[1].photo,
                   cover: this.galleries[1].cover,
-                }
+                },
               },
               {
                 where: {
@@ -337,13 +337,13 @@ class Book {
                 create: {
                   photo: this.galleries[2].photo,
                   cover: this.galleries[2].cover,
-                }
+                },
               },
-            ]
+            ],
           },
-        }
+        },
       });
-    }else{
+    } else {
       //CREATE
       return await db.book.create({
         data: {
@@ -368,10 +368,10 @@ class Book {
                   nameSurname: this.authors[0].nameSurname,
                 },
                 create: {
-                   nameSurname: this.authors[0].nameSurname,
-                   photo: "",
-                   biography: "",
-                   wikipedia: "",
+                  nameSurname: this.authors[0].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
                 },
               },
               {
@@ -379,10 +379,10 @@ class Book {
                   nameSurname: this.authors[1].nameSurname,
                 },
                 create: {
-                   nameSurname: this.authors[1].nameSurname,
-                   photo: "",
-                   biography: "",
-                   wikipedia: "",
+                  nameSurname: this.authors[1].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
                 },
               },
               {
@@ -390,57 +390,57 @@ class Book {
                   nameSurname: this.authors[2].nameSurname,
                 },
                 create: {
-                   nameSurname: this.authors[2].nameSurname,
-                   photo: "",
-                   biography: "",
-                   wikipedia: "",
+                  nameSurname: this.authors[2].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
                 },
-              }
-            ]
+              },
+            ],
           },
-          categories : {
-            connectOrCreate : [
+          categories: {
+            connectOrCreate: [
               {
                 where: {
                   name: this.categories[0].name,
                 },
                 create: {
                   name: this.categories[0].name,
-                  icon: "",
+                  iconPath: "",
                   description: "",
-                }
+                },
               },
               {
                 where: {
                   name: this.categories[1].name,
                 },
-                 create: {
+                create: {
                   name: this.categories[1].name,
-                  icon: "",
+                  iconPath: "",
                   description: "",
-                }
+                },
               },
               {
                 where: {
                   name: this.categories[2].name,
                 },
-                 create: {
+                create: {
                   name: this.categories[2].name,
-                  icon: "",
+                  iconPath: "",
                   description: "",
-                }
-              }
-            ]
+                },
+              },
+            ],
           },
-          genres : {
-            connectOrCreate : [
+          genres: {
+            connectOrCreate: [
               {
                 where: {
                   name: this.genres[0].name,
                 },
                 create: {
                   name: this.genres[0].name,
-                }
+                },
               },
               {
                 where: {
@@ -448,7 +448,7 @@ class Book {
                 },
                 create: {
                   name: this.genres[1].name,
-                }
+                },
               },
               {
                 where: {
@@ -456,11 +456,11 @@ class Book {
                 },
                 create: {
                   name: this.genres[2].name,
-                }
+                },
               },
-            ]
+            ],
           },
-          galleries : {
+          galleries: {
             connectOrCreate: [
               {
                 where: {
@@ -469,7 +469,7 @@ class Book {
                 create: {
                   photo: this.galleries[0].photo,
                   cover: this.galleries[0].cover,
-                }
+                },
               },
               {
                 where: {
@@ -478,7 +478,7 @@ class Book {
                 create: {
                   photo: this.galleries[1].photo,
                   cover: this.galleries[1].cover,
-                }
+                },
               },
               {
                 where: {
@@ -487,12 +487,12 @@ class Book {
                 create: {
                   photo: this.galleries[2].photo,
                   cover: this.galleries[2].cover,
-                }
+                },
               },
-            ]
+            ],
           },
-        
-      }});
+        },
+      });
     }
   }
 

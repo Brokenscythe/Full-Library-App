@@ -70,11 +70,11 @@
                         <a href="/#" class="inline active-book-nav hover:text-blue-800">
                             Osnovni detalji
                         </a>
-                        <a href="/editKnjigaSpecifikacija/:<%= book.id %>"
+                        <a href="/editKnjigaSpecifikacija/:"
                             class="inline ml-[70px] hover:text-blue-800 ">
                             Specifikacija
                         </a>
-                        <a href="/editKnjigaMultimedija/:<%= book.id %>" class="inline ml-[70px] hover:text-blue-800">
+                        <a href="/editKnjigaMultimedija/:" class="inline ml-[70px] hover:text-blue-800">
                             Multimedija
                         </a>
                     </div> -->
@@ -90,17 +90,23 @@
                         <ul class="tabs">
                             <li>
                                 <div class="tabsontent" id="editKnjigaOsnovno">
-                                    <%- include('editKnjigaOsnovno', {book:book}) %>
+                                    <%- include('editKnjigaOsnovno', { book:book, authors: authors, categories:
+                                        categories, genres: genres, publishers: publishers, letters: letters, bindings:
+                                        bindings, formats: formats}) %>
                                 </div>
                             </li>
                             <li>
                                 <div class="tabsontent" id="editKnjigaSpecifikacija">
-                                    <%- include('editKnjigaSpecifikacija', {book:book}) %>
+                                    <%- include('editKnjigaSpecifikacija', { book:book, authors: authors, categories:
+                                        categories, genres: genres, publishers: publishers, letters: letters, bindings:
+                                        bindings, formats: formats, }) %>
                                 </div>
                             </li>
                             <li>
                                 <div class="tabsontent" id="editKnjigaMultimedija">
-                                    <%- include('editKnjigaMultimedija', {book:book}) %>
+                                    <%- include('editKnjigaMultimedija', { book:book, authors: authors, categories:
+                                        categories, genres: genres, publishers: publishers, letters: letters, bindings:
+                                        bindings, formats: formats,}) %>
                                 </div>
                             </li>
                         </ul>

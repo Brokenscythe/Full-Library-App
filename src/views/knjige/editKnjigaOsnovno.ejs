@@ -17,7 +17,7 @@
         <div class="mt-[20px]">
             <p>Izaberite kategorije <span class="text-red-500">*</span></p>
             <select x-cloak id="kategorijaEdit">
-                <% for(category in book.categories) { %>
+                <% for(category in categories) { %>
                     <option value="<%= category.id %>">
                         <%= category.name%>
                     </option>
@@ -111,7 +111,7 @@
     <div class="mt-[20px]">
         <p>Izaberite zanrove <span class="text-red-500">*</span></p>
         <select x-cloak id="zanrEdit">
-            <% for (genre in book.genres) { %>
+            <% for (genre in genres) { %>
                 <option value="<%= genre.id %>">
                     <%= genre.name %>
                 </option>
