@@ -2,13 +2,22 @@ import nodemailer from "nodemailer";
 
 const transport = nodemailer.createTransport({
   service: "Gmail",
-  host: "smtp.forwardemail.net",
-  port: 465,
-  secure: true,
   auth: {
-    user: "cortexprojectlibrary@gmail.com",
-    pass: process.env.EMAIL_PASS,
+    user: "dusanivanoviri@gmail.com",
+    pass: "40danadusaluta123!",
   },
+});
+
+transport.verify(function (error) {
+  if (error) {
+    console.error("Error connecting to email service:", error);
+  } else {
+    console.log("Connected to email service.");
+  }
+});
+
+transport.on("error", function (error) {
+  console.error("Email transport error:", error);
 });
 
 export default transport;

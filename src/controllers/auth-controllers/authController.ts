@@ -66,7 +66,6 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
     created_at: new Date(),
     updated_at: new Date(),
   });
-  console.log(newUser);
   try {
     const existsAlready = await newUser.existsAlready();
     if (existsAlready) {
@@ -106,28 +105,25 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
       return;
     }
     await newUser.save();
-    // const info = transport.sendMail({
-    //   from: "cortexprojectlibrary@gmail.com",
-    //   to: newUser.email,
-    //   subject: "Potvrdi svoju registraciju.",
-    //   html: `<h1>Provjera sigurnosti</h1>
-    //     <p> Poštovani,
-    //       da bi potvrdili svoju registraciju pritisnite na sledeći link: http://localhost:3000/confirm/:token
-    //   `,
-    // });
     console.log(newUser);
+    const confirmationLink = `http://localhost:3000/confirm/${newUser.confirmation_token}`;
+    await transport.sendMail({
+      from: "cortexprojectlibrary@gmail.com",
+      to: newUser.email,
+      subject: "Potvrdi svoju registraciju.",
+      html: `<h1>Provjera sigurnosti</h1>
+             <p> Poštovani ${newUser.name},</p>
+             <p>da bi potvrdili svoju registraciju pritisnite na sledeći link:</p>
+              <a href="${confirmationLink}">${confirmationLink}</a>
+      `,
+    });
+    console.log("Registration successful. Confirmation email sent.");
   } catch (error) {
     console.error("Error during registartion:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
   res.redirect("/login");
 }
-// export async function emailConfirm(req: Request, res: Response, next: NextFunction): Promise<void> {
-//   const token = req.params.token;
-//   const user = await User.findOne({ where:{
-//     confirmationToken: token });
-//   }
-
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email, password } = req.body;
 
@@ -176,6 +172,16 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
         }
       }
     }
+  }
+}
+export async function confirmRegistration(req: Request, res: Response): Promise<void> {
+  const token = req.params.token;
+  try {
+    await User.findUserToken(token);
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error during confirmation:", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 }
 

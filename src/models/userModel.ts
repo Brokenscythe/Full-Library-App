@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { v4 as uuidv4 } from "uuid";
 
 const db = new PrismaClient();
 
@@ -55,6 +56,34 @@ class User {
       },
     });
   }
+  static async findUserToken(token: string) {
+    try {
+      const user = await db.user.findFirst({
+        where: {
+          confirmation_token: token,
+        },
+      });
+
+      if (user) {
+        await db.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            confirmed: true,
+            email_verified_at: new Date(),
+          },
+        });
+
+        return user;
+      } else {
+        throw new Error("User couldn't be validated");
+      }
+    } catch (error) {
+      throw new Error("An error occurred during token validation: ");
+    }
+  }
+
   static async getUser(id: number) {
     const user = await db.user.findUnique({
       where: {
@@ -118,6 +147,7 @@ class User {
           JMBG: this.JMBG,
           photo: this.photo,
           typeId: userType.id,
+          confirmation_token: uuidv4(),
           created_at: new Date(),
           login_count: 0,
         },

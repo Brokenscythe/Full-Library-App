@@ -12,4 +12,6 @@ authRouter.post("/register", AuthService.signup);
 
 authRouter.post("/logout", AuthService.logout);
 
+authRouter.get("/confirm/:token", AuthService.confirmRegistration);
+
 export default authRouter;
