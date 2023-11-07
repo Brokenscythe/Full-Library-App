@@ -54,12 +54,16 @@
                                         <li>
                                             <span class="mx-2">/</span>
                                         </li>
-                                        <% for (let i = 0; i < rentedBooks.length; i++) { %>
-                                            <li>
-                                                <a href="/books/<%= rentedBooks[i].book.id %>" class="text-[#2196f3] hover:text-blue-600">
-                                                    KNJIGA-<%= rentedBooks[i].book.id %>
-                                                </a>
-                                            </li>
+                                        <% if (rentedBooks && rentedBooks.length > 0) { %>
+                                            <% for (let i = 0; i < rentedBooks.length; i++) { %>
+                                                <li>
+                                                    <a href="/books/<%= rentedBooks[i].book.id %>" class="text-[#2196f3] hover:text-blue-600">
+                                                        KNJIGA-<%= rentedBooks[i].book.id %>
+                                                    </a>
+                                                </li>
+                                            <% } %>
+                                        <% } else { %>
+                                            <p>No rented books found.</p>
                                         <% } %>
                                     </ol>
                                 </nav>
