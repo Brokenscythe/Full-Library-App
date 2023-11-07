@@ -46,6 +46,7 @@ export async function getLogIn(req: Request, res: Response, next: NextFunction):
   }
 }
 
+
 export async function signup(req: Request, res: Response): Promise<void | Response<never, Record<string, number>>> {
   const enteredData: UserData = {
     username: req.body.username,
@@ -55,14 +56,15 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
     confirmPassword: req.body["confirm_password"],
     JMBG: req.body.jmbg,
   };
+  const confirmationToken = uuidv4()
   console.log(enteredData);
   const newUser = new User({
     username: req.body.username,
     name: req.body.name,
     email: req.body.email,
     password: req.body.password,
-    confirmation_token: uuidv4(),
     JMBG: req.body.jmbg,
+    confirmation_token: confirmationToken,
     created_at: new Date(),
     updated_at: new Date(),
   });
@@ -105,18 +107,19 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
       return;
     }
     await newUser.save();
-    console.log(newUser);
-    const confirmationLink = `http://localhost:3000/confirm/${newUser.confirmation_token}`;
+    const confirmationLink = `http://localhost:3000/confirm/${confirmationToken}`;
     await transport.sendMail({
       from: "cortexprojectlibrary@gmail.com",
       to: newUser.email,
       subject: "Potvrdi svoju registraciju.",
-      html: `<h1>Provjera sigurnosti</h1>
-             <p> Poštovani ${newUser.name},</p>
-             <p>da bi potvrdili svoju registraciju pritisnite na sledeći link:</p>
-              <a href="${confirmationLink}">${confirmationLink}</a>
+      html: `
+        <h1 style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 24px; text-align: center;">Provjera sigurnosti</h1>
+        <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Poštovani ${newUser.name},</p>
+        <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Da biste potvrdili svoju registraciju, pritisnite na sledeći link:</p>
+        <a href="${confirmationLink}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da potvrdite registraciju</a>
       `,
     });
+    
     console.log("Registration successful. Confirmation email sent.");
   } catch (error) {
     console.error("Error during registartion:", error);
@@ -174,16 +177,17 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     }
   }
 }
-export async function confirmRegistration(req: Request, res: Response): Promise<void> {
-  const token = req.params.token;
-  try {
-    await User.findUserToken(token);
-    res.redirect("/login");
-  } catch (error) {
-    console.error("Error during confirmation:", error);
-    res.status(500).json({ error: "Internal server error" });
+  export async function confirmRegistration(req: Request, res: Response): Promise<void> {
+    const token = req.params.token;
+    try {
+      console.log(token)
+      await User.findUserToken(token);
+      res.redirect("/login");
+    } catch (error) {
+      console.error("Error during confirmation:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
   }
-}
 
 export async function logout(req: Request, res: Response): Promise<void> {
   authUtil.destroyUserSession(req, res);

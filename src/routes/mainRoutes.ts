@@ -14,5 +14,4 @@ router.get('/izdateKnjige', (req, res) => {
     res.render('rezervacije/aktivneRezervacije');
 });
 
-
 export default router;

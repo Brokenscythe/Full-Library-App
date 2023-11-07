@@ -29,7 +29,7 @@ class User {
     photo?: string;
     id?: number;
     created_at?: Date;
-    updated_at?: Date;
+    updated_at?: Date;  
     confirmation_token?: string;
   }) {
     this.name = data.name || "";
@@ -40,6 +40,7 @@ class User {
     this.typeId = data.typeId || 1;
     this.photo = data.photo || "";
     this.id = data.id;
+    this.confirmation_token = data.confirmation_token
   }
   static async getAllUsers() {
     const userType = await db.userType.findFirst({
@@ -63,7 +64,7 @@ class User {
           confirmation_token: token,
         },
       });
-
+    
       if (user) {
         await db.user.update({
           where: {
@@ -74,13 +75,17 @@ class User {
             email_verified_at: new Date(),
           },
         });
-
+    
         return user;
       } else {
-        throw new Error("User couldn't be validated");
+        throw new Error(`User couldn't be validated: Token not found for token: ${token}`);
       }
-    } catch (error) {
-      throw new Error("An error occurred during token validation: ");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("An error occurred during token validation:", error.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
     }
   }
 
@@ -147,7 +152,7 @@ class User {
           JMBG: this.JMBG,
           photo: this.photo,
           typeId: userType.id,
-          confirmation_token: uuidv4(),
+          confirmation_token: this.confirmation_token,
           created_at: new Date(),
           login_count: 0,
         },
