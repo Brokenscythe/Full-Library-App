@@ -55,7 +55,8 @@ const rentBookController = {
         },
       });
 
-      res.status(200).json({ message: "Book rented successfully", rental });
+      //res.status(200).json({ message: "Book rented successfully", rental });
+      res.redirect('/rent');
     } catch (error: any) {
       const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
       res.status(500).json({ error: "Error while renting the book", details: errorMessage });
