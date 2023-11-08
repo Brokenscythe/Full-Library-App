@@ -1,6 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { v4 as uuidv4 } from "uuid";
 
 const db = new PrismaClient();
 
@@ -29,7 +28,7 @@ class User {
     photo?: string;
     id?: number;
     created_at?: Date;
-    updated_at?: Date;  
+    updated_at?: Date;
     confirmation_token?: string;
   }) {
     this.name = data.name || "";
@@ -40,7 +39,7 @@ class User {
     this.typeId = data.typeId || 1;
     this.photo = data.photo || "";
     this.id = data.id;
-    this.confirmation_token = data.confirmation_token
+    this.confirmation_token = data.confirmation_token;
   }
   static async getAllUsers() {
     const userType = await db.userType.findFirst({
@@ -64,7 +63,7 @@ class User {
           confirmation_token: token,
         },
       });
-    
+
       if (user) {
         await db.user.update({
           where: {
@@ -75,7 +74,7 @@ class User {
             email_verified_at: new Date(),
           },
         });
-    
+
         return user;
       } else {
         throw new Error(`User couldn't be validated: Token not found for token: ${token}`);
@@ -241,13 +240,28 @@ class User {
       },
     });
   }
-  hasMatchingEmail() {
-    return db.user.findFirst({
+  async hasMatchingEmail() {
+    const user = await db.user.findFirst({
       where: {
         email: this.email,
       },
     });
+
+    if (!user) {
+      throw new Error("No user found with the provided email");
+      return;
+    }
+
+    return user;
   }
+  static async hasMatchingId(id: number) {
+    return db.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+  }
+
   async hasMatchingJMBG() {
     return db.user.findFirst({
       where: {

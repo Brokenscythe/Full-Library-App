@@ -14,11 +14,21 @@ authRouter.post("/logout", AuthService.logout);
 
 authRouter.get("/confirm/:token", AuthService.confirmRegistration);
 
-authRouter.get('/401', (req, res) => {
-    res.render('shared/includes/401')
+authRouter.get("/forgot-password", function (req, res) {
+  res.render("auth/forgotPassword.ejs");
 });
-authRouter.get('/501', (req, res) => {
-    res.render('shared/includes/501')
+
+authRouter.post("/forgot-password", AuthService.forgotPassword);
+
+authRouter.get("/reset-password/:id/:token", AuthService.getResetPassword);
+
+authRouter.post("/reset-password/:id/:token", AuthService.resetPassword);
+
+authRouter.get("/401", (req, res) => {
+  res.render("shared/includes/401");
+});
+authRouter.get("/501", (req, res) => {
+  res.render("shared/includes/501");
 });
 
 export default authRouter;

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { v4 as uuidv4 } from "uuid";
+import jwt from "jsonwebtoken";
 // Models
 import User from "../../models/userModel";
 import UserLoginsService from "../../models/userLogins";
@@ -46,7 +47,6 @@ export async function getLogIn(req: Request, res: Response, next: NextFunction):
   }
 }
 
-
 export async function signup(req: Request, res: Response): Promise<void | Response<never, Record<string, number>>> {
   const enteredData: UserData = {
     username: req.body.username,
@@ -56,7 +56,7 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
     confirmPassword: req.body["confirm_password"],
     JMBG: req.body.jmbg,
   };
-  const confirmationToken = uuidv4()
+  const confirmationToken = uuidv4();
   console.log(enteredData);
   const newUser = new User({
     username: req.body.username,
@@ -119,7 +119,7 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
         <a href="${confirmationLink}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da potvrdite registraciju</a>
       `,
     });
-    
+
     console.log("Registration successful. Confirmation email sent.");
   } catch (error) {
     console.error("Error during registartion:", error);
@@ -177,17 +177,86 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     }
   }
 }
-  export async function confirmRegistration(req: Request, res: Response): Promise<void> {
-    const token = req.params.token;
-    try {
-      console.log(token)
-      await User.findUserToken(token);
-      res.redirect("/login");
-    } catch (error) {
-      console.error("Error during confirmation:", error);
-      res.status(500).json({ error: "Internal server error" });
+export async function forgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const { email } = req.body;
+
+  try {
+    const user = new User({ email: email });
+    const existingUser = await user.hasMatchingEmail();
+
+    if (existingUser) {
+      console.log("User with provided email has been found");
+      console.log(existingUser);
+
+      const secret = uuidv4();
+
+      const payload = {
+        email: existingUser.email,
+        id: existingUser.id,
+      };
+      const token = jwt.sign(payload, secret, { expiresIn: "15m" });
+      const link = `http://localhost:3000/reset-password/${existingUser.id}/${token}`;
+
+      await transport.sendMail({
+        from: "cortexprojectlibrary@gmail.com",
+        to: existingUser.email,
+        subject: "Promjena lozinke",
+        html: `
+          <h1 style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 24px; text-align: center;">Promjena Lozinke</h1>
+          <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Poštovani ${existingUser.name},</p>
+          <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Da biste promijenili svoju lozinku, pritisnite na sledeći link:</p>
+          <a href="${link}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da promjenite lozinku</a>
+        `,
+      });
+      console.log("Password reset link has been sent to your email...");
+      res.send("Password reset link has been sent to your email...");
+    } else {
+      console.log("No user found with the provided email");
+      return;
     }
+  } catch (error) {
+    return next(error);
   }
+}
+
+export async function getResetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
+  const { id, token } = req.params;
+  try {
+    const existingUser = await User.hasMatchingId(id);
+    if (!existingUser) {
+      res.send("Invalid id...");
+      console.log("User with that id isn't found");
+      return;
+    }
+
+    // Extract the secret from the token
+    const secret = uuidv4() + existingUser?.password;
+    console.log(secret);
+    const payload = jwt.verify(token, secret);
+    res.render("auth/reset-password", { email: existingUser.email });
+    // Continue with your password reset logic using the secret
+  } catch (error) {
+    if (error instanceof Error) console.log(error.message);
+    return next(error);
+  }
+}
+
+export async function resetPassword(req: Request, res: Response): Promise<void> {
+  const { id, token } = req.params;
+  res.send();
+}
+
+export async function confirmRegistration(req: Request, res: Response): Promise<void> {
+  const token = req.params.token;
+  try {
+    console.log(token);
+    await User.findUserToken(token);
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error during confirmation:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
 
 export async function logout(req: Request, res: Response): Promise<void> {
   authUtil.destroyUserSession(req, res);

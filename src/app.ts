@@ -23,7 +23,8 @@ import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 import AuthorRouter from "./routes/authorRoutes";
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.use(methodOverride("_method"));
 const PORT = 3000;
@@ -37,7 +38,6 @@ app.set("views", path.join(__dirname, "views"));
 
 //SERVING STATIC FILES
 app.use(express.static(path.join(__dirname, "public")));
-app.use(express.urlencoded({ extended: false }));
 
 const sessionConfig = createSessionConfig();
 
