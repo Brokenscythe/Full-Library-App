@@ -210,23 +210,54 @@ const rentBookController = {
   },
   searchRentedBooks: async (req: Request, res: Response) => {
     try {
-      const searchQuery = req.query.searchQuery as string;
+        const searchQuery = req.query.searchQuery as string;
 
-      // trazi po naslovu knjige
-      const rentedBooks = await prisma.book.findMany({
-        where: {
-          title: {
-            contains: searchQuery, // filter
-          },
-        },
+        
+        const rentedBooks = await prisma.book.findMany({
+            where: {
+                title: {
+                    contains: searchQuery, 
+                },
+            },
+        });
+
+ 
+        const totalBooks = await prisma.book.count();
+
+
+        const rentedBooksResult = await prisma.book.aggregate({
+            _sum: {
+                rented_count: true,
+            },
+        });
+        const rentedCount = rentedBooksResult._sum.rented_count || 0;
+
+
+        const reservedBooksResult = await prisma.book.aggregate({
+            _sum: {
+                reserved_count: true,
+            },
+        });
+        const reservedCount = reservedBooksResult._sum.reserved_count || 0;
+
+       
+        const availableCount = totalBooks - (rentedCount + reservedCount);
+
+        res.status(200).json({
+          title: "Iznajmljene knjige - test JSON",
+          rentedBooks,
+          totalBooks,
+          rentedCount,
+          reservedCount,
+          availableCount
       });
-
-      res.status(200).json({ rentedBooks });
+      // res.render("iznajmljivanje/iznajmljivanjeAktivne", { rentedBooks, totalBooks, rentedCount, reservedCount, availableCount });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
-      res.status(500).json({ error: "Greska tokom trazenja iznajmljenih knjiga po naslovu knjige, u rent kontroleru", details: errorMessage });
+        const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske ";
+        res.status(500).json({ error: "Greska tokom trazenja iznajmljenih knjiga po naslovu knjige, u rent kontroleru", details: errorMessage });
     }
-  },
+},
+
   searchRentedBooksStatus: async (req: Request, res: Response) => {
     try {
         const rentStatusId = parseInt(req.query.rentStatusId as string, 10);
@@ -275,11 +306,11 @@ const rentBookController = {
                 },
             },
         });
-
+        const totalBooksByStatus = rentedBooks.length;
         console.log("Rented Books Data:", rentedBooks);
 
         // Pass the pageTitle to the res.render function
-        res.render("izdavanje/izdateKnjige", { rentedBooks, pageTitle });
+        res.render("izdavanje/izdateKnjige", { rentedBooks, pageTitle, totalBooksByStatus });
     } catch (error: any) {
         const errorMessage = error instanceof Error ? error.message : "Nepoznata greska u rent kontroleru";
         res.status(500).json({ error: "Greska tokom trazenja po rentStatusId u rent kontroleru", details: errorMessage });
