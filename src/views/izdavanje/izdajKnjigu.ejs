@@ -21,6 +21,24 @@
     <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
     <script src="/scripts/lazy-load-images.js"></script>
+    <style>
+        @keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.flash-text {
+  animation: flash 1s infinite;
+}
+
+    </style>
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
@@ -190,7 +208,6 @@
                                   
                             </div>
                         </div>
-                
                         <div class="w-[50%] mb-[100px]">
                             <div class="border-[1px] border-[#e4dfdf] w-[360px] mt-[75px]">
                                 <h2 class="mt-[20px] ml-[30px]">KOLICINE</h2>
@@ -203,12 +220,13 @@
                                         <p class="mt-[20px]">U prekoracenju:</p>
                                         <p class="mt-[20px]">Ukupna kolicina:</p>
                                     </div>
-                                    <div class="text-center pb-[30px]">
-                                        <!-- Quantity information can be dynamically loaded using JavaScript -->
+                                    <div class="text-center pb-[30px]" id="quantityInfo">
+                                        <!-- Quantity information will be dynamically loaded here using JavaScript -->
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 
                     <div class="absolute bottom-0 w-full">
@@ -286,7 +304,26 @@
   }
 }
 
-        </script>
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/allStatistics')
+        .then((response) => response.json())
+        .then((data) => {
+            const quantityInfo = document.getElementById('quantityInfo');
+            quantityInfo.innerHTML = `
+               <p class="mt-[16px] bg-red-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[16px] flash-text" style="color: black; font-weight: bold;"> ${data.availableBooksByBookId} primjeraka</p>
+                <p class="mt-[16px] bg-yellow-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]"> ${data.reservedBooksByBookId} primjeraka</p>
+                <p class="mt-[16px] bg-blue-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]"> ${data.rentedBooksByBookId} primjeraka</p>
+                <p class="mt-[16px] bg-green-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px] flash-text"> ${data.overdueBooks} primjeraka</p>
+                <p class="mt-[16px] bg-red-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]"> ${data.totalBooks} primjeraka</p>
+            `;
+        })
+        .catch((error) => {
+            console.error('Error fetching statistics:', error);
+        });
+});
+
+</script>
 </body>
 
 </html>

@@ -68,16 +68,26 @@ export const getAllStatistics = async (req: Request, res: Response) => {
       const rentedBooksByBookId = await prisma.rent.count();
       const availableBooksByBookId = await prisma.book.count();
       const reservedBooksByBookId = await prisma.reservation.count();
-      const totalBooks = await prisma.book.count(); //ukupan broj knjiga dodat
-  
+      const totalBooks = await prisma.book.count();
+      
+      // Calculate overdue books count
+      const currentDate = new Date();
+      const overdueBooks = await prisma.rent.count({
+        where: {
+          return_date: {
+            lt: currentDate, // knjige u prekoracenju
+          },
+        },
+      });
+    
       res.json({
         totalRentedBooks,
         rentedBooksByBookId,
         availableBooksByBookId,
         reservedBooksByBookId,
         totalBooks,
+        overdueBooks, // dodaj broj knjiga u prekoracenju
       });
-      console.log(totalBooks)
     } catch (error) {
       res.status(500).json({ error: 'Error fetching statistics' });
     }

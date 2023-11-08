@@ -52,7 +52,7 @@
                                 <nav class="w-full rounded">
                                     <ol class="flex list-reset">
                                         <li>
-                                            <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                            <a href="/books" class="text-[#2196f3] hover:text-blue-600">
                                                 Evidencija knjiga
                                             </a>
                                         </li>
@@ -60,7 +60,7 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/knjigaOsnovniDetalji"
+                                            <a href="/books/<%= book.id %>"
                                                 class="text-[#2196f3] hover:text-blue-600">
                                                 KNJIGA-<%= book.id %>
                                             </a>
@@ -117,10 +117,10 @@
             <div class="flex flex-row overflow-auto height-osnovniDetalji">
                 <div class="w-[80%]">
                     <div class="border-b-[1px] py-4 text-gray-500 border-[#e4dfdf] pl-[30px]">
-                        <a href="/knjigaOsnovniDetalji" class="inline active-book-nav hover:text-blue-800">
+                        <a href="/books/<%= book.id %>" class="inline active-book-nav hover:text-blue-800">
                             Osnovni detalji
                         </a>
-                        <a href="/knjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
+                        <a href="/books/<%= book.id %>" class="inline ml-[70px] hover:text-blue-800 ">
                             Specifikacija
                         </a>
                         <a href="/iznajmljivanjeIzdate" class="inline ml-[70px] hover:text-blue-800">
