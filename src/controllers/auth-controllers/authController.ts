@@ -196,7 +196,7 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
       };
       const token = jwt.sign(payload, secret, { expiresIn: "15m" });
       const link = `http://localhost:3000/reset-password/${existingUser.id}/${token}`;
-
+      console.log(link)
       await transport.sendMail({
         from: "cortexprojectlibrary@gmail.com",
         to: existingUser.email,
@@ -221,29 +221,41 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
 
 export async function getResetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
+  console.log(token)
+  console.log(id)
   try {
-    const existingUser = await User.hasMatchingId(id);
+    const existingUser = await User.hasMatchingId(Number(id));
     if (!existingUser) {
       res.send("Invalid id...");
       console.log("User with that id isn't found");
       return;
     }
-
-    // Extract the secret from the token
-    const secret = uuidv4() + existingUser?.password;
-    console.log(secret);
-    const payload = jwt.verify(token, secret);
-    res.render("auth/reset-password", { email: existingUser.email });
-    // Continue with your password reset logic using the secret
+    const secret = uuidv4() + existingUser.password;
+  
+    jwt.verify(token, secret, (err, payload) => {
+      if (err) {
+        console.error("Error verifying token:", err);
+        return next(err);
+      }
+      
+      console.log("Token verification successful");
+      res.render("auth/reset-password", { email: existingUser.email });
+    });
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
     return next(error);
   }
 }
 
-export async function resetPassword(req: Request, res: Response): Promise<void> {
+
+export async function resetPassword(req: Request, res: Response,next: NextFunction): Promise<void> {
   const { id, token } = req.params;
-  res.send();
+  try{
+    const existingUser = await User.hasMatchingId(Number(id));
+    res.send(existingUser)
+  }catch(error){
+    return next(error);
+  }
 }
 
 export async function confirmRegistration(req: Request, res: Response): Promise<void> {
