@@ -24,6 +24,10 @@ router.get('/rent/display/:bookId', rentBookController.displayBookDetails);
 
 router.get("/rent", rentBookController.viewRentedBooksByStatusID);
 
+//vrati knjigu
+
+router.post('/rent/returnRentedBook/:bookId', rentBookController.returnRentedBook);
+router.get('/rent/returnRentedBook/:bookId', rentBookController.returnRentedBook);
 
 
 export default router;

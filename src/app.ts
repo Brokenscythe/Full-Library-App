@@ -21,6 +21,7 @@ import healthCheckRouter from  "./routes/healthCheckRouter";
 import userRouter from "./routes/userRoutes";
 import librarianRouter from "./routes/librarianRoutes";
 import statisticsRouter from "./routes/statisticsRoutes";
+import reportRouter from "./routes/reportRouter";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -109,6 +110,7 @@ app.use("/", ReservationRouter);
 app.use("/", rentBookRouter);
 app.use("/health", healthCheckRouter);
 app.use("/", statisticsRouter);
+app.use("/reports", reportRouter);
 
 app.use(errorHandlerMiddleware);
 

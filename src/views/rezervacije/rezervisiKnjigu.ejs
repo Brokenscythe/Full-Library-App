@@ -131,7 +131,7 @@
                         <h3 class="mt-[20px] mb-[10px]">Rezerviši knjigu</h3>
                         <div class="mt-[20px]">
                           <p>Select book <span class="text-red-500">*</span></p>
-                          <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" id="bookReservation" onchange="getSelectedBookDetails()">
+                          <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" id="bookReservation" onclick="getSelectedBookDetails()">
                               <option disabled selected></option>
                               <% books.forEach(function(book) { %>
                                 <% if (book.quantity_count - book.rented_count - book.reserved_count > 0) { %>

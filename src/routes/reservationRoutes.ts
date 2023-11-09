@@ -25,4 +25,7 @@ router.get("/reservations/search/book", reservationController.searchReservations
 // Dodaj rutu za pretragu rezervacija po imenu korisnika
 router.get("/reservations/search/user", reservationController.searchReservationsByUserName);
 
+// Pročitajte arhivirane rezervacije
+router.get("/reservations/archived/all", reservationController.getArchivedReservations);
+
 export default router;

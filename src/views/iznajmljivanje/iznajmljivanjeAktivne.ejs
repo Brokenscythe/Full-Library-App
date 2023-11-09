@@ -94,8 +94,8 @@
     <i class="far fa-hand-scissors mr-[3px]"></i>
     Izdaj knjigu
   </a>
-<% }); %>
-                        <a href="/vratiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+
+<a href="/rent/returnRentedBook/<%= rentedBook.book.id %>" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="fas fa-redo-alt mr-[3px] "></i>
                             Vrati knjigu
                         </a>
@@ -107,6 +107,7 @@
                             <i
                                 class="fas fa-ellipsis-v"></i>
                         </p>
+                        <% }); %>
                         <div
                             class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 dropdown-iznajmljivanje-aktivne-rezervacije">
                             <div class="absolute right-0 w-56 mt-[7px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
