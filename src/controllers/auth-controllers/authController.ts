@@ -177,26 +177,31 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     }
   }
 }
+
 export async function forgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email } = req.body;
-
   try {
     const user = new User({ email: email });
     const existingUser = await user.hasMatchingEmail();
+    const existsAlready = await email.hasMatchingEmail();
+    if (!validation.emailIsConfirmed(email, existsAlready )) {
+      sessionFlash.flashDataToSession(req, 
+      {
+        error_message: "Nismo mogli pronaći korisnika sa tim e-mailom.",
+        ...email,  
+      }, function(){
 
-    if (existingUser) {
+      })
+    }
       console.log("User with provided email has been found");
-      console.log(existingUser);
-
-      const secret = uuidv4();
-
+      const secret = process.env.PASS_SECRET + existingUser.password;
       const payload = {
         email: existingUser.email,
         id: existingUser.id,
       };
       const token = jwt.sign(payload, secret, { expiresIn: "15m" });
       const link = `http://localhost:3000/reset-password/${existingUser.id}/${token}`;
-      console.log(link)
+
       await transport.sendMail({
         from: "cortexprojectlibrary@gmail.com",
         to: existingUser.email,
@@ -208,21 +213,17 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
           <a href="${link}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da promjenite lozinku</a>
         `,
       });
-      console.log("Password reset link has been sent to your email...");
+      console.log(`Token during creation: ${token}`);
+      console.log(`Secret during creation: ${secret}`);
       res.send("Password reset link has been sent to your email...");
-    } else {
-      console.log("No user found with the provided email");
-      return;
-    }
-  } catch (error) {
+    } catch (error) {
     return next(error);
   }
 }
-
 export async function getResetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
   console.log(token)
-  console.log(id)
+  console.log(`This is ${id} extracted, this is ${token} extracted from req.params`)
   try {
     const existingUser = await User.hasMatchingId(Number(id));
     if (!existingUser) {
@@ -230,8 +231,9 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
       console.log("User with that id isn't found");
       return;
     }
-    const secret = uuidv4() + existingUser.password;
-  
+    const secret = process.env.PASS_SECRET + existingUser.password;
+    console.log(`Token during verification: ${token}`);
+      console.log(`Secret during verification: ${secret}`);
     jwt.verify(token, secret, (err, payload) => {
       if (err) {
         console.error("Error verifying token:", err);
@@ -253,6 +255,9 @@ export async function resetPassword(req: Request, res: Response,next: NextFuncti
   try{
     const existingUser = await User.hasMatchingId(Number(id));
     res.send(existingUser)
+    if(!existingUser){
+      res.send("Invalid id...");
+    }
   }catch(error){
     return next(error);
   }
