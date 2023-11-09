@@ -1,7 +1,13 @@
 import { Request, Response } from "express";
 import { PrismaClient } from "@prisma/client";
 
+
 const prisma = new PrismaClient();
+
+
+interface CustomRequest extends Request {
+  flash(type: string, message?: string): any;
+}
 
 const rentBookController = {
   rentBook: async (req: Request, res: Response) => {
@@ -345,9 +351,38 @@ const rentBookController = {
     }
   },
 
+  returnRentedBook: async (req: Request, res: Response) => {
+    try {
+      const { bookId } = req.params; 
+      const parsedBookId = parseInt(bookId, 10);
+  
+      const returnedBook = await prisma.rent.update({
+        where: {
+          id: parsedBookId, 
+        },
+        data: {
+          rentStatus: {
+            connect: {
+              id: 3, // status za vracanje knjige
+            },
+          },
+        },
+      });
+  
+    //  res.status(200).json({ message: 'Knjiga uspjesno vracena', returnedBook }); za postmana
+   // req.flash('success', 'Book returned successfully');
+
+    // Redirekcija na /rent
+    res.redirect('/rent');
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : 'Doslo je do nepoznate greske';
+      res.status(500).json({ error: 'Greska tokom vracanja knjige, u rentBook kontroleru', details: errorMessage });
+    }
+  },
 };
 
+//vrati knjigu
 
 
 
-export default rentBookController;
+export default rentBookController

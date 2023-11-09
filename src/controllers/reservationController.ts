@@ -8,7 +8,7 @@ const reservationController = {
     try {
       const { bookId, reservationMadeForUserId, reservationMadeByUserId, closureReasonId, request_date, reservation_date, close_date, closeUserId } = req.body;
 
-      // Convert dates to ISO-8601 format
+      // konvertuj datume ISO-8601 format
       const requestDateISO = new Date(request_date).toISOString();
       const reservationDateISO = new Date(reservation_date).toISOString();
       const closeDateISO = new Date(close_date).toISOString();
@@ -17,7 +17,7 @@ const reservationController = {
         data: {
           book: {
             connect: {
-              id: parseInt(bookId, 10), // Parse bookId as an integer
+              id: parseInt(bookId, 10), // bookId ako integer
             },
           },
           reservationMadeForUser: {
@@ -91,20 +91,19 @@ const reservationController = {
   
   
   
-
   getAllReservations: async (req: Request, res: Response) => {
     try {
       // izracunaj ukupna broj knjiga
       const totalBooks = await prisma.book.count();
-
-      // izracunaj ukupna broj  iznajmljenih knjiga
+  
+      // izracunaj ukupna broj iznajmljenih knjiga
       const rentedBooksResult = await prisma.book.aggregate({
         _sum: {
           rented_count: true,
         },
       });
       const rentedBooks = rentedBooksResult._sum.rented_count || 0;
-
+  
       // izracunaj ukupna broj rezervsisanih knjiga
       const reservedBooksResult = await prisma.book.aggregate({
         _sum: {
@@ -112,11 +111,18 @@ const reservationController = {
         },
       });
       const reservedBooks = reservedBooksResult._sum.reserved_count || 0;
-
+  
       // izracunaj ukupna broj dostupnih knjiga
       const availableBooks = totalBooks - (rentedBooks + reservedBooks);
-
+  
       const reservations = await prisma.reservation.findMany({
+        where: {
+          closureReason: {
+            id: {
+              not: 2, // Exclude reservations with closureReasonId equal to 2
+            },
+          },
+        },
         include: {
           book: true,
           reservationMadeForUser: true,
@@ -125,7 +131,7 @@ const reservationController = {
           closureReason: true,
         },
       });
-
+  
       res.render("rezervacije/aktivneRezervacije", {
         reservations,
         totalBooks,
@@ -138,17 +144,21 @@ const reservationController = {
       res.status(500).json({ error: "Doslo je do nepoznate greske prilikom trazenja rezervacija, u kontroleru rezervacija", details: errorMessage });
     }
   },
+  
   getReservationById: async (req: Request, res: Response) => {
     try {
       const { reservationId } = req.params;
-  
       if (!reservationId) {
-        res.status(400).json({ error: "Invalid reservation ID" });
+        res.status(400).json({ error: 'Reservation ID is missing' });
         return;
       }
-  
+
+      const parsedReservationId = parseInt(reservationId, 10);
+      console.log('Parsed Reservation ID:', parsedReservationId);
       const reservation = await prisma.reservation.findUnique({
-        where: { id: Number(reservationId) },
+        where: {
+          id: parsedReservationId,
+        },
         include: {
           book: true,
           reservationMadeForUser: true,
@@ -157,19 +167,23 @@ const reservationController = {
           closureReason: true,
         },
       });
-  
+
       if (!reservation) {
-        res.status(404).json({ error: "Rezervacija nije pronađena" });
-      } else {
-        // You can render the reservation details
-        res.render('rezervacije/rezervacijaDetalji', { reservation });
+        res.status(404).json({ error: 'Reservation not found' });
+        return;
       }
+
+      res.render('rezervacije/rezervacijaDetalji', { reservation });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "Došlo je do nepoznate greške u kontroleru rezervacija";
-      res.status(500).json({ error: "Došlo je do greške prilikom traženja rezervacije po ID, u kontroleru rezervacija", details: errorMessage });
+      const errorMessage =
+        error instanceof Error ? error.message : 'Došlo je do nepoznate greške';
+      res.status(500).json({
+        error: 'Greška prilikom traženja rezervacije po ID, u kontroleru rezervacija',
+        details: errorMessage,
+      });
     }
   },
-  
+
   
 
   updateReservation: async (req: Request, res: Response) => {
@@ -291,8 +305,43 @@ const reservationController = {
       res.status(500).json({ error: "Doslo je do nepoznate greske tokom pretrage po korisnickom imenu, u kontroleru rezervacija", details: errorMessage });
     }
   },
+  getArchivedReservations: async (req: Request, res: Response) => {
+    try {
+      const archivedReservations = await prisma.$queryRaw`
+        SELECT 
+          user.username,
+          user.photo,
+          book.title,
+          book.id,
+          reservation.reservation_date AS "Datum rezervacije",
+          reservation.close_date AS "Datum zatvaranja rezervacije"
+        FROM 
+          reservation, 
+          book,
+          user 
+        WHERE 
+          book.id = reservation.bookId AND
+          closureReasonId = 2 AND
+          user.id = reservation.reservationMadeForUserId AND  
+          user.id = reservation.reservationMadeByUserId
+        ORDER BY 
+          reservation.reservation_date DESC
+      `;
+  console.log(archivedReservations);
+      res.render("rezervacije/arhiviraneRezervacije", {
+        archivedReservations,
+        pageTitle: "Arhivirane rezervacije",
+
+      });
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : "Došlo je do nepoznate greške u kontroleru rezervacija";
+      res.status(500).json({ error: "Došlo je do nepoznate greške prilikom traženja arhiviranih rezervacija, u kontroleru rezervacija", details: errorMessage });
+    }
+  },
   
 };
+
+
 
 
 
