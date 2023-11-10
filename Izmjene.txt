@@ -1,0 +1,6 @@
+izmjenio kod u logi-un.
+dodao, prikaz username-a u header-u
+ruta za logout promjenjena u get (bila post)
+dodat taster za logout-imao problema sa menijem
+formatirati dd.mm.yyyy u activity u dashboardu
+dodat API za usera userRouter.get('/api/users', userService.getAllUsersAPI); // samo JSON za imena ucenika-za evidenciju izdatih knjiga

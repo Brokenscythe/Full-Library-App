@@ -15,6 +15,7 @@ class User {
   created_at?: Date;
   updated_at?: Date;
   email_verified_at?: Date;
+  confirmation_token?: string;
   last_login_at?: Date | null;
 
   constructor(data: {
@@ -28,6 +29,7 @@ class User {
     id?: number;
     created_at?: Date;
     updated_at?: Date;
+    confirmation_token?: string;
   }) {
     this.name = data.name || "";
     this.username = data.username || "";
@@ -37,8 +39,8 @@ class User {
     this.typeId = data.typeId || 1;
     this.photo = data.photo || "";
     this.id = data.id;
+    this.confirmation_token = data.confirmation_token;
   }
-
   static async getAllUsers() {
     const userType = await db.userType.findFirst({
       where: {
@@ -53,6 +55,37 @@ class User {
         type: true,
       },
     });
+  }
+  static async findUserToken(token: string) {
+    try {
+      const user = await db.user.findFirst({
+        where: {
+          confirmation_token: token,
+        },
+      });
+
+      if (user) {
+        await db.user.update({
+          where: {
+            id: user.id,
+          },
+          data: {
+            confirmed: true,
+            email_verified_at: new Date(),
+          },
+        });
+
+        return user;
+      } else {
+        throw new Error(`User couldn't be validated: Token not found for token: ${token}`);
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("An error occurred during token validation:", error.message);
+      } else {
+        console.error("An unknown error occurred:", error);
+      }
+    }
   }
 
   static async getUser(id: number) {
@@ -82,9 +115,7 @@ class User {
       lastLoginDate,
     };
   }
-  
-
-  async register() {
+  async save() {
     const hashedPassword = await bcrypt.hash(this.password, 12);
     const userType = await db.userType.findFirst({
       where: {
@@ -92,9 +123,8 @@ class User {
       },
     });
     if (!userType) {
-      throw new Error("User type 'Ucenik' not found");
+      throw new Error("User type 'user' not found");
     }
-
     if (this.id) {
       await db.user.update({
         where: {
@@ -121,13 +151,13 @@ class User {
           JMBG: this.JMBG,
           photo: this.photo,
           typeId: userType.id,
+          confirmation_token: this.confirmation_token,
           created_at: new Date(),
           login_count: 0,
         },
       });
     }
   }
-
   async delete() {
     if (this.id) {
       await db.user.delete({
@@ -139,7 +169,6 @@ class User {
       throw new Error("User's id couldn't be found");
     }
   }
-
   static async updateLoginCount(userId) {
     try {
       await db.user.update({
@@ -155,7 +184,6 @@ class User {
       throw new Error("Failed to update login count");
     }
   }
-
   static async updateLastLoginAt(userId) {
     try {
       await db.user.update({
@@ -169,7 +197,6 @@ class User {
       throw new Error("Failed to update last login date");
     }
   }
-
   static async changePassword(userId: number, newPassword: string) {
     try {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
@@ -203,23 +230,34 @@ class User {
     });
     return !!existingUser;
   }
-
-  async hasMatchingPassword(hashedPassword) {
+  hasMatchingPassword(hashedPassword) {
     return bcrypt.compare(this.password, hashedPassword);
   }
-
-  async hasMatchingUsername() {
+  hasMatchingUsername() {
     return db.user.findFirst({
       where: {
         username: this.username,
       },
     });
   }
-
   async hasMatchingEmail() {
-    return db.user.findFirst({
+    const user = await db.user.findFirst({
       where: {
         email: this.email,
+      },
+    });
+
+    if (!user) {
+      throw new Error("No user found with the provided email");
+      return;
+    }
+
+    return user;
+  }
+  static async hasMatchingId(id: number) {
+    return db.user.findUnique({
+      where: {
+        id: id,
       },
     });
   }
@@ -232,6 +270,4 @@ class User {
     });
   }
 }
-
-
 export default User;

@@ -1,29 +1,16 @@
 import { Request, Response, NextFunction } from "express";
 import Category from "../../models/categoryModel";
-import multer from 'multer';
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Store uploaded files in the 'uploads' directory
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname); // Rename the file to avoid overwriting
-  },
-});
-
-const upload = multer({ storage: storage });
-
-
-export async function getAllCategories(req: Request, res: Response, next: NextFunction){
+export async function getAllCategories(req: Request, res: Response, next: NextFunction) {
   try {
-      const categories = await Category.getAllCategories();
-      console.log(categories);
-      res.render('settings/settingsKategorije', { categories : categories }); 
+    const categories = await Category.getAllCategories();
+    console.log(categories);
+    res.render("settings/settingsKategorije", { categories: categories });
   } catch (error) {
-      return next(error);
+    console.error("Error fetching categories:", error);
+    return next();
   }
 }
-
 export async function getCategory(req: Request, res: Response, next: NextFunction) {
   const categoryId = parseInt(req.params.id);
   let category;

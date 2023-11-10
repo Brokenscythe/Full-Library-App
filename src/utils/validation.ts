@@ -13,4 +13,9 @@ function userDetailsAreValid(username: string, name: string, email: string, pass
 function passwordIsConfirmed(password: string, confirmPassword: string): boolean {
   return password === confirmPassword;
 }
-export default { userDetailsAreValid, passwordIsConfirmed };
+
+function emailIsConfirmed(email: string, checkEmail: string): boolean{
+  return email === checkEmail
+}
+
+export default { userDetailsAreValid, passwordIsConfirmed, emailIsConfirmed };

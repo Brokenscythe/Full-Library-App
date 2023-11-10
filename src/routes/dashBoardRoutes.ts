@@ -1,5 +1,5 @@
 import express from 'express';
-import { getReservationsData,getAllActivities } from '../controllers/dashBoardController'; 
+import { getReservationsData,getAllActivities } from '../controllers/dashboard-controllers/dashBoardController'; 
 
 const router = express.Router();
 

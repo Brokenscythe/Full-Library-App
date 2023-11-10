@@ -107,7 +107,7 @@ export class Book {
   static async getBook(id: number) {
     const book = await db.book.findUnique({
       where: {
-        id:1,
+        id,
       },
       include: {
         language: true,

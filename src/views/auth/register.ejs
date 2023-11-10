@@ -29,7 +29,6 @@
       rel="stylesheet"
     />
     <!-- End Styles -->
-    \    <script src="../scripts/lazy-load-images.js"></script>
   </head>
 
   <body>
@@ -49,13 +48,13 @@
             <form method="POST" action="/register">
               <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
               <label class="auth-label" for="name">Name</label>
-              <input class="auth-input" id="name" name="name" type="text" required placeholder="Name" />
+              <input class="auth-input" id="name" name="name" type="text" value="<%= inputData.name %>" required placeholder="Name" />
 
               <label class="auth-label" for="username">Username</label>
-              <input class="auth-input" id="username" name="username" type="text" required placeholder="Username" />
+              <input class="auth-input" id="username" name="username" type="text"value="<%= inputData.username %>" required placeholder="Username" />
 
               <label class="auth-label" for="email">Email</label>
-              <input class="auth-input" id="email" name="email" type="email" required placeholder="Email" />
+              <input class="auth-input" id="email" name="email" type="email" value="<%= inputData.email %>" required placeholder="Email" />
 
               <label class="auth-label" for="password">Password</label>
               <input
@@ -63,6 +62,7 @@
                 id="password"
                 name="password"
                 type="password"
+                value="<%= inputData.password %>"
                 required
                 placeholder="Password"
                 autocomplete="new-password"
@@ -73,13 +73,14 @@
                 id="confirm_password"
                 name="confirm_password"
                 type="password"
+                value="<%= inputData.confirmPassword %>"
                 required
                 placeholder="Confirm Password"
                 autocomplete="new-password"
               />
 
               <label class="auth-label" for="jmbg">JMBG (Unique Identification Number)</label>
-              <input class="auth-input" id="jmbg" name="jmbg" type="text" required placeholder="JMBG" minlength="13" maxlength="13"/>
+              <input class="auth-input" id="jmbg" name="jmbg" type="text" value="<%= inputData.JMBG %>" required placeholder="JMBG" minlength="13" maxlength="13"/>
 
               <button class="auth-button" type="submit">Sign Up</button>
             </form>

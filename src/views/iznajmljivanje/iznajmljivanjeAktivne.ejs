@@ -34,9 +34,17 @@
         <!-- End Sidebar -->
 
         <!-- Content -->
+  >
         <section class="w-screen h-screen pl-[80px] pb-2 text-gray-700">
             <!-- Heading of content -->
+            
             <div class="heading">
+                <div class="heading mt-[7px]">
+                    <h1 class="pl-[30px] pb-[21px] border-b-[0px] border-[#e4dfdf] ">
+                        <%= pageTitle || 'Iznajmljene knjige' %>
+                    </h1>
+                
+                </div>
                 <div class="flex flex-row justify-between border-b-[1px] border-[#e4dfdf]">
                     <div class="py-[10px] flex flex-row">
                         <div class="w-[77px] pl-[30px]">
@@ -68,6 +76,7 @@
                                     </ol>
                                 </nav>
                             </div>
+                            
                             <div>
                                 <nav class="w-full rounded">
                                     <ol class="flex list-reset">
@@ -178,6 +187,7 @@
                         </a>
                         <% } %>
                     </div>
+                    
                     <!-- Space for content -->
                     <div class="w-full mt-[10px] ml-2 px-4">
                         <table class="overflow-hidden shadow-lg rounded-xl w-full border-[1px] border-[#e4dfdf] rezervacije" id="myTable">
@@ -188,11 +198,11 @@
                                             <input type="checkbox" class="form-checkbox">
                                         </label>
                                     </th>
-                                    <th class="px-4 py-3 text-sm leading-4 tracking-wider text-left">Datum rezervacije
+                                    <th class="px-4 py-3 text-sm leading-4 tracking-wider text-left">Datum izdavanja
                                     </th>
-                                    <th class="px-4 py-3 text-sm leading-4 tracking-wider text-left">Rezervacija istice
+                                    <th class="px-4 py-3 text-sm leading-4 tracking-wider text-left">Izdavanje istice
                                     </th>
-                                    <th class="px-4 py-3 text-sm leading-4 tracking-wider text-left">Rezervaciju podnio
+                                    <th class="px-4 py-3 text-sm leading-4 tracking-wider text-left">Izdao knjigu
                                     </th>
                                     <th class="px-4 py-3 text-sm leading-4 tracking-wider text-left">Status</th>
                                     <th class="px-4 py-3"> </th>

@@ -4,7 +4,7 @@ import path from "path";
 import csurf from "csurf";
 import methodOverride from "method-override";
 import bodyParser from "body-parser";
-import flash from 'connect-flash';
+//import flash from 'connect-flash';
 import compress from 'compression';
 
 
@@ -27,6 +27,7 @@ import reportRouter from "./routes/reportRouter";
 import createSessionConfig from "./config/session";
 
 //MIDDLEWARES
+import authenticationUtils from './utils/authentication';
 import errorHandlerMiddleware from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
@@ -84,8 +85,11 @@ app.use(
     name: 'Bibliotek4',
   })
 );
+//dodao cuvanje sesije u res.locals
+app.use(authenticationUtils.setSessionLocals);
+
 app.use(csurf());
-app.use(flash());
+//app.use(flash());
 app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
 
@@ -97,8 +101,9 @@ app.use(function (req, res, next) {
 });
 
 //ROUTES
+app.use('/dashboard',dashBoardRouter);
 app.use("/", authRouter);
-app.use('/dashboard',dashBoardRouter,checkAuthStatusMiddleware);
+
 //app.use('/dashboard',dashBoardRouter);
 app.use("/", userRouter);
 app.use("/", librarianRouter);

@@ -1,6 +1,6 @@
 // routes/statisticsRoutes.ts
 import express from 'express';
-import { getTotalRentedBooks, getRentedBooksByBookId, getAvailableBooksByBookId, getReservedBooksByBookId , getAllStatistics} from '../controllers/statisticsController';
+import { getTotalRentedBooks, getRentedBooksByBookId, getAvailableBooksByBookId, getReservedBooksByBookId , getAllStatistics} from '../controllers/statistics-controllers/statisticsController';
 
 const statisticsRouter = express.Router();
 

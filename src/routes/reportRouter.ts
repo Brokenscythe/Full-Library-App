@@ -1,5 +1,5 @@
 import express from "express";
-import { generateDailyReport } from "../controllers/reportController";
+import { generateDailyReport } from '../controllers/report-controllers/reportController';
 
 const router = express.Router();
 

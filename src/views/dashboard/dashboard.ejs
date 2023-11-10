@@ -38,37 +38,31 @@
                     <div class="mr-[30px]">
                         <h3 class="uppercase mb-[20px]">Aktivnosti</h3>
 <!-- Activity Cards -->
-<div>
-  <% if (typeof message !== 'undefined') { %>
-    <div class="alert alert-success">
-      <%= message %>
-    </div>
-  <% } %>
-</div>
-<div class="activity-card flex flex-row mb-[30px]">
+<% reservations.forEach(reservation => { %>
+  <div class="activity-card flex flex-row mb-[30px]">
     <div class="w-[60px] h-[60px]">
-      <img class="rounded-full" src="<%= madeByUserPhoto ? madeByUserPhoto : '/img/user_avatar.jpg' %>" alt="" loading="lazy">
+      <img class="rounded-full" src="<%= reservation.madeByUserPhoto ? reservation.madeByUserPhoto : '/img/user_avatar.jpg' %>" alt="" loading="lazy">
     </div>
     <div class="ml-[15px] mt-[5px] flex flex-col">
       <div class="text-gray-500 mb-[5px]">
         <p class="uppercase">
           Rezervacija knjige
           <span class="inline lowercase">
-            - <%= relativeTime %>
+            - <%= reservation.relativeTime %>
           </span>
         </p>
       </div>
       <div class="">
         <p>
-          <a href="/bibliotekarProfile/<%= madeByUserId %>" class="text-[#2196f3] hover:text-blue-600">
-            <%= madeByUserName ? madeByUserName : 'No activity recorded' %>
+          <a href="/bibliotekarProfile/<%= reservation.madeByUserId %>" class="text-[#2196f3] hover:text-blue-600">
+            <%= reservation.madeByUserName ? reservation.madeByUserName : '' %>
           </a>
           
-          je izdala knjigu <span class="font-medium"><%= title ? title : 'No activity recorded' %></span>
-          <a href="/ucenikProfile/<%= madeForUserId %>"  class="text-[#2196f3] hover:text-blue-600">
-            <%= madeForUserName ? madeForUserName : 'No activity recorded' %>
+          je izdala knjigu <span class="font-medium"><%= reservation.bookTitle ? reservation.bookTitle : '' %></span>
+          <a href="/ucenikProfile/<%= reservation.madeForUserId %>"  class="text-[#2196f3] hover:text-blue-600">
+            <%= reservation.madeForUserName ? reservation.madeForUserName : '' %>
           </a>
-          dana <span class="font-medium"><%= reservation_date ? reservation_date : 'No activity recorded' %></span>
+          dana <span class="font-medium"><%= reservation.reservation_date ? reservation.reservation_date : '' %></span>
           <a href="izdavanjeDetalji" class="text-[#2196f3] hover:text-blue-600">
             pogledaj detaljnije >>
           </a>
@@ -76,6 +70,8 @@
       </div>
     </div>
   </div>
+<% }); %>
+
   
                           
  
@@ -92,46 +88,46 @@
                         </h3>
                         <div>
                             <table class="w-[560px] table-auto">
-                                <tbody class="bg-gray-200">
-                                    <% reservations.forEach(reservation => { %>
-                                        <tr class="bg-white border-b-[1px] border-[#e4dfdf]">
-                                            <td class="flex flex-row items-center px-2 py-4">
-                                                <!-- Assuming you have a profile image URL in your reservation data -->
-                                                <img class="object-cover w-8 h-8 rounded-full"
-                                                  src="<%= reservation.photo || '/img/user_avatar.jpg' %>" alt="" loading="lazy"/>
-                                                <a href="ucenikProfile.ejs" class="ml-2 font-medium text-center">
-                                                  <%= reservation.username ?? 'Unknown User' %>
-                                                </a>
-                                              </td>
-                                          <td>
-                                          </td>
-                                          <td class="px-2 py-2">
-                                            <a href="knjigaOsnovniDetalji.ejs">
-                                              <%= reservation.title ?? 'Unknown Book' %>
-                                            </a>
-                                          </td>
-                                          <td class="px-2 py-2">
-                                            <span class="px-[10px] py-[3px] bg-gray-200 text-gray-800 px-[6px] py-[2px] rounded-[10px]">
-                                              <%= reservation.reservation_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
-                                            </span>
-                                          </td>
-                                          <td class="px-2 py-2">
-                                            <a href="#" class="hover:text-green-500 mr-[5px]">
-                                              <i class="fas fa-check"></i>
-                                            </a>
-                                            <a href="#" class="hover:text-red-500 ">
-                                              <i class="fas fa-times"></i>
-                                            </a>
-                                          </td>
-                                        </tr>
-                                        <% }) %>
-                                      
-                                </tbody>
+                                <!-- Inside your table body -->
+<tbody class="bg-gray-200">
+  <% reservations.forEach(reservation => { %>
+    <tr class="bg-white border-b-[1px] border-[#e4dfdf]">
+      <td class="flex flex-row items-center px-2 py-4">
+        <!-- Assuming you have a profile image URL in your reservation data -->
+        <img class="object-cover w-8 h-8 rounded-full"
+          src="<%= reservation.photo || '/img/user_avatar.jpg' %>" alt="" loading="lazy"/>
+        <a href="ucenikProfile.ejs" class="ml-2 font-medium text-center">
+          <%= reservation.madeByUserName ?? 'Nepoznati korisnik' %>
+        </a>
+      </td>
+      <td class="px-2 py-2">
+    
+        <a href="knjigaOsnovniDetalji.ejs">
+          <%= reservation.title ?? 'Nepoznata knjiga' %>
+        </a>
+      </td>
+      <td class="px-2 py-2">
+        <span class="px-[10px] py-[3px] bg-gray-200 text-gray-800 px-[6px] py-[2px] rounded-[10px]">
+          <%= reservation.reservation_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
+        </span>
+      </td>
+      <td class="px-2 py-2">
+        <a href="#" class="hover:text-green-500 mr-[5px]">
+          <i class="fas fa-check"></i>
+        </a>
+        <a href="#" class="hover:text-red-500 ">
+          <i class="fas fa-times"></i>
+        </a>
+      </td>
+    </tr>
+  <% }) %>
+</tbody>
+
                             </table>
                             <div class="text-right mt-[5px]">
-                                <a href="aktivneRezervacije" class="text-[#2196f3] hover:text-blue-600">
+                                <a href="dashboard/activities-all" class="text-[#2196f3] hover:text-blue-600">
                                     <i class="fas fa-calendar-alt mr-[4px]" aria-hidden="true"></i>
-                                    Prikazi sve
+                                    Prikaži sve
                                 </a>
                             </div>
                         </div>
@@ -144,7 +140,8 @@
                                     <a class="w-[145px] text-[#2196f3] hover:text-blue-600" href="izdateKnjige.ejs">
                                         Izdate knjige
                                     </a>
-                                    <div class="ml-[30px]" style="background-color: #0f0; width: <%= Number(issuedBookCount) *1,50 %>px;">
+                                    <div class="ml-[30px]" style="background-color: #0f0; width: <%= Number(issuedBookCount) * 1.50 %>px;">
+
                                     </div>
                                     <p class="ml-[10px] number-green text-[#2196f3] hover:text-blue-600">
                                         <%= Number(issuedBookCount) %>
@@ -154,7 +151,8 @@
                                     <a class="w-[145px] text-[#2196f3] hover:text-blue-600" href="aktivneRezervacije">
                                         Rezervisane knjige
                                     </a>
-                                    <div class="ml-[30px]" style="background-color: rgb(29, 11, 109); width: <%= Number(reservedBookCount) *1,50 %>px;">
+                                    <div class="ml-[30px]" style="background-color: rgb(29, 11, 109); width: <%= Number(reservedBookCount) * 1.50 %>px;">
+
                                     </div>
                                     <p class="ml-[10px] text-[#2196f3] hover:text-blue-600 number-yellow">
                                         <%= Number(reservedBookCount) %>
@@ -164,7 +162,7 @@
                                     <a class="w-[145px] text-[#2196f3] hover:text-blue-600" href="knjigePrekoracenje">
                                         Knjige u prekoracenju
                                     </a>
-                                    <div class="ml-[30px]" style="background-color: rgb(240, 5, 5); width: <%= Number(overdueBookCount)*1,50  %>px;">
+                                    <div class="ml-[30px]" style="background-color: rgb(240, 5, 5); width: <%= Number(overdueBookCount) * 1.50 %>px;">
                                     </div>
                                     <p class="ml-[10px] text-[#2196f3] hover:text-blue-600 number-red">
                                         <%= Number(overdueBookCount) %>
@@ -208,7 +206,7 @@
     <!-- Scripts -->
     <%- include('../includes/layout/scripts') %> 
     <!-- End Scripts -->
-  
+
 </body>
 
 </html>

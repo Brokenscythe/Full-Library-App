@@ -1,3 +1,13 @@
+<style>
+   .button {
+            border: 2px solid white;
+            background-color: transparent;
+            padding: 8px 12px;
+            border-radius: 2px;
+            color: white;
+            text-decoration: none;
+        }
+</style>
 <header
   class="z-20 small:hidden flex items-center text-white justify-between w-full h-[71px] pr-[30px] mx-auto bg-[#4558BE]"
 >
@@ -148,50 +158,64 @@
           >
           <div class="flex items-center h-5">
             <div class="w-[40px] h-[40px] mt-[15px]">
-              <img class="rounded-full" src="img/profileExample.jpg" alt="" />
+                <img class="rounded-full" src="img/profileExample.jpg" alt="" />
             </div>
+        
+            <div class="ml-2">
+              <!-- Log the entire session data to the console -->
+              <% console.log('Session Data:', session); %>
           
-              <div class="ml-2">
-                Welcome, korisnik
-              </div>
-      
-          </div>
-          
-          </a>
+              <!-- Display the username if it exists in the session -->
+              <% if (typeof session !== 'undefined' && session.username) { %>
+                <p>Dobrodošao/la, <%= session.username %>!</p>
+                <a href="/logout" class="button">Logout</a>
+              <% } %>
+            </div>
         </div>
+          
+        
+        
         <div
-          class="z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 dropdown-profile"
+        class="z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 dropdown-profile"
+      >
+        <div
+          class="absolute right-[12px] w-56 mt-[35px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
+          aria-labelledby="headlessui-menu-button-1"
+          id="headlessui-menu-items-117"
+          role="menu"
         >
-          <div
-            class="absolute right-[12px] w-56 mt-[35px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-            aria-labelledby="headlessui-menu-button-1"
-            id="headlessui-menu-items-117"
-            role="menu"
+          <div class="py-1">
+            <a
+              href="/bibliotekarProfile"
+              tabindex="0"
+              class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
+              role="menuitem"
+            >
+              <i class="fas fa-file mr-[8px] ml-[5px] py-1"></i>
+              <span class="px-4 py-0">Profile</span>
+            </a>
+            <a
+            href="#"
+            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+            tabindex="0"
+            class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
+            role="menuitem"
           >
-            <div class="py-1">
-              <a
-                href="/bibliotekarProfile"
-                tabindex="0"
-                class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                role="menuitem"
-              >
-                <i class="fas fa-file mr-[8px] ml-[5px] py-1"></i>
-                <span class="px-4 py-0">Profile</span>
-              </a>
-              <a
-                href="/#"
-                tabindex="0"
-                class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                role="menuitem"
-              >
-                <i class="fas fa-sign-out-alt mr-[5px] ml-[5px] py-1"></i>
-                <span class="px-4 py-0">Logout</span>
-              </a>
-            </div>
-          </div>
+            <i class="fas fa-sign-out-alt mr-[5px] ml-[5px] py-1"></i>
+            <span class="px-4 py-0">Logout</span>
+          </a>
+          
+         
+          <form id="logout-form" action="/logout" method="post" style="display: none;">
+         
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          </form>
+          
         </div>
       </div>
     </div>
   </div>
   <!-- end login -->
 </header>
+
+

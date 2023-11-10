@@ -1,6 +1,6 @@
 import express from 'express';
-import { getHealthCheck,restartServer } from '../controllers/healthCheckController';
-// import { getHealthCheck, restartServer, backupDatabase } from '../controllers/healthCheckController';
+import { getHealthCheck,restartServer } from '../controllers/healthCheck-controllers/healthCheckController';
+// import { getHealthCheck, restartServer, backupDatabase } from '../controllers/healthCheck-controllers/healthCheckController';
 
 
 const healthCheckRouter = express.Router();

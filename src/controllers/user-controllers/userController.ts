@@ -1,11 +1,20 @@
 import { Request, Response, NextFunction } from "express";
+//Models
 import User from "../../models/userModel";
+//Validation
 import validation from "../../utils/validation";
 import sessionFlash from "../../utils/session-flash";
-import { PrismaClient } from "@prisma/client"; // Import PrismaClient
 
-const db = new PrismaClient(); // Create a new instance of PrismaClient
+export async function getAllUsersAPI(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const users = await User.getAllUsers(); 
 
+    // POSALJIVJSON
+    res.json(users);
+  } catch (error) {
+    return next(error);
+  }
+}
 export async function getAllUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const users = await User.getAllUsers();
@@ -14,18 +23,6 @@ export async function getAllUsers(req: Request, res: Response, next: NextFunctio
     return next(error);
   }
 }
-
-export async function getAllUsersAPI(req: Request, res: Response, next: NextFunction): Promise<void> {
-  try {
-    const users = await User.getAllUsers(); // Assuming you have a method to fetch user data
-
-    // Send user data as JSON
-    res.json(users);
-  } catch (error) {
-    return next(error);
-  }
-}
-
 export async function getUser(req: Request, res: Response, next: NextFunction) {
   const userId = parseInt(req.params.id);
   let user;
@@ -59,7 +56,6 @@ export async function getEditUser(req: Request, res: Response, next: NextFunctio
     return next(error);
   }
 }
-
 export async function getNewUser(req: Request, res: Response, next: NextFunction) {
   try {
     let sessionData = sessionFlash.getSessionData(req);
@@ -78,33 +74,20 @@ export async function getNewUser(req: Request, res: Response, next: NextFunction
     return next(error);
   }
 }
-
 export async function updatePassword(req: Request, res: Response, next: NextFunction) {
   const userId = parseInt(req.params.id);
   const { pwResetUcenik } = req.body;
   try {
-    await User.changePassword(userId, pwResetUcenik);
+    return await User.changePassword(userId, pwResetUcenik);
   } catch (error) {
     return next(error);
   }
 }
 
 export async function addUser(req: Request, res: Response, next: NextFunction) {
-  // Your code for adding a new user here
-  // Make sure you update 'db' to use your PrismaClient instance
-
-  // Example:
-  const {
-    imePrezimeUcenik,
-    jmbgUcenik,
-    emailUcenik,
-    usernameUcenik,
-    pwUcenik,
-    pw2Ucenik,
-    tipKorisnika,
-  } = req.body;
+  const { imePrezimeUcenik, jmbgUcenik, emailUcenik, usernameUcenik, pwUcenik, pw2Ucenik } = req.body;
+  const tipKorisnika = req.body.tipKorisnika;
   const filename = req.file?.filename;
-
   const enteredData = {
     name: imePrezimeUcenik,
     username: usernameUcenik,
@@ -113,7 +96,6 @@ export async function addUser(req: Request, res: Response, next: NextFunction) {
     JMBG: jmbgUcenik,
     photo: filename,
   };
-
   if (!validation.passwordIsConfirmed(pwUcenik, pw2Ucenik)) {
     const errorMessage = "Please make sure your passwords match.";
     const flashData = {
@@ -127,43 +109,27 @@ export async function addUser(req: Request, res: Response, next: NextFunction) {
   }
 
   try {
-    await db.user.create({
-      data: {
-        name: imePrezimeUcenik,
-        username: usernameUcenik,
-        email: emailUcenik,
-        password: pwUcenik,
-        JMBG: jmbgUcenik,
-        typeId: tipKorisnika,
-        photo: filename,
-        created_at: new Date(),
-        login_count: 0,
-      },
+    const user = new User({
+      name: imePrezimeUcenik,
+      username: usernameUcenik,
+      email: emailUcenik,
+      password: pwUcenik,
+      JMBG: jmbgUcenik,
+      typeId: tipKorisnika,
+      photo: filename,
     });
-
+    await user.save();
     res.redirect("/ucenik");
   } catch (error) {
     return next(error);
   }
 }
-
 export async function updateUser(req: Request, res: Response, next: NextFunction) {
-  // Your code for updating a user here
-  // Make sure you update 'db' to use your PrismaClient instance
-
-  // Example:
   const userId = parseInt(req.params.id);
-  const {
-    imePrezimeUcenikEdit,
-    jmbgUcenikEdit,
-    emailUcenikEdit,
-    usernameUcenikEdit,
-    pwUcenikEdit,
-    pw2UcenikEdit,
-    tipKorisnika,
-  } = req.body;
+  const { imePrezimeUcenikEdit, jmbgUcenikEdit, emailUcenikEdit, usernameUcenikEdit, pwUcenikEdit, pw2UcenikEdit } =
+    req.body;
+  const tipKorisnika = req.body.tipKorisnika;
   const filename = req.file?.filename;
-
   const enteredData = {
     name: imePrezimeUcenikEdit,
     username: usernameUcenikEdit,
@@ -172,7 +138,6 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
     JMBG: jmbgUcenikEdit,
     photo: filename,
   };
-
   if (!validation.passwordIsConfirmed(pwUcenikEdit, pw2UcenikEdit)) {
     sessionFlash.flashDataToSession(
       req,
@@ -186,22 +151,19 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
     );
     return;
   }
-
   try {
-    await db.user.update({
-      where: { id: userId },
-      data: {
-        name: imePrezimeUcenikEdit,
-        username: usernameUcenikEdit,
-        email: emailUcenikEdit,
-        password: pwUcenikEdit,
-        JMBG: jmbgUcenikEdit,
-        typeId: tipKorisnika,
-        photo: filename,
-        updated_at: new Date(),
-      },
+    const user = new User({
+      name: imePrezimeUcenikEdit,
+      username: usernameUcenikEdit,
+      email: emailUcenikEdit,
+      password: pwUcenikEdit,
+      JMBG: jmbgUcenikEdit,
+      typeId: tipKorisnika,
+      photo: filename,
+      id: userId,
     });
-
+    console.log(req.file);
+    await user.save();
     res.redirect("/ucenik");
   } catch (error) {
     return next(error);
