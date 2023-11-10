@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-
+import validation from "../utils/validation";
+import sessionFlash from "../utils/session-flash";
 const db = new PrismaClient();
 
 class User {
@@ -241,18 +242,11 @@ class User {
     });
   }
   async hasMatchingEmail() {
-    const user = await db.user.findFirst({
+    return await db.user.findFirst({
       where: {
         email: this.email,
       },
     });
-
-    if (!user) {
-      throw new Error("No user found with the provided email");
-      return;
-    }
-
-    return user;
   }
   static async hasMatchingId(id: number) {
     return db.user.findUnique({

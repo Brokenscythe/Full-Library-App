@@ -177,24 +177,39 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
     }
   }
 }
-
+export async function getForgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try{
+    let sessionData = sessionFlash.getSessionData(req);
+    if (!sessionData) {
+      sessionData = {
+        email: ""
+      };
+    }
+    res.render("auth/forgotPassword.ejs", { inputData: sessionData });
+  }catch(error){
+    return next(error)
+  }
+}
 export async function forgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email } = req.body;
+  
   try {
     const user = new User({ email: email });
     const existingUser = await user.hasMatchingEmail();
-    const existsAlready = await email.hasMatchingEmail();
-    if (!validation.emailIsConfirmed(email, existsAlready )) {
-      sessionFlash.flashDataToSession(req, 
-      {
-        error_message: "Nismo mogli pronaći korisnika sa tim e-mailom.",
-        ...email,  
-      }, function(){
-
-      })
-    }
+  
+        if (!existingUser){
+        sessionFlash.flashDataToSession(req, 
+          {
+            error_message: "Nismo mogli pronaći korisnika sa tim e-mailom.",
+            ...email
+          }, function(){
+            res.redirect('/forgot-password')
+          })
+          return
+        }
       console.log("User with provided email has been found");
-      const secret = process.env.PASS_SECRET + existingUser.password;
+      try{
+      const secret = process.env.PASS_SECRET + existingUser.password
       const payload = {
         email: existingUser.email,
         id: existingUser.id,
@@ -207,19 +222,36 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
         to: existingUser.email,
         subject: "Promjena lozinke",
         html: `
-          <h1 style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 24px; text-align: center;">Promjena Lozinke</h1>
-          <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Poštovani ${existingUser.name},</p>
-          <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Da biste promijenili svoju lozinku, pritisnite na sledeći link:</p>
-          <a href="${link}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da promjenite lozinku</a>
+        <h1 style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 24px; text-align: center;">Promjena Lozinke</h1>
+        <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Poštovani ${existingUser.name},</p>
+        <p style="font-family: 'Helvetica Neue', sans-serif; color: #333; font-size: 16px; text-align: center; margin: 10px 0;">Da biste promijenili svoju lozinku, pritisnite na sledeći link:</p>
+        <a href="${link}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da promjenite lozinku</a>
         `,
       });
-      console.log(`Token during creation: ${token}`);
-      console.log(`Secret during creation: ${secret}`);
-      res.send("Password reset link has been sent to your email...");
-    } catch (error) {
+      console.log('Email sent to the client')
+    }catch(emailError){
+      console.error("Error sending email:", emailError);
+      sessionFlash.flashDataToSession(req, {
+        error_message: "Error sending email. Please try again later.",
+        ...email,
+      }, function () {
+        res.redirect('/forgot-password');
+      });
+      return;
+    }
+    sessionFlash.flashDataToSession(req, 
+      {
+          successful_message: `E-mail sa linkom za promjenu lozinke je poslat na ${existingUser.email}.`,
+          ...email
+        }, function(){
+          res.redirect('/forgot-password')
+        });
+        return;
+      }catch (error) {
     return next(error);
-  }
 }
+}
+
 export async function getResetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
   console.log(token)
@@ -241,7 +273,7 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
       }
       
       console.log("Token verification successful");
-      res.render("auth/reset-password", { email: existingUser.email });
+      res.render("auth/reset-password", { user: existingUser });
     });
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
