@@ -256,6 +256,12 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
   const { id, token } = req.params;
   console.log(token)
   console.log(`This is ${id} extracted, this is ${token} extracted from req.params`)
+  let errorData = sessionFlash.getSessionData(req);
+  if (!errorData) {
+    errorData = {
+      error_message: ""
+    };
+  }
   try {
     const existingUser = await User.hasMatchingId(Number(id));
     if (!existingUser) {
@@ -273,7 +279,7 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
       }
       
       console.log("Token verification successful");
-      res.render("auth/reset-password", { user: existingUser });
+      res.render("auth/reset-password", { user: existingUser, inputData: errorData });
     });
   } catch (error) {
     if (error instanceof Error) console.log(error.message);
@@ -284,12 +290,30 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
 
 export async function resetPassword(req: Request, res: Response,next: NextFunction): Promise<void> {
   const { id, token } = req.params;
+  const {password, password2} = req.body
+  let newPasswordUser;
   try{
+    newPasswordUser = new User({id: Number(id)});
     const existingUser = await User.hasMatchingId(Number(id));
-    res.send(existingUser)
-    if(!existingUser){
-      res.send("Invalid id...");
-    }
+      const link = `http://localhost:3000/reset-password/${existingUser.id}/${token}`;
+      if(!validation.passwordIsConfirmed(password, password2)){
+        sessionFlash.flashDataToSession(
+          req,
+          {
+            error_message: "Upozorenje, lozinke se ne poklapaju!",
+          },
+          function () {
+            res.redirect(`${link}`);
+          }
+        );
+        return;
+      }
+      await newPasswordUser .save({
+        id: id,
+        password: password,
+      })
+      res.redirect('/login')
+      console.log('Uspjesno promjenjena lozinka na korisnika')
   }catch(error){
     return next(error);
   }
