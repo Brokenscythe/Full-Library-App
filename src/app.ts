@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from 'express';
 import session from "express-session";
 import path from "path";
 import csurf from "csurf";
@@ -22,17 +22,20 @@ import userRouter from "./routes/userRoutes";
 import librarianRouter from "./routes/librarianRoutes";
 import statisticsRouter from "./routes/statisticsRoutes";
 import reportRouter from "./routes/reportRouter";
+import isLoggedIn from './middlewares/is-logged-in';
+
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
 
 //MIDDLEWARES
 import authenticationUtils from './utils/authentication';
-import errorHandlerMiddleware from "./middlewares/error-handler";
+import { errorHandlerMiddleware }from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
+import protectRoutes from './middlewares/protect-routes';
 
 import CORS from './middlewares/CORS';
 //import { setupCluster } from './middlewares/clusterSetup';
@@ -42,6 +45,19 @@ require('dotenv').config();
 const app = express();
 
 const PORT = 3000;
+
+app.use((req, res, next) => {
+  if (req.session) {
+    req.session.destroy(() => {
+      //obrisi sesiju nakon estarta
+    });
+  }
+  next();
+});
+// ne radi --dodao is-logged-in.ts
+//app.use(checkAuthStatusMiddleware);
+//app.use(protectRoutes);
+
 app.use(methodOverride("_method"));
 //parsira req.body
 app.use(bodyParser.json());
@@ -92,7 +108,7 @@ app.use(csurf());
 //app.use(flash());
 app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
-
+app.use(errorHandlerMiddleware);
 //bez ovoga 1000x put greska oko tokena
 app.use(function (req, res, next) {
   req.csrfToken();
@@ -100,25 +116,32 @@ app.use(function (req, res, next) {
   next();
 });
 
+
+
 //ROUTES
-app.use('/dashboard',dashBoardRouter);
-app.use("/", authRouter);
+app.use('/dashboard',isLoggedIn,dashBoardRouter);
+app.use("/",authRouter);
 
 //app.use('/dashboard',dashBoardRouter);
-app.use("/", userRouter);
-app.use("/", librarianRouter);
-app.use("/", mainRouter);
-app.use("/books", bookRouter);
-app.use("/authors", AuthorRouter);
-app.use("/", settingsRouter);
-app.use("/", ReservationRouter);
-app.use("/", rentBookRouter);
-app.use("/health", healthCheckRouter);
-app.use("/", statisticsRouter);
-app.use("/reports", reportRouter);
+app.use("/", isLoggedIn, userRouter);
+app.use("/",isLoggedIn, librarianRouter);
+app.use("/", isLoggedIn,mainRouter);
+app.use("/books",isLoggedIn, bookRouter);
+app.use("/authors",isLoggedIn, AuthorRouter);
+app.use("/",isLoggedIn, settingsRouter);
+app.use("/", isLoggedIn,ReservationRouter);
+app.use("/",isLoggedIn, rentBookRouter);
+app.use("/health",isLoggedIn, healthCheckRouter);
+app.use("/", isLoggedIn,statisticsRouter);
+app.use("/reports", isLoggedIn,reportRouter);
 
-app.use(errorHandlerMiddleware);
 
+//novi dio za 404 gresku
+app.use((req: Request, res: Response, next: NextFunction) => {
+  const error = new Error(`Not Found: ${req.originalUrl}`);
+  (error as any).status = 404;
+  res.status(404).render('shared/404');
+});
 
 
 const server = app.listen(PORT, () => {
