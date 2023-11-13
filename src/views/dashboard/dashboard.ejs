@@ -38,7 +38,7 @@
                     <div class="mr-[30px]">
                         <h3 class="uppercase mb-[20px]">Aktivnosti</h3>
 <!-- Activity Cards -->
-<% reservations.forEach(reservation => { %>
+<% reservations.forEach((reservation, index) => { %>
   <div class="activity-card flex flex-row mb-[30px]">
     <div class="w-[60px] h-[60px]">
       <img class="rounded-full" src="<%= reservation.madeByUserPhoto ? reservation.madeByUserPhoto : '/img/user_avatar.jpg' %>" alt="" loading="lazy">
@@ -62,8 +62,10 @@
           <a href="/ucenikProfile/<%= reservation.madeForUserId %>"  class="text-[#2196f3] hover:text-blue-600">
             <%= reservation.madeForUserName ? reservation.madeForUserName : '' %>
           </a>
+          <% console.log(reservations); %>
+
           dana <span class="font-medium"><%= reservation.reservation_date ? reservation.reservation_date : '' %></span>
-          <a href="izdavanjeDetalji" class="text-[#2196f3] hover:text-blue-600">
+          <a href="/reservations/<%= reservation.madeForUserId %>" class="text-[#2196f3] hover:text-blue-600">
             pogledaj detaljnije >>
           </a>
         </p>
@@ -72,7 +74,6 @@
   </div>
 <% }); %>
 
-  
                           
  
                         <div class="inline-block w-full mt-4">

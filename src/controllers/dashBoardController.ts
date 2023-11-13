@@ -72,14 +72,14 @@ async function getIssuedBookCount(): Promise<number> {
       const reservation_date = formatirajDatumToDdMmYyyy(new Date());
       const madeByUserId = 1; 
       const madeForUserId = 9; 
+      const rezervacijaId=1;
+      const id=1;
       
-      
-      
-
-
-
+    
       const reservations = await prisma.$queryRaw`
-      SELECT
+    SELECT
+  r.id as rezervacijaId,
+  r.id,  -- Include the id column from the reservation table
   r.reservation_date,
   r.request_date,
   u1.id as madeByUserId,
@@ -91,12 +91,14 @@ async function getIssuedBookCount(): Promise<number> {
   u2.name as madeForUserName,
   u2.email as madeForUserEmail,
   u2.username as madeForUserUsername,
-  u2.photo as madeForUserPhoto
+  u2.photo as madeForUserPhoto,
+  b.title as bookTitle  -- Include the title column from the book table
 FROM reservation r
 JOIN user u1 ON r.reservationMadeByUserId = u1.id
 JOIN user u2 ON r.reservationMadeForUserId = u2.id
+JOIN book b ON r.bookId = b.id  -- Assuming bookId is the foreign key in reservation
 ORDER BY r.reservation_date DESC
-LIMIT 5
+LIMIT 5;
     `;
     
 const now = new Date();
@@ -112,6 +114,7 @@ const daysDifference = Math.floor(hoursDifference / 24);
       const reservedBookCount = await getReservedBookCount();
   
       res.render('dashboard/dashboard', {
+        rezervacijaId,
         userName,
         reservations,
         issuedBookCount,
@@ -122,8 +125,8 @@ const daysDifference = Math.floor(hoursDifference / 24);
         madeByUserName, 
         madeForUserName,
         reservation_date,
-       madeByUserId, // Include madeByUserId
-        madeForUserId, // Include madeForUserId
+       madeByUserId, 
+        madeForUserId, 
         relativeTime: daysDifference >= 1 ? `${daysDifference} dana prije` : `${hoursDifference} sati prije`,
       });
     } catch (error) {
@@ -135,6 +138,8 @@ const daysDifference = Math.floor(hoursDifference / 24);
     try {
       const activities = await prisma.$queryRaw`
       SELECT 
+      r.id as rezervacijaId,
+  r.id,  -- Include the id column from the reservation table
         r.reservation_date,
         r.request_date,
         u1.name as madeByUserName,

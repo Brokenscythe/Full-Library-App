@@ -381,7 +381,88 @@ const rentBookController = {
       res.status(500).json({ error: 'Greska tokom vracanja knjige, u rentBook kontroleru', details: errorMessage });
     }
   },
+
+  rentBookDetails: async (req: Request, res: Response) => {
+    try {
+      const { rentId } = req.params;
+      const parsedRentId = parseInt(rentId, 10);
+  
+      const rentedBookDetails = await prisma.$queryRaw`
+        SELECT
+          rent.id,
+          rent.bookId,
+          rent.borrowUserId,
+          rent.rentUserId,
+          rent.issue_date,
+          rent.return_date,
+          borrower.username AS "BORROW",
+          borrower.id AS borrowerId,
+          renter.username AS "RENT",
+          renter.id AS renterId,
+          book.title,
+          book.page_count,
+          book.letterId,
+          letter.name AS letterName,
+          book.isbn,
+          book.year,
+          book.pdf,
+          language.name AS languageName,
+          publisher.name AS publisherName,
+          format.name AS formatName
+        FROM rent
+        JOIN user AS borrower ON rent.borrowUserId = borrower.id
+        JOIN user AS renter ON rent.rentUserId = renter.id
+        JOIN book ON rent.bookId = book.id
+        JOIN letter ON book.letterId = letter.id
+        JOIN language ON book.languageId = language.id
+        JOIN publisher ON book.publisherId = publisher.id
+        JOIN format ON book.formatId = format.id
+        JOIN rentstatus ON rent.rentStatusId = rentstatus.id
+        JOIN bookstatus ON rent.rentStatusId = bookstatus.id
+        WHERE rent.id = ${parsedRentId}
+      `;
+if (!rentedBookDetails) {
+  return res.status(404).send('Iznajmljena knjiga nije pronađena');
+}
+
+  
+      // datumi kao dd.mm.yyyy
+      const formattedIssueDate = new Date(rentedBookDetails[0].issue_date).toLocaleDateString('en-GB');
+      const formattedReturnDate = new Date(rentedBookDetails[0].return_date).toLocaleDateString('en-GB');
+  
+      // Render EJS stranicu
+      res.render('izdavanje/izdavanjeDetalji', {
+        rentedBookDetails: {
+          title: rentedBookDetails[0].title,
+          page_count: rentedBookDetails[0].page_count,
+          letterId: rentedBookDetails[0].letterId,
+          letterName: rentedBookDetails[0].letterName,
+          isbn: rentedBookDetails[0].isbn,
+          year: rentedBookDetails[0].year,
+          pdf: rentedBookDetails[0].pdf,
+          languageName: rentedBookDetails[0].languageName,
+          publisherName: rentedBookDetails[0].publisherName,
+          formatName: rentedBookDetails[0].formatName,
+          rentUserId: rentedBookDetails[0].rentUserId,
+          rentUserName: rentedBookDetails[0].RENT,
+          borrowUserId: rentedBookDetails[0].borrowUserId,
+          borrowUserName: rentedBookDetails[0].BORROW,
+          issueDate: formattedIssueDate,
+          returnDate: formattedReturnDate,
+          rentStatusId: rentedBookDetails[0].rentStatusId,
+          rentStatusName: rentedBookDetails[0].name,
+        },
+      });
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : 'Došlo je do nepoznate greške';
+      res.status(500).json({ error: 'Greška tokom čitanja detalja o iznajmljenoj knjizi', details: errorMessage });
+    }
+  },
+  
+  
 };
+
+
 
 //vrati knjigu
 

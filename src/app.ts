@@ -6,7 +6,7 @@ import methodOverride from "method-override";
 import bodyParser from "body-parser";
 //import flash from 'connect-flash';
 import compress from 'compression';
-
+import passport from 'passport';
 
 
 
@@ -43,13 +43,15 @@ import CORS from './middlewares/CORS';
 require('dotenv').config();
 
 const app = express();
+;
 
 const PORT = 3000;
 
 app.use((req, res, next) => {
   if (req.session) {
     req.session.destroy(() => {
-      //obrisi sesiju nakon estarta
+      req.session.userData = undefined;
+      //obrisi sesiju i sve podatke...problem je sa null
     });
   }
   next();
@@ -103,7 +105,7 @@ app.use(
 );
 //dodao cuvanje sesije u res.locals
 app.use(authenticationUtils.setSessionLocals);
-
+//app.use(isLoggedIn)
 app.use(csurf());
 //app.use(flash());
 app.use(addCsrfTokenMiddleware);
@@ -117,12 +119,9 @@ app.use(function (req, res, next) {
 });
 
 
-
 //ROUTES
-app.use('/dashboard',isLoggedIn,dashBoardRouter);
 app.use("/",authRouter);
-
-//app.use('/dashboard',dashBoardRouter);
+app.use('/dashboard',isLoggedIn,dashBoardRouter);
 app.use("/", isLoggedIn, userRouter);
 app.use("/",isLoggedIn, librarianRouter);
 app.use("/", isLoggedIn,mainRouter);
