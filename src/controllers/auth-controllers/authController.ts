@@ -12,6 +12,7 @@ import sessionFlash from "../../utils/session-flash";
 import { UserData } from "../../interfaces/userData";
 //Email-Confirmation
 import transport from "../../utils/email";
+import { error } from "console";
 
 export async function getRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -264,6 +265,7 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
   }
   try {
     const existingUser = await User.hasMatchingId(Number(id));
+    console.log(existingUser)
     if (!existingUser) {
       res.send("Invalid id...");
       console.log("User with that id isn't found");
@@ -288,36 +290,58 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
 }
 
 
-export async function resetPassword(req: Request, res: Response,next: NextFunction): Promise<void> {
+export async function resetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
-  const {password, password2} = req.body
-  let newPasswordUser;
-  try{
-    newPasswordUser = new User({id: Number(id)});
-    const existingUser = await User.hasMatchingId(Number(id));
-      const link = `http://localhost:3000/reset-password/${existingUser.id}/${token}`;
-      if(!validation.passwordIsConfirmed(password, password2)){
-        sessionFlash.flashDataToSession(
-          req,
-          {
-            error_message: "Upozorenje, lozinke se ne poklapaju!",
-          },
-          function () {
-            res.redirect(`${link}`);
-          }
-        );
-        return;
+  const { password, password2 } = req.body;
+  console.log(`This is ${id} extracted, this is ${token} extracted from req.params`);
+  let existingUser;
+  let userWithNewPassword;
+  try {
+    existingUser = await User.getUser(Number(id));
+    
+    if (!existingUser) {
+      res.status(405).redirect('/405');
+      return;
+    }
+
+    const link = `http://localhost:3000/reset-password/${existingUser?.id}/${token}`;
+    if (!validation.passwordIsConfirmed(password, password2)) {
+      sessionFlash.flashDataToSession(
+        req,
+        {
+          error_message: "Upozorenje, lozinke se ne poklapaju!",
+        },
+        function () {
+          res.redirect(`${link}`);
+        }
+      );
+      return;
+    }
+    console.log(`User ID during password reset: ${id}
+                extracted users id: ${existingUser.id}`);
+    userWithNewPassword = new User({
+      password: password,
+      ...existingUser
+    });
+    console.log(userWithNewPassword)
+    try {
+      if (userWithNewPassword instanceof User) {
+        await userWithNewPassword.save();
+        res.redirect('/login');
+        console.log('Successfully changed the password for the user');
+        console.log(userWithNewPassword);
+      } else {
+        throw new Error('User not found or other relevant error message');
       }
-      await newPasswordUser .save({
-        id: id,
-        password: password,
-      })
-      res.redirect('/login')
-      console.log('Uspjesno promjenjena lozinka na korisnika')
-  }catch(error){
+    } catch (error) {
+      console.error('Error during password reset:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  } catch (error) {
     return next(error);
   }
 }
+
 
 export async function confirmRegistration(req: Request, res: Response): Promise<void> {
   const token = req.params.token;

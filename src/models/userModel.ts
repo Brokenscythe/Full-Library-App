@@ -31,7 +31,7 @@ class User {
     created_at?: Date;
     updated_at?: Date;
     confirmation_token?: string;
-  }) {
+  } = {}) {
     this.name = data.name || "";
     this.username = data.username || "";
     this.email = data.email || "";
@@ -251,11 +251,10 @@ class User {
   static async hasMatchingId(id: number) {
     return db.user.findUnique({
       where: {
-        id: id,
+        id,
       },
     });
   }
-
   async hasMatchingJMBG() {
     return db.user.findFirst({
       where: {
