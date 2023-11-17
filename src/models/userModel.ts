@@ -64,7 +64,7 @@ class User {
           confirmation_token: token,
         },
       });
-
+      console.log(user)
       if (user) {
         await db.user.update({
           where: {

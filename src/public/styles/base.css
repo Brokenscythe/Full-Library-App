@@ -52,6 +52,22 @@ html {
   --border-radius-medium: 6px;
 
   --shadow-medium: 0 2px 8px rgba(0, 0, 0, 0.2);
+} 
+#header{
+  align-items: center;
+  color: whitesmoke;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 0 auto; 
+  padding: 0;
+}
+#header a{
+  padding: 5px;
+  margin: auto 0;
+}
+hr{
+  margin-top: 1px;
+  margin-bottom: 2px;
 }
 
 body {
@@ -82,6 +98,35 @@ body {
   text-transform: uppercase;
 }
 
-.alert p {
+.alexrt p {
   margin: var(--space-2) 0;
+}
+#safety{
+ margin: 0 auto;
+ width: 40%;
+}
+#safety a{
+background-color: transparent;
+}
+#warning-p a{
+  background-color: transparent;
+}
+#warning-p a:hover,
+#warning-p a:active
+{
+  background-color: darkgray;
+  border: 1px transparent;
+  border-radius: 2px;
+  color: black;
+}
+#safety:hover,
+#safety:active{
+  background-color: darkgray;
+  border: 1px transparent;
+  border-radius: 2px;
+  color: black;
+}
+ a{
+text-decoration: none;
+color: black;
 }

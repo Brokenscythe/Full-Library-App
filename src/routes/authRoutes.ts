@@ -24,10 +24,10 @@ authRouter.get("/reset-password/:id/:token", AuthService.getResetPassword);
 authRouter.post("/reset-password/:id/:token", AuthService.resetPassword);
 
 authRouter.get("/401", (req, res, next) => {
-    res.render("shared/includes/401");
+    res.render("shared/401");
 });
 authRouter.get("/501", (req, res) => {
-  res.render("shared/includes/501");
+  res.render("shared/501");
 });
 
 export default authRouter;

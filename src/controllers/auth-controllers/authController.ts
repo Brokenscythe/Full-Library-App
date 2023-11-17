@@ -118,7 +118,7 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
         <a href="${confirmationLink}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da potvrdite registraciju</a>
       `,
     });
-
+    console.log(confirmationLink);
     console.log("Registration successful. Confirmation email sent.");
   } catch (error) {
     console.error("Error during registartion:", error);
@@ -126,6 +126,19 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
   }
   res.redirect("/login");
 }
+
+export async function confirmRegistration(req: Request, res: Response): Promise<void> {
+  const token = req.params.token;
+  try {
+    console.log(token);
+    await User.findUserToken(token);
+    res.redirect("/login");
+  } catch (error) {
+    console.error("Error during confirmation:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+}
+
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email, password } = req.body;
 
@@ -351,17 +364,7 @@ export async function resetPassword(req: Request, res: Response, next: NextFunct
   }
 }
 
-export async function confirmRegistration(req: Request, res: Response): Promise<void> {
-  const token = req.params.token;
-  try {
-    console.log(token);
-    await User.findUserToken(token);
-    res.redirect("/login");
-  } catch (error) {
-    console.error("Error during confirmation:", error);
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
+
 
 export async function logout(req: Request, res: Response): Promise<void> {
   authUtil.destroyUserSession(req, res);

@@ -21,6 +21,7 @@ import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
 // import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
+import protectRoutes from "./middlewares/protect-routes";
 
 const app = express();
 app.use(express.json());
@@ -49,12 +50,12 @@ app.use(checkAuthStatusMiddleware);
 
 //ROUTES
 app.use("/", authRouter);
-app.use("/", mainRouter);
-app.use("/", userRouter);
-app.use("/", librarianRouter);
-app.use("/books", bookRouter);
-app.use("/authors", AuthorRouter);
-app.use("/", settingsRouter);
+app.use("/", protectRoutes, mainRouter);
+app.use("/",protectRoutes, userRouter);
+app.use("/", protectRoutes, librarianRouter);
+app.use("/books",protectRoutes, bookRouter);
+app.use("/authors", protectRoutes, AuthorRouter);
+app.use("/",protectRoutes, settingsRouter);
 // app.use("/reservations", ReservationRouter);
 
 app.use(errorHandlerMiddleware);

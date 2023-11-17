@@ -1,11 +1,14 @@
 <%- include('includes/head', {pageTitle: 'Error Occurred!'}) %>
+<link rel="stylesheet" href="/styles/status.css">
 </head>
 <body>
   <%- include('includes/header') %>
   <main>  
-    <h1 class="error-occured">Nisi ulogovan!</h1>
-    <p class="error-occured">Ako nisi registrovan pritisni <a href="/register">ovdje.</a></p>
-    <p class="back-to-safety"><a href="/login" class= "btn">Uloguj se.</a></p>
+    <div class="error-container">
+      <h1 class="error-occurred" id="warning-h1">Nisi ulogovan!</h1>
+      <p class="error-message" id="warning-p">Ako nisi registrovan pritisni <a href="/register">ovdje.</a></p>
+      <p class="back-to-safety" id="safety"><a href="/login">Uloguj se.</a></p>
+    </div>
   </main>
   <%- include('includes/footer') %>
 </body>
