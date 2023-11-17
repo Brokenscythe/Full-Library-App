@@ -12,8 +12,6 @@ import sessionFlash from "../../utils/session-flash";
 import { UserData } from "../../interfaces/userData";
 //Email-Confirmation
 import transport from "../../utils/email";
-import { error } from "console";
-
 export async function getRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     let sessionData = sessionFlash.getSessionData(req);
@@ -179,38 +177,41 @@ export async function login(req: Request, res: Response, next: NextFunction): Pr
   }
 }
 export async function getForgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
-  try{
+  try {
     let sessionData = sessionFlash.getSessionData(req);
     if (!sessionData) {
       sessionData = {
-        email: ""
+        email: "",
       };
     }
     res.render("auth/forgotPassword.ejs", { inputData: sessionData });
-  }catch(error){
-    return next(error)
+  } catch (error) {
+    return next(error);
   }
 }
 export async function forgotPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email } = req.body;
-  
+
   try {
     const user = new User({ email: email });
     const existingUser = await user.hasMatchingEmail();
-  
-        if (!existingUser){
-        sessionFlash.flashDataToSession(req, 
-          {
-            error_message: "Nismo mogli pronaći korisnika sa tim e-mailom.",
-            ...email
-          }, function(){
-            res.redirect('/forgot-password')
-          })
-          return
+
+    if (!existingUser) {
+      sessionFlash.flashDataToSession(
+        req,
+        {
+          error_message: "Nismo mogli pronaći korisnika sa tim e-mailom.",
+          ...email,
+        },
+        function () {
+          res.redirect("/forgot-password");
         }
-      console.log("User with provided email has been found");
-      try{
-      const secret = process.env.PASS_SECRET + existingUser.password
+      );
+      return;
+    }
+    console.log("User with provided email has been found");
+    try {
+      const secret = process.env.PASS_SECRET + existingUser.password;
       const payload = {
         email: existingUser.email,
         id: existingUser.id,
@@ -229,43 +230,50 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
         <a href="${link}" style="font-family: 'Helvetica Neue', sans-serif; color: #007BFF; font-size: 16px; text-decoration: none; display: block; text-align: center;">Pritisnite ovdje da promjenite lozinku</a>
         `,
       });
-      console.log('Email sent to the client')
-    }catch(emailError){
+      console.log("Email sent to the client");
+    } catch (emailError) {
       console.error("Error sending email:", emailError);
-      sessionFlash.flashDataToSession(req, {
-        error_message: "Error sending email. Please try again later.",
-        ...email,
-      }, function () {
-        res.redirect('/forgot-password');
-      });
+      sessionFlash.flashDataToSession(
+        req,
+        {
+          error_message: "Error sending email. Please try again later.",
+          ...email,
+        },
+        function () {
+          res.redirect("/forgot-password");
+        }
+      );
       return;
     }
-    sessionFlash.flashDataToSession(req, 
+    sessionFlash.flashDataToSession(
+      req,
       {
-          successful_message: `E-mail sa linkom za promjenu lozinke je poslat na ${existingUser.email}.`,
-          ...email
-        }, function(){
-          res.redirect('/forgot-password')
-        });
-        return;
-      }catch (error) {
+        successful_message: `E-mail sa linkom za promjenu lozinke je poslat na ${existingUser.email}.`,
+        ...email,
+      },
+      function () {
+        res.redirect("/forgot-password");
+      }
+    );
+    return;
+  } catch (error) {
     return next(error);
-}
+  }
 }
 
 export async function getResetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
-  console.log(token)
-  console.log(`This is ${id} extracted, this is ${token} extracted from req.params`)
+  console.log(token);
+  console.log(`This is ${id} extracted, this is ${token} extracted from req.params`);
   let errorData = sessionFlash.getSessionData(req);
   if (!errorData) {
     errorData = {
-      error_message: ""
+      error_message: "",
     };
   }
   try {
     const existingUser = await User.hasMatchingId(Number(id));
-    console.log(existingUser)
+    console.log(existingUser);
     if (!existingUser) {
       res.send("Invalid id...");
       console.log("User with that id isn't found");
@@ -273,13 +281,13 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
     }
     const secret = process.env.PASS_SECRET + existingUser.password;
     console.log(`Token during verification: ${token}`);
-      console.log(`Secret during verification: ${secret}`);
-    jwt.verify(token, secret, (err, payload) => {
+    console.log(`Secret during verification: ${secret}`);
+    jwt.verify(token, secret, (err) => {
       if (err) {
         console.error("Error verifying token:", err);
         return next(err);
       }
-      
+
       console.log("Token verification successful");
       res.render("auth/reset-password", { user: existingUser, inputData: errorData });
     });
@@ -289,7 +297,6 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
   }
 }
 
-
 export async function resetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
   const { password, password2 } = req.body;
@@ -298,50 +305,51 @@ export async function resetPassword(req: Request, res: Response, next: NextFunct
   let userWithNewPassword;
   try {
     existingUser = await User.getUser(Number(id));
-    
+
     if (!existingUser) {
-      res.status(405).redirect('/405');
+      res.status(405).redirect("/405");
       return;
     }
-
-    const link = `http://localhost:3000/reset-password/${existingUser?.id}/${token}`;
-    if (!validation.passwordIsConfirmed(password, password2)) {
-      sessionFlash.flashDataToSession(
-        req,
-        {
-          error_message: "Upozorenje, lozinke se ne poklapaju!",
-        },
-        function () {
-          res.redirect(`${link}`);
-        }
-      );
-      return;
+    const secret = process.env.PASS_SECRET + existingUser.password;
+    try {
+      const payload = jwt.verify(token, secret);
+      const link = `http://localhost:3000/reset-password/${existingUser?.id}/${token}`;
+      if (!validation.passwordIsConfirmed(password, password2)) {
+        sessionFlash.flashDataToSession(
+          req,
+          {
+            error_message: "Upozorenje, lozinke se ne poklapaju!",
+          },
+          function () {
+            res.redirect(`${link}`);
+          }
+        );
+        return;
+      }
+      console.log(`This is my payload: ${payload},
+                    This is the user: ${existingUser}`);
+      userWithNewPassword = new User({
+        id: Number(id),
+        name: existingUser.name,
+        username: existingUser.username,
+        email: existingUser.email,
+        password: password,
+        JMBG: existingUser.JMBG,
+        typeId: existingUser.typeId,
+        confirmation_token: existingUser.confirmation_token,
+      });
+      console.log(userWithNewPassword);
+      await userWithNewPassword.save();
+    } catch (error) {
+      return next(error);
     }
     console.log(`User ID during password reset: ${id}
                 extracted users id: ${existingUser.id}`);
-    userWithNewPassword = new User({
-      password: password,
-      ...existingUser
-    });
-    console.log(userWithNewPassword)
-    try {
-      if (userWithNewPassword instanceof User) {
-        await userWithNewPassword.save();
-        res.redirect('/login');
-        console.log('Successfully changed the password for the user');
-        console.log(userWithNewPassword);
-      } else {
-        throw new Error('User not found or other relevant error message');
-      }
-    } catch (error) {
-      console.error('Error during password reset:', error);
-      res.status(500).json({ error: 'Internal server error' });
-    }
+    res.redirect("/login");
   } catch (error) {
     return next(error);
   }
 }
-
 
 export async function confirmRegistration(req: Request, res: Response): Promise<void> {
   const token = req.params.token;

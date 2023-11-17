@@ -1,7 +1,5 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import validation from "../utils/validation";
-import sessionFlash from "../utils/session-flash";
 const db = new PrismaClient();
 
 class User {
@@ -19,19 +17,21 @@ class User {
   confirmation_token?: string;
   last_login_at?: Date | null;
 
-  constructor(data: {
-    name?: string;
-    username?: string;
-    email?: string;
-    password?: string;
-    JMBG?: string;
-    typeId?: number;
-    photo?: string;
-    id?: number;
-    created_at?: Date;
-    updated_at?: Date;
-    confirmation_token?: string;
-  } = {}) {
+  constructor(
+    data: {
+      name?: string;
+      username?: string;
+      email?: string;
+      password?: string;
+      JMBG?: string;
+      typeId?: number;
+      photo?: string;
+      id?: number;
+      created_at?: Date;
+      updated_at?: Date;
+      confirmation_token?: string;
+    } = {}
+  ) {
     this.name = data.name || "";
     this.username = data.username || "";
     this.email = data.email || "";
