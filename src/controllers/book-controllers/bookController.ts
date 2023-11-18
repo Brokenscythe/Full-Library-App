@@ -106,6 +106,7 @@ export async function addBook(req: Request, res: Response, next: NextFunction) {
   );
   try {
     await book.save();
+    await getAllBooks(req, res, next);
   } catch (error) {
     next(error);
   }

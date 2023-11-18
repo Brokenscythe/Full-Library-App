@@ -11,7 +11,7 @@ bookRouter.get("/knjigaOsnovniDetalji/:id", BookController.getBook);
 
 bookRouter.get("/knjigaSpecifikacija/:id", BookController.getBook1);
 
-bookRouter.get("/novaKnjiga");
+bookRouter.get("/novaKnjiga", BookController.getNewBook);
 
 bookRouter.post("/editKnjiga/:id", BookController.updateBook);
 
