@@ -1,189 +1,98 @@
 import { Request, Response, NextFunction } from "express";
 import Book from "../../models/bookModel";
-import Author from "../../models/authorModel";
-import Category from "../../models/categoryModel";
-import Genre from "../../models/genreModel";
-import Publisher from "../../models/publisherModel";
-import Letter from "../../models/letterModel";
-import Binding from "../../models/bindingModel";
-import Format from "../../models/formatModel";
-
-export async function getEditBook(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const bookId = parseInt(req.params.id.split(":")[0]);
-    const book = await Book.getBook(bookId);
-    const authors = await Author.getAllAuthors();
-    const categories = await Category.getAllCategories();
-    const genres = await Genre.getAllGenres();
-    const publishers = await Publisher.getAllPublishers();
-    const letters = await Letter.getAllLetters();
-    const bindings = await Binding.getAllBindings();
-    const formats = await Format.getAllFormats();
-    res.render("knjige/editKnjiga", {
-      book: book,
-      authors: authors,
-      categories: categories,
-      genres: genres,
-      publishers: publishers,
-      letters: letters,
-      bindings: bindings,
-      formats: formats,
+/* export async function getAllBooks(req: Request, res:Response, next:NextFunction){
+    let books;
+    try{
+        books = await Book.getAllBooks();
+    }catch(error) {
+        return next(error);
+    }
+    res.json({
+        books: books,
     });
-  } catch (error) {
-    return next(error);
-  }
-}
+} */
 
-export async function getAllBooks(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
+export async function getAllBooks(req: Request, res: Response, next: NextFunction) {
   try {
     const books = await Book.getAllBooks();
-    const authors = await Author.getAllAuthors();
-    const categories = await Category.getAllCategories();
-    res.render("knjige/evidencijaKnjiga", {
-      books: books,
-      authors: authors,
-      categories: categories,
-    });
+    res.render("index", { books });
   } catch (error) {
     return next(error);
   }
 }
 
 export async function getBook(req: Request, res: Response, next: NextFunction) {
-  const bookId = parseInt(req.params.id.split(":")[0]);
+  let bookId = parseInt(req.params.id.split(":")[1]);
+  let book;
   try {
-    const book = await Book.getBook(bookId);
-    res.render("knjige/knjigaOsnovniDetalji", { book: book });
+    book = await Book.getBook(bookId);
   } catch (error) {
     return next(error);
   }
-}
-
-export async function getBook1(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const bookId = parseInt(req.params.id.split(":")[0]);
-  try {
-    const book = await Book.getBook(bookId);
-    res.render("knjige/knjigaSpecifikacija", { book: book });
-  } catch (error) {
-    return next(error);
-  }
+  res.json({
+    book: book,
+  });
 }
 
 export async function addBook(req: Request, res: Response, next: NextFunction) {
+  let bookId = parseInt(req.params.id.split(":")[1]);
   const book = new Book(
     req.body.title,
-    req.body.pageCount,
+    req.body.page_count,
     req.body.letterId,
     req.body.languageId,
     req.body.bindingId,
     req.body.formatId,
     req.body.publisherId,
     req.body.isbn,
-    req.body.quantityCount,
-    req.body.rentedCount,
-    req.body.reservedCount,
+    req.body.quantity_count,
+    req.body.rented_count,
+    req.body.reserved_count,
     req.body.body,
     req.body.year,
     req.body.pdf,
-    req.body.authors,
-    req.body.categories,
-    req.body.genres,
-    req.body.galleries,
-    req.body.reservations,
-    req.body.rents
+    req.body.id
   );
   try {
     await book.save();
-    await getAllBooks(req, res, next);
-  } catch (error) {
-    next(error);
-  }
-}
-
-export async function getNewBook(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  try {
-    const authors = await Author.getAllAuthors();
-    const categories = await Category.getAllCategories();
-    const genres = await Genre.getAllGenres();
-    const publishers = await Publisher.getAllPublishers();
-    const letters = await Letter.getAllLetters();
-    const bindings = await Binding.getAllBindings();
-    const formats = await Format.getAllFormats();
-    res.render("knjige/novaKnjiga", {
-      authors: authors,
-      categories: categories,
-      genres: genres,
-      publishers: publishers,
-      letters: letters,
-      bindings: bindings,
-      formats: formats,
-    });
   } catch (error) {
     return next(error);
   }
+  res.json({ message: "added new book", book: book });
 }
 
-export async function updateBook(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const bookId = parseInt(req.params.id.split(":")[0]);
+export async function updateBook(req: Request, res: Response, next: NextFunction) {
+  let bookId = parseInt(req.params.id.split(":")[1]);
   const book = new Book(
     req.body.title,
-    req.body.pageCount,
+    req.body.page_count,
     req.body.letterId,
     req.body.languageId,
     req.body.bindingId,
     req.body.formatId,
     req.body.publisherId,
     req.body.isbn,
-    req.body.quantityCount,
-    req.body.rentedCount,
-    req.body.reservedCount,
+    req.body.quantity_count,
+    req.body.rented_count,
+    req.body.reserved_count,
     req.body.body,
     req.body.year,
     req.body.pdf,
-    req.body.authors,
-    req.body.categories,
-    req.body.genres,
-    req.body.galleries,
-    req.body.reservations,
-    req.body.rents,
-    bookId
+    req.body.id
   );
   try {
     await book.save();
-    res.render("knjige/evidencijaKnjiga");
   } catch (error) {
-    next(error);
+    return next(error);
   }
+  res.json({ message: "book updated", book: book });
 }
 
-export async function deleteBook(
-  req: Request,
-  res: Response,
-  next: NextFunction
-) {
-  const bookId = parseInt(req.params.id.split(":")[0]);
+export async function deleteBook(req: Request, res: Response, next: NextFunction) {
+  let bookId = parseInt(req.params.id.split(":")[1]);
+  let book = new Book("", -1, -1, -1, -1, -1, -1, "", -1, -1, -1, "", -1, "", bookId);
   try {
-    Book.delete(bookId);
+    book.delete();
   } catch (error) {
     return next(error);
   }

@@ -1,0 +1,1 @@
+{"version":3,"file":"csrf-token.js","sourceRoot":"","sources":["../../src/middlewares/csrf-token.ts"],"names":[],"mappings":";;AAEA,SAAS,YAAY,CAAC,GAAY,EAAE,GAAa,EAAE,IAAkB;IACnE,GAAG,CAAC,MAAM,CAAC,SAAS,GAAG,GAAG,CAAC,SAAS,EAAE,CAAC;IACvC,IAAI,EAAE,CAAC;AACT,CAAC;AAED,kBAAe,YAAY,CAAC"}

@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from "express";
-import Reservation from "../models/reservationModel";
+import BookReservation from "../models/bookReservations";
 
 export async function getReservation(req: Request, res: Response, next: NextFunction) {
     const reservationId = parseInt(req.params.id);
     let reservation;
     try {
-        reservation = await Reservation.getReservation(reservationId);
+        reservation = await BookReservation.getReservation(reservationId);
     } catch (error) {
         return next(error);
     }
@@ -16,7 +16,7 @@ export async function getReservation(req: Request, res: Response, next: NextFunc
 
 export async function getAllReservations(req: Request, res: Response, next: NextFunction) {
     try {
-        const allReservations = await Reservation.getAllReservations();
+        const allReservations = await BookReservation.getAllReservations();
         res.json({
             reservations: allReservations,
         });
@@ -38,7 +38,7 @@ export async function createReservation(req: Request, res: Response, next: NextF
     } = req.body;
 
     try {
-        const reservation = await Reservation.createReservation(
+        const reservation = await BookReservation.createReservation(
             bookId,
             reservationMadeForUserId,
             reservationMadeByUserId,
@@ -68,7 +68,7 @@ export async function updateReservation(req: Request, res: Response, next: NextF
     } = req.body;
 
     try {
-        const reservation = await Reservation.getReservation(reservationId); 
+        const reservation = await BookReservation.getReservation(reservationId); 
 
   
         reservation.request_date = request_date;
@@ -90,7 +90,7 @@ export async function deleteReservation(req: Request, res: Response, next: NextF
     const reservationId = parseInt(req.params.id);
 
     try {
-        const reservation = await Reservation.getReservation(reservationId); 
+        const reservation = await BookReservation.getReservation(reservationId); 
 
         await reservation.deleteReservation();
 
@@ -111,7 +111,7 @@ export async function searchReservations(req: Request, res: Response, next: Next
         const parsedBookId = bookId ? parseInt(bookId as string) : undefined;
         const parsedUserId = userId ? String(userId) : undefined;
 
-        const reservations = await Reservation.searchReservations(parsedBookId, parsedUserId);
+        const reservations = await BookReservation.searchReservations(parsedBookId, parsedUserId);
 
         res.json({
             reservations: reservations,
