@@ -1,5 +1,5 @@
 function openPasswordChangeModal() {
-  var modal = document.getElementById("passwordChangeModal");
+  var modal = document.getElementById("password-reset-form");
   modal.style.display = "block";
 }
 
@@ -21,23 +21,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var formData = new FormData(passwordResetForm);
 
-    // Ensure that the field names match the names in your HTML form
     formData.append("pwResetBibliotekar", document.getElementById("pwResetBibliotekar").value);
     formData.append("pw2ResetBibliotekar", document.getElementById("pw2ResetBibliotekar").value);
 
     const buttonElement = document.getElementsByName("resetPassword")[0];
     const csrfToken = buttonElement.getAttribute("data-csrf");
 
-    fetch(`/bibliotekarProfile/${librarianId}`, {
+    const result = fetch(`/bibliotekarProfile/${librarianId}`, {
       method: "POST",
       body: formData,
       headers: {
-        "CSRF-Token": csrfToken, // Add the CSRF token header
+        "CSRF-Token": csrfToken, 
       },
     })
       .then(function (response) {
         if (response.ok) {
-          return response.json(); // This should return a promise
+          return result;
         } else {
           return response.json();
         }
@@ -56,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // You can display a success message here if required
       })
       .catch(function (error) {
-        console.error("Error:", error);
+        console.log("Error:", error);
         const errorElement = document.getElementById("validatePwResetBibliotekar");
         errorElement.innerHTML = "An error occurred while changing the password. Please try again later.";
         errorElement.style.color = "red";

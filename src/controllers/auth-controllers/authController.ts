@@ -12,6 +12,7 @@ import sessionFlash from "../../utils/session-flash";
 import { UserData } from "../../interfaces/userData";
 //Email-Confirmation
 import transport from "../../utils/email";
+
 export async function getRegister(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     let sessionData = sessionFlash.getSessionData(req);
@@ -30,7 +31,6 @@ export async function getRegister(req: Request, res: Response, next: NextFunctio
     return next(error);
   }
 }
-
 export async function getLogIn(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     let sessionData = sessionFlash.getSessionData(req);
@@ -45,7 +45,6 @@ export async function getLogIn(req: Request, res: Response, next: NextFunction):
     return next(error);
   }
 }
-
 export async function signup(req: Request, res: Response): Promise<void | Response<never, Record<string, number>>> {
   const enteredData: UserData = {
     username: req.body.username,
@@ -126,7 +125,6 @@ export async function signup(req: Request, res: Response): Promise<void | Respon
   }
   res.redirect("/login");
 }
-
 export async function confirmRegistration(req: Request, res: Response): Promise<void> {
   const token = req.params.token;
   try {
@@ -138,7 +136,6 @@ export async function confirmRegistration(req: Request, res: Response): Promise<
     res.status(500).json({ error: "Internal server error" });
   }
 }
-
 export async function login(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { email, password } = req.body;
 
@@ -273,7 +270,6 @@ export async function forgotPassword(req: Request, res: Response, next: NextFunc
     return next(error);
   }
 }
-
 export async function getResetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
   console.log(token);
@@ -309,7 +305,6 @@ export async function getResetPassword(req: Request, res: Response, next: NextFu
     return next(error);
   }
 }
-
 export async function resetPassword(req: Request, res: Response, next: NextFunction): Promise<void> {
   const { id, token } = req.params;
   const { password, password2 } = req.body;
@@ -363,9 +358,6 @@ export async function resetPassword(req: Request, res: Response, next: NextFunct
     return next(error);
   }
 }
-
-
-
 export async function logout(req: Request, res: Response): Promise<void> {
   authUtil.destroyUserSession(req, res);
 }
