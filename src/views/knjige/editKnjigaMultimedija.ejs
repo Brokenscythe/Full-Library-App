@@ -1,8 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <!-- Meta -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="content-language" content="en" />
+    <meta name="description" content="ICT Cortex Library - project for high school students..." />
+    <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
+    <meta name="author" content="bildstudio" />
+    <!-- End Meta -->
+
+    <!-- Title -->
+    <title>Edit book | Multimedia | Library - ICT Cortex student project</title>
+    <link rel="shortcut icon" href="img/library-favicon.ico" type="image/vnd.microsoft.icon" />
+    <!-- End Title -->
+
+    <!-- Styles -->
+    <%- include('../includes/layout/styles') %>
+    <!-- End Styles -->
+</head>
+
+<body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
+    <!-- Header -->
+    <%- include('../includes/layout/header') %>
+    <!-- Header -->
+
+    <!-- Main content -->
+    <main class="flex flex-row small:hidden">
+        <!-- Sidebar -->
+        <%- include('../includes/layout/sidebar') %>
+        <!-- End Sidebar -->
+
+        <!-- Content -->
+        <section class="w-screen h-screen pl-[80px] pb-4 text-gray-700">
+            <!-- Heading of content -->
+            <div class="heading">
+                <div class="flex border-b-[1px] border-[#e4dfdf]">
+                    <div class="pl-[30px] py-[10px] flex flex-col">
+                        <div>
+                            <h1>
+                                Izmijeni podatke
+                            </h1>
+                        </div>
+                        <div>
+                            <nav class="w-full rounded">
+                                <ol class="flex list-reset">
+                                    <li>
+                                        <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                            Evidencija knjiga
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <span class="mx-2">/</span>
+                                    </li>
+                                    <li>
+                                        <a href="/#" class="text-gray-400 hover:text-blue-600">
+                                            Izmijeni podatke
+                                        </a>
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-b-[2px] py-4 text-gray-500 border-gray-300 pl-[30px]">
+                <a href="/editKnjiga" class="inline hover:text-blue-800">
+                    Osnovni detalji
+                </a>
+                <a href="/editKnjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
+                    Specifikacija
+                </a>
+                <a href="/#" class="inline active-book-nav ml-[70px] hover:text-blue-800">
+                    Multimedija
+                </a>
+            </div>
+            <!-- Space for content -->
+            <div class="scroll height-content section-content">
+                <form method="POST" action="/" class="text-gray-700">
 
                     <div class="w-9/12 mx-auto bg-white rounded p7 mt-[40px] mb-[150px]">
                     <div x-data="dataFileDnD()"
-                         class="relative flex flex-col p-4 text-gray-400 border border-gray-200 rounded">
+                                            class="relative flex flex-col p-4 text-gray-400 border border-gray-200 rounded">
                                             <div x-ref="dnd"
                                                 class="relative flex flex-col text-gray-400 border border-gray-200 border-dashed rounded cursor-pointer">
                                                 <input accept="*" type="file" multiple
@@ -32,7 +113,7 @@
                                                 @dragover.prevent="$event.dataTransfer.dropEffect = 'move'">
                                                 <!-- Image 1 -->
                                                 <div class="relative flex flex-col text-xs bg-white bg-opacity-50 hiddenImage1">
-                                                    <img src="<%= book.galleries[0].photo%>" alt="" class="h-[322px]">
+                                                    <img src="img/tomsojer.jpg" alt="" class="h-[322px]">
                                                     <!-- Checkbox -->
                                                     <input
                                                         class="absolute top-[10px] right-[10px] z-50 p-1 bg-white rounded-bl focus:outline-none"
@@ -59,7 +140,7 @@
                                                 <!-- End of image 1 -->
                                                 <!-- Image 2 -->
                                                 <div class="relative flex flex-col text-xs bg-white bg-opacity-50 hiddenImage2">
-                                                    <img src="<%= book.galleries[1].photo%>" alt="" class="h-[322px]">
+                                                    <img src="img/tomsojer2.jpg" alt="" class="h-[322px]">
                                                     <!-- Checkbox -->
                                                     <input
                                                         class="absolute top-[10px] right-[10px] z-50 p-1 bg-white rounded-bl focus:outline-none"
@@ -172,4 +253,21 @@
                             </div>
                         </div>
                     </div>
-     
+                </form>
+            </div>
+        </section>
+        <!-- End Content -->
+    </main>
+    <!-- End Main content -->
+
+    <!-- Notification for small devices -->
+    <%- include('../includes/layout/inProgress') %>
+
+
+    <!-- Scripts -->
+    <%- include('../includes/layout/scripts') %>
+    <!-- End Scripts -->
+
+</body>
+
+</html>
