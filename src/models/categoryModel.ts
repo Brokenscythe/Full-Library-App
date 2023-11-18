@@ -4,8 +4,8 @@ const db = new PrismaClient();
 
 export class Category {
   name: string;
-  iconPath: string;
   description: string;
+  iconPath: string;
   id?: number;
 
   constructor(name: string, iconPath: string, description: string, id?: number) {

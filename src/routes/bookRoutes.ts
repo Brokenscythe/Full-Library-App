@@ -1,13 +1,22 @@
 import express from "express";
-import * as BookController from "../controllers/book-controllers/bookController";
-import { getBook, getAllBooks, deleteBook, updateBook, addBook } from "../controllers/book-controllers/bookController";
+import * as BookController from "../controllers/bookController";
 
 const bookRouter = express.Router();
 
-bookRouter.get("/", BookController.getAllBooks);
-bookRouter.get("/:id", BookController.getBook);
-bookRouter.post("/", BookController.addBook);
-bookRouter.patch("/:id", BookController.updateBook);
-bookRouter.delete("/:id", BookController.deleteBook);
+bookRouter.get("/editKnjiga/:id", BookController.getEditBook);
+
+bookRouter.get("/evidencijaKnjiga", BookController.getAllBooks);
+
+bookRouter.get("/knjigaOsnovniDetalji/:id", BookController.getBook);
+
+bookRouter.get("/knjigaSpecifikacija/:id", BookController.getBook1);
+
+bookRouter.get("/novaKnjiga", BookController.getNewBook);
+
+bookRouter.post("/editKnjiga/:id", BookController.updateBook);
+
+bookRouter.post("/novaKnjiga", BookController.addBook);
+
+bookRouter.delete("/deleteBook/:id", BookController.deleteBook);
 
 export default bookRouter;

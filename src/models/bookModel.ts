@@ -2,88 +2,124 @@ import { PrismaClient } from "@prisma/client";
 
 const db = new PrismaClient();
 
-/* type _Book = {
-    id: number;
-    title: string;
-    page_count: number;
-    letterId: number;
-    languageId: number;
-    bindingId: number;
-    formatId: number;
-    publisherId: number;
-    isbn: string;
-    quantity_count: number;
-    rented_count: number;
-    reserved_count: number;
-    body: string;
-    year: number;
-    pdf: string;
-}; */
+type Author = {
+  id?: number;
+  nameSurname: string;
+  //photo: string;
+  biography: string;
+  //wikipedia: string;
+};
 
-export class Book {
+type Category = {
+  name: string;
+  iconPath: string | null;
+  description: string | null;
+  id?: number;
+};
+
+type Genre = {
+  name: string;
+  id?: number;
+};
+
+type Gallery = {
+  id?: number;
+  photo: string;
+  cover: number;
+};
+
+type Reservation = {
   id: number;
+};
+
+type Rent = {
+  id: number;
+};
+
+class Book {
   title: string;
-  page_count: number;
+  pageCount: number;
   letterId: number;
   languageId: number;
   bindingId: number;
   formatId: number;
   publisherId: number;
   isbn: string;
-  quantity_count: number;
-  rented_count: number;
-  reserved_count: number;
+  quantityCount: number;
+  rentedCount: number;
+  reservedCount: number;
   body: string;
   year: number;
   pdf: string;
+  authors: Author[];
+  categories: Category[];
+  genres: Genre[];
+  galleries: Gallery[];
+  reservations: Reservation[];
+  rents: Rent[];
+  id?: number;
 
+  /* constructor(id?:number){
+    this.id = id
+  } */
   constructor(
     title: string,
-    page_count: number,
+    pageCount: number,
     letterId: number,
     languageId: number,
     bindingId: number,
     formatId: number,
     publisherId: number,
     isbn: string,
-    quantity_count: number,
-    rented_count: number,
-    reserved_count: number,
+    quantityCount: number,
+    rentedCount: number,
+    reservedCount: number,
     body: string,
     year: number,
     pdf: string,
-    id: number
+    authors: Author[] = [],
+    categories: Category[] = [],
+    genres: Genre[] = [],
+    galleries: Gallery[] = [],
+    reservations: Reservation[] = [],
+    rents: Rent[] = [],
+    id: number = -1
   ) {
-    this.id = id;
     this.title = title;
-    this.page_count = page_count;
+    this.pageCount = pageCount;
     this.letterId = letterId;
     this.languageId = languageId;
     this.bindingId = bindingId;
     this.formatId = formatId;
     this.publisherId = publisherId;
     this.isbn = isbn;
-    this.quantity_count = quantity_count;
-    this.rented_count = rented_count;
-    this.reserved_count = reserved_count;
+    this.quantityCount = quantityCount;
+    this.rentedCount = rentedCount;
+    this.reservedCount = reservedCount;
     this.body = body;
     this.year = year;
     this.pdf = pdf;
+    this.authors = authors;
+    this.categories = categories;
+    this.genres = genres;
+    this.galleries = galleries;
+    this.reservations = reservations;
+    this.rents = rents;
+    this.id = id;
   }
 
   static async getAllBooks() {
-    const books = await db.book.findMany({
+    const books = db.book.findMany({
       include: {
-        language: true,
-        format: true,
-        letter: true,
-        categories: true,
-        binding: true,
         authors: true,
+        categories: true,
+        genres: true,
+        galleries: true,
+        reservations: true,
+        rents: true,
       },
     });
-
-    return books.map((book: any) => {
+    return (await books).map((book) => {
       return new Book(
         book.title,
         book.page_count,
@@ -99,7 +135,13 @@ export class Book {
         book.body,
         book.year,
         book.pdf,
-        book.id
+
+        book.authors,
+        book.categories,
+        book.genres,
+        book.galleries,
+        book.reservations,
+        book.rents
       );
     });
   }
@@ -110,15 +152,14 @@ export class Book {
         id,
       },
       include: {
-        language: true,
-        format: true,
-        letter: true,
-        categories: true,
-        binding: true,
         authors: true,
+        categories: true,
+        genres: true,
+        galleries: true,
+        reservations: true,
+        rents: true,
       },
     });
-
     if (!book) {
       throw new Error("Book not found");
     }
@@ -138,63 +179,327 @@ export class Book {
       book.body,
       book.year,
       book.pdf,
+      book.authors,
+      book.categories,
+      book.genres,
+      book.galleries,
+      book.reservations,
+      book.rents,
       book.id
     );
   }
 
   async save() {
     if (this.id) {
-      return db.book.update({
+      //UPDATE
+      return await db.book.update({
         where: {
           id: this.id,
         },
         data: {
           title: this.title,
-          page_count: this.page_count,
+          page_count: this.pageCount,
           letterId: this.letterId,
           languageId: this.languageId,
           bindingId: this.bindingId,
           formatId: this.formatId,
           publisherId: this.publisherId,
           isbn: this.isbn,
-          quantity_count: this.quantity_count,
-          rented_count: this.rented_count,
-          reserved_count: this.reserved_count,
+          quantity_count: this.quantityCount,
+          rented_count: this.rentedCount,
+          reserved_count: this.reservedCount,
           body: this.body,
           year: this.year,
           pdf: this.pdf,
+          authors: {
+            connectOrCreate: [
+              {
+                where: {
+                  nameSurname: this.authors[0].nameSurname,
+                },
+                create: {
+                  nameSurname: this.authors[0].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
+                },
+              },
+              {
+                where: {
+                  nameSurname: this.authors[1].nameSurname,
+                },
+                create: {
+                  nameSurname: this.authors[1].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
+                },
+              },
+              {
+                where: {
+                  nameSurname: this.authors[2].nameSurname,
+                },
+                create: {
+                  nameSurname: this.authors[2].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
+                },
+              },
+            ],
+          },
+          categories: {
+            connectOrCreate: [
+              {
+                where: {
+                  name: this.categories[0].name,
+                },
+                create: {
+                  name: this.categories[0].name,
+                  iconPath: "",
+                  description: "",
+                },
+              },
+              {
+                where: {
+                  name: this.categories[1].name,
+                },
+                create: {
+                  name: this.categories[1].name,
+                  iconPath: "",
+                  description: "",
+                },
+              },
+              {
+                where: {
+                  name: this.categories[2].name,
+                },
+                create: {
+                  name: this.categories[2].name,
+                  iconPath: "",
+                  description: "",
+                },
+              },
+            ],
+          },
+          genres: {
+            connectOrCreate: [
+              {
+                where: {
+                  name: this.genres[0].name,
+                },
+                create: {
+                  name: this.genres[0].name,
+                },
+              },
+              {
+                where: {
+                  name: this.genres[1].name,
+                },
+                create: {
+                  name: this.genres[1].name,
+                },
+              },
+              {
+                where: {
+                  name: this.genres[2].name,
+                },
+                create: {
+                  name: this.genres[2].name,
+                },
+              },
+            ],
+          },
+          galleries: {
+            connectOrCreate: [
+              {
+                where: {
+                  id: this.galleries[0].id,
+                },
+                create: {
+                  photo: this.galleries[0].photo,
+                  cover: this.galleries[0].cover,
+                },
+              },
+              {
+                where: {
+                  id: this.galleries[1].id,
+                },
+                create: {
+                  photo: this.galleries[1].photo,
+                  cover: this.galleries[1].cover,
+                },
+              },
+              {
+                where: {
+                  id: this.galleries[2].id,
+                },
+                create: {
+                  photo: this.galleries[2].photo,
+                  cover: this.galleries[2].cover,
+                },
+              },
+            ],
+          },
         },
       });
     } else {
-      return db.book.create({
+      //CREATE
+      return await db.book.create({
         data: {
           title: this.title,
-          page_count: this.page_count,
+          page_count: this.pageCount,
           letterId: this.letterId,
           languageId: this.languageId,
           bindingId: this.bindingId,
           formatId: this.formatId,
           publisherId: this.publisherId,
           isbn: this.isbn,
-          quantity_count: this.quantity_count,
-          rented_count: this.rented_count,
-          reserved_count: this.reserved_count,
+          quantity_count: this.quantityCount,
+          rented_count: this.rentedCount,
+          reserved_count: this.reservedCount,
           body: this.body,
           year: this.year,
           pdf: this.pdf,
+          authors: {
+            connectOrCreate: [
+              {
+                where: {
+                  nameSurname: this.authors[0].nameSurname,
+                },
+                create: {
+                  nameSurname: this.authors[0].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
+                },
+              },
+              {
+                where: {
+                  nameSurname: this.authors[1].nameSurname,
+                },
+                create: {
+                  nameSurname: this.authors[1].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
+                },
+              },
+              {
+                where: {
+                  nameSurname: this.authors[2].nameSurname,
+                },
+                create: {
+                  nameSurname: this.authors[2].nameSurname,
+                  photo: "",
+                  biography: "",
+                  wikipedia: "",
+                },
+              },
+            ],
+          },
+          categories: {
+            connectOrCreate: [
+              {
+                where: {
+                  name: this.categories[0].name,
+                },
+                create: {
+                  name: this.categories[0].name,
+                  iconPath: "",
+                  description: "",
+                },
+              },
+              {
+                where: {
+                  name: this.categories[1].name,
+                },
+                create: {
+                  name: this.categories[1].name,
+                  iconPath: "",
+                  description: "",
+                },
+              },
+              {
+                where: {
+                  name: this.categories[2].name,
+                },
+                create: {
+                  name: this.categories[2].name,
+                  iconPath: "",
+                  description: "",
+                },
+              },
+            ],
+          },
+          genres: {
+            connectOrCreate: [
+              {
+                where: {
+                  name: this.genres[0].name,
+                },
+                create: {
+                  name: this.genres[0].name,
+                },
+              },
+              {
+                where: {
+                  name: this.genres[1].name,
+                },
+                create: {
+                  name: this.genres[1].name,
+                },
+              },
+              {
+                where: {
+                  name: this.genres[2].name,
+                },
+                create: {
+                  name: this.genres[2].name,
+                },
+              },
+            ],
+          },
+          galleries: {
+            connectOrCreate: [
+              {
+                where: {
+                  id: this.galleries[0].id,
+                },
+                create: {
+                  photo: this.galleries[0].photo,
+                  cover: this.galleries[0].cover,
+                },
+              },
+              {
+                where: {
+                  id: this.galleries[1].id,
+                },
+                create: {
+                  photo: this.galleries[1].photo,
+                  cover: this.galleries[1].cover,
+                },
+              },
+              {
+                where: {
+                  id: this.galleries[2].id,
+                },
+                create: {
+                  photo: this.galleries[2].photo,
+                  cover: this.galleries[2].cover,
+                },
+              },
+            ],
+          },
         },
       });
     }
   }
 
-  async delete() {
-    if (!this.id) {
-      throw new Error("Trying to delete a non-existent item");
-    }
-
+  static async delete(id: number) {
     await db.book.delete({
       where: {
-        id: this.id,
+        id: id,
       },
     });
   }

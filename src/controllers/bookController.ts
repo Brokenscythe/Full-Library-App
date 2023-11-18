@@ -1,12 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import Book from "../../models/bookModel";
-import Author from "../../models/authorModel";
-import Category from "../../models/categoryModel";
-import Genre from "../../models/genreModel";
-import Publisher from "../../models/publisherModel";
-import Letter from "../../models/letterModel";
-import Binding from "../../models/bindingModel";
-import Format from "../../models/formatModel";
+import Book from "../models/bookModel";
+import Author from "../models/authorModel";
+import Category from "../models/categoryModel";
+import Genre from "../models/genreModel";
+import Publisher from "../models/publisherModel";
+import Letter from "../models/letterModel";
+import Binding from "../models/bindingModel";
+import Format from "../models/formatModel";
 
 export async function getEditBook(
   req: Request,
@@ -106,7 +106,6 @@ export async function addBook(req: Request, res: Response, next: NextFunction) {
   );
   try {
     await book.save();
-    await getAllBooks(req, res, next);
   } catch (error) {
     next(error);
   }

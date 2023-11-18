@@ -6,10 +6,11 @@ import methodOverride from "method-override";
 import bodyParser from "body-parser";
 
 //ROUTES
-import authRouter from "./routes/authRoutes";
+import authRoutes from "./routes/authRoutes";
 import bookRouter from "./routes/bookRoutes";
-import mainRouter from "./routes/mainRoutes";
 import settingsRouter from "./routes/settingsRoutes";
+import ReservationRouter from "./routes/reservationRoutes";
+import AuthorRouter from "./routes/authorRoutes";
 
 //SESSION CONFIG
 import createSessionConfig from "./config/session";
@@ -18,12 +19,13 @@ import createSessionConfig from "./config/session";
 import errorHandlerMiddleware from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
-import ReservationRouter from "./routes/reservationRoutes";
-import AuthorRouter from "./routes/authorRoutes";
+import dotenv from "dotenv";
 
 const app = express();
 app.use(methodOverride("_method"));
 const PORT = 3000;
+
+dotenv.config();
 
 //parsira req.body
 app.use(bodyParser.json());
@@ -45,8 +47,7 @@ app.use(addCsrfTokenMiddleware);
 app.use(checkAuthStatusMiddleware);
 
 //ROUTES
-app.use("/", authRouter);
-app.use("/", mainRouter);
+app.use("/", authRoutes);
 app.use("/books", bookRouter);
 app.use("/authors", AuthorRouter);
 app.use("/", settingsRouter);

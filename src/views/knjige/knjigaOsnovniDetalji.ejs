@@ -40,12 +40,12 @@
                 <div class="flex flex-row justify-between border-b-[1px] border-[#e4dfdf]">
                     <div class="py-[10px] flex flex-row">
                         <div class="w-[77px] pl-[30px]">
-                            <img src="img/tomsojer.jpg" alt="">
+                            <img src="<%= book.galleries[0].photo %>" alt="">
                         </div>
                         <div class="pl-[15px]  flex flex-col">
                             <div>
                                 <h1>
-                                    Tom Sojer
+                                    <%= book.title %>
                                 </h1>
                             </div>
                             <div>
@@ -60,9 +60,9 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/knjigaOsnovniDetalji"
+                                            <a href="/knjigaOsnovniDetalji/:<%=book.id%>"
                                                 class="text-[#2196f3] hover:text-blue-600">
-                                                KNJIGA-467
+                                                <%= book.title %>
                                             </a>
                                         </li>
                                     </ol>
@@ -71,19 +71,19 @@
                         </div>
                     </div>
                     <div class="pt-[24px] mr-[30px]">
-                        <a href="/otpisiKnjigu" class="inline hover:text-blue-600">
+                        <a href="/otpisiKnjigu/:<%=book.id%>" class="inline hover:text-blue-600">
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                        <a href="/izdajKnjigu" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
+                        <a href="/izdajKnjigu/:<%=book.id%>" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
-                        <a href="/vratiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="/vratiKnjigu/:<%=book.id%>" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="fas fa-redo-alt mr-[3px] "></i>
                             Vrati knjigu
                         </a>
-                        <a href="/rezervisiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="/rezervisiKnjigu/:<%=book.id%>" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="far fa-calendar-check mr-[3px] "></i>
                             Rezervisi knjigu
                         </a>
@@ -96,13 +96,13 @@
                             <div class="absolute right-0 w-56 mt-[7px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                 aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
                                 <div class="py-1">
-                                    <a href="/editKnjiga" tabindex="0"
+                                    <a href="/editKnjiga/:<%=book.id%>" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fas fa-edit mr-[1px] ml-[5px] py-1"></i>
                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                     </a>
-                                    <a href="/#" tabindex="0"
+                                    <a href="/deleteBook/:<%=book.id%>" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fa fa-trash mr-[5px] ml-[5px] py-1"></i>
@@ -117,16 +117,16 @@
             <div class="flex flex-row overflow-auto height-osnovniDetalji">
                 <div class="w-[80%]">
                     <div class="border-b-[1px] py-4 text-gray-500 border-[#e4dfdf] pl-[30px]">
-                        <a href="/knjigaOsnovniDetalji" class="inline active-book-nav hover:text-blue-800">
+                        <a href="/knjigaOsnovniDetalji/:<%=book.id%>" class="inline active-book-nav hover:text-blue-800">
                             Osnovni detalji
                         </a>
-                        <a href="/knjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
+                        <a href="/knjigaSpecifikacija/:<%=book.id%>" class="inline ml-[70px] hover:text-blue-800 ">
                             Specifikacija
                         </a>
-                        <a href="/iznajmljivanjeIzdate" class="inline ml-[70px] hover:text-blue-800">
+                        <a href="/iznajmljivanjeIzdate/:<%=book.id%>" class="inline ml-[70px] hover:text-blue-800">
                             Evidencija iznajmljivanja
                         </a>
-                        <a href="/evidencijaKnjigaMultimedija" class="inline ml-[70px] hover:text-blue-800">
+                        <a href="/evidencijaKnjigaMultimedija/:<%=book.id%>" class="inline ml-[70px] hover:text-blue-800">
                             Multimedija
                         </a>
                     </div>
@@ -136,28 +136,34 @@
                             <div class="flex flex-row justify-between">
                                 <div class="mr-[30px]">
                                     <div class="mt-[20px]">
-                                        <span class="text-gray-500 text-[14px]">Naziv knjige</span>
+                                        <span class="text-gray-500 text-[14px]">/:<%=book.title%></span>
                                         <p class="font-medium">Tom Sojer</p>
                                     </div>
                                     <div class="mt-[40px]">
                                         <span class="text-gray-500 text-[14px]">Kategorija</span>
-                                        <p class="font-medium">Romani</p>
+                                        <% for( category in book.categories ) { %>
+                                            <p class="font-medium"><%= category.name %></p>
+                                        <% } %>
                                     </div>
                                     <div class="mt-[40px]">
                                         <span class="text-gray-500 text-[14px]">Zanr</span>
-                                        <p class="font-medium">Knjige za djecu</p>
+                                        <% for( genre in book.genres ) { %>
+                                            <p class="font-medium"><%= genre.name %></p>
+                                        <% } %>
                                     </div>
                                     <div class="mt-[40px]">
                                         <span class="text-gray-500 text-[14px]">Autor/ri</span>
-                                        <p class="font-medium">Mark Twain</p>
+                                        <% for( author in book.authors ) { %>
+                                            <p class="font-medium"><%= author.nameSurname %></p>
+                                        <% } %>
                                     </div>
                                     <div class="mt-[40px]">
                                         <span class="text-gray-500 text-[14px]">Izdavac</span>
-                                        <p class="font-medium">Delfi Knjizare</p>
+                                        <p class="font-medium"><%= book.publihser %> </p>
                                     </div>
                                     <div class="mt-[40px]">
                                         <span class="text-gray-500 text-[14px]">Godina izdavanja</span>
-                                        <p class="font-medium">30.03.2011</p>
+                                        <p class="font-medium"><%= book.year %></p>
                                     </div>
                                 </div>
                                 <div class="mr-[70px] mt-[20px] flex flex-col max-w-[600px]">
@@ -166,22 +172,7 @@
                                             Storyline (Kratki sadrzaj)
                                         </h4>
                                         <p class="addReadMore showlesscontent my-[10px]">
-                                            Tom Sojer je roman koji možemo da smatramo i autobiografijom jer je
-                                            utemeljen na
-                                            doživljajima samog Marka Tvena. Autor ga je pisao u nekoliko navrata: prvi
-                                            deo
-                                            napisan je u zimu 1872. godine, drugi deo u proljeće 1875. godine, a treći
-                                            na
-                                            leto te iste godine. Napisan je jednostavnim stilom i uz mnogo pripovedanja
-                                            i
-                                            humora pa je jednako interesantan i deci i odraslima. Tven je ovim romanom
-                                            hteo
-                                            da odrasle čitaoce podseti na detinjstvo.Pripovedanje u romanu Tom Sojer
-                                            odvija
-                                            se linearno, bez paralelnih radnji. Sva dešavanja u romanu vrte se oko
-                                            jednog
-                                            lika, a to je Tom Sojer. On se ističe svojom inteligencijom, neobuzdanošću i
-                                            humorističnom naravi.
+                                            <%= book.body %>
                                         </p>
                                     </div>
                                 </div>
@@ -200,23 +191,25 @@
                                 <p class="mt-[20px]">Ukupna kolicina:</p>
                             </div>
                             <div class="text-center pb-[30px]">
-                                <p class=" bg-green-200 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">5
+                                <p class=" bg-green-200 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]"><%= book.quantityCount - book.reservedCount %>
                                     primjeraka</p>
-                                <a href="/iznajmljivanjeAktivne"><p
+                                <a href="/iznajmljivanjeAktivne/<%= book.id %>"><p
                                     class=" mt-[16px] bg-yellow-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                    2 primjerka</p></a>
-                                    <a href="/iznajmljivanjeIzdate"><p
+                                    <%= book.reservedCount %> primjerka</p></a>
+                                    <a href="/iznajmljivanjeIzdate/<%= book.id %>"><p
                                     class=" mt-[16px] bg-blue-200 text-blue-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                    102 primjerka</p></a>
-                                    <a href="/iznajmljivanjePrekoracenje">  <p
+                                    <%= book.rentedCount %> primjerka</p></a>
+                                    <!--- Prekoračenje -->
+                                    <a href="/iznajmljivanjePrekoracenje/<%= book.id %>">  <p
                                     class=" mt-[16px] bg-red-200 text-red-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
                                     2 primjerka</p></a>
                                 <p
                                     class=" mt-[16px] border-[1px] border-green-700 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                    15 primjeraka</p>
+                                    <%= book.quantityCount %> primjeraka</p>
                             </div>
                         </div>
                     </div>
+                    <!--- IZDAVANJA -->
                     <div class="mt-[40px] mx-[30px]">
                         <div class="flex flex-col max-w-[304px]">
                             <div class="text-gray-500 ">
