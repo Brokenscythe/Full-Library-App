@@ -26,6 +26,9 @@ authRouter.post("/reset-password/:id/:token", AuthService.resetPassword);
 authRouter.get("/401", (req, res, next) => {
     res.render("shared/401");
 });
+authRouter.get("/403", (req, res, next) => {
+  res.render("shared/403");
+});
 authRouter.get("/501", (req, res) => {
   res.render("shared/501");
 });

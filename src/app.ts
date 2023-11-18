@@ -19,6 +19,7 @@ import createSessionConfig from "./config/session";
 import errorHandlerMiddleware from "./middlewares/error-handler";
 import checkAuthStatusMiddleware from "./middlewares/check-auth";
 import addCsrfTokenMiddleware from "./middlewares/csrf-token";
+import checkConfirmationMiddleware from "./middlewares/email-verification-check";
 // import ReservationRouter from "./routes/reservationRoutes";
 import AuthorRouter from "./routes/authorRoutes";
 import protectRoutes from "./middlewares/protect-routes";
@@ -51,11 +52,11 @@ app.use(checkAuthStatusMiddleware);
 //ROUTES
 app.use("/", authRouter);
 app.use("/", protectRoutes, mainRouter);
-app.use("/",protectRoutes, userRouter);
-app.use("/", protectRoutes, librarianRouter);
-app.use("/books",protectRoutes, bookRouter);
-app.use("/authors", protectRoutes, AuthorRouter);
-app.use("/",protectRoutes, settingsRouter);
+app.use("/",protectRoutes,checkConfirmationMiddleware, userRouter);
+app.use("/", protectRoutes,checkConfirmationMiddleware, librarianRouter);
+app.use("/books",protectRoutes, checkConfirmationMiddleware, bookRouter);
+app.use("/authors", protectRoutes,checkConfirmationMiddleware, AuthorRouter);
+app.use("/",protectRoutes,checkConfirmationMiddleware, settingsRouter);
 // app.use("/reservations", ReservationRouter);
 
 app.use(errorHandlerMiddleware);
