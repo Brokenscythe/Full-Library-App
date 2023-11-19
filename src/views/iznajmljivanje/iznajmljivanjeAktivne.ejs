@@ -13,7 +13,7 @@
     <!-- End Meta -->
 
     <!-- Title -->
-    <title>Osnovni detalji | Library - ICT Cortex student project</title>
+    <title>Iznajmljene Knjige Aktivne | Library - ICT Cortex student project</title>
     <link rel="shortcut icon" href="img/library-favicon.ico" type="image/vnd.microsoft.icon" />
     <!-- End Title -->
 
@@ -62,17 +62,13 @@
                                         <li>
                                             <span class="mx-2">/</span>
                                         </li>
-                                        <% if (rentedBooks && rentedBooks.length > 0) { %>
-                                            <% for (let i = 0; i < rentedBooks.length; i++) { %>
-                                                <li>
-                                                    <a href="/books/<%= rentedBooks[i].book.id %>" class="text-[#2196f3] hover:text-blue-600">
-                                                        KNJIGA-<%= rentedBooks[i].book.id %>
-                                                    </a>
-                                                </li>
-                                            <% } %>
-                                        <% } else { %>
-                                            <p>No rented books found.</p>
-                                        <% } %>
+                                 
+                                        <li>
+                                            <a href="/books/REPLACE_BOOK_ID" class="text-[#2196f3] hover:text-blue-600 link-with-replaced-id">
+                                                KNJIGA-<span class="book-id-placeholder"></span>
+                                            </a>
+                                        </li>
+                            
                                     </ol>
                                 </nav>
                             </div>
@@ -80,13 +76,13 @@
                             <div>
                                 <nav class="w-full rounded">
                                     <ol class="flex list-reset">
-                                        <% for (let i = 0; i < rentedBooks.length; i++) { %>
+                                        <!-- <% for (let i = 0; i < rentedBooks.length; i++) { %> -->
                                             <li>
                                                 <h1>
-                                                    <%= rentedBooks[i].book.title %>
+                                                    <!-- <%= rentedBooks[i].book.title %> -->
                                                 <h1>
                                             </li>
-                                        <% } %>
+                                        <!-- <% } %> -->
                                     </ol>
                                 </nav>
                             </div>
@@ -94,63 +90,41 @@
                         
                     </div>
                     <div class="pt-[24px] mr-[30px]">
-                        <a href="/otpisiKnjigu" class="inline hover:text-blue-600">
+                        <a href="/otpisiKnjigu" class="inline hover:text-blue-600 link-with-bookId" data-original-href="/otpisiKnjigu">
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                     <% rentedBooks.forEach(function(rentedBook) { %>
-  <a href="/rent/display/<%= rentedBook.book.id %>" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
-    <i class="far fa-hand-scissors mr-[3px]"></i>
-    Izdaj knjigu
-  </a>
-
-<a href="/rent/returnRentedBook/<%= rentedBook.book.id %>" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                    
+                        <a href="/rent/display" class="inline hover:text-blue-600 ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rent/display">
+                            <i class="far fa-hand-scissors mr-[3px]"></i>
+                            Izdaj knjigu
+                        </a>
+                    
+                        <a href="/rent/returnRentedBook" class="hover:text-blue-600 inline ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rent/returnRentedBook">
                             <i class="fas fa-redo-alt mr-[3px] "></i>
                             Vrati knjigu
                         </a>
-                        <a href="/rezervisiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                    
+                        <a href="/rezervisiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rezervisiKnjigu">
                             <i class="far fa-calendar-check mr-[3px] "></i>
                             Rezervisi knjigu
                         </a>
-                        <p class="inline cursor-pointer text-[25px] py-[10px] pl-[30px] border-l-[1px] border-[#e4dfdf] dotsIznajmljivanjeAktivneRezervacije hover:text-[#606FC7]">
-                            <i
-                                class="fas fa-ellipsis-v"></i>
-                        </p>
-                        <% }); %>
-                        <div
-                            class="relative z-10 hidden transition-all duration-300 origin-top-right transform scale-95 -translate-y-2 dropdown-iznajmljivanje-aktivne-rezervacije">
-                            <div class="absolute right-0 w-56 mt-[7px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
-                                aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
-                                <div class="py-1">
-                                    <a href="/editKnjiga" tabindex="0"
-                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                        role="menuitem">
-                                        <i class="fas fa-edit mr-[1px] ml-[5px] py-1"></i>
-                                        <span class="px-4 py-0">Izmijeni knjigu</span>
-                                    </a>
-                                    <a href="/#" tabindex="0"
-                                        class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
-                                        role="menuitem">
-                                        <i class="fa fa-trash mr-[5px] ml-[5px] py-1"></i>
-                                        <span class="px-4 py-0">Izbrisi knjigu</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+                    
                 </div>
             </div>
+            
             <div class="flex flex-row height-iznajmljivanje scroll">
                 <div class="w-[80%]">
                     <div class="border-b-[1px] border-[#e4dfdf] py-4  border-gray-300 pl-[30px]">
-                        <% for (let i = 0; i < rentedBooks.length; i++) { %>
-                        <a href="/books/<%= rentedBooks[i].book.id %>" class="inline hover:text-blue-800">
+                      
+                        <a href="/books/" class="inline hover:text-blue-800">
                             Osnovni detalji
                         </a>
-                        <a href="books/<%= rentedBooks[i].book.id %>" class="inline ml-[70px] hover:text-blue-800 ">
+                        <a href="books/" class="inline ml-[70px] hover:text-blue-800 ">
                             Specifikacija
                         </a>
-                        <a href="/iznajmljivanjeIzdate" class="inline ml-[70px] active-book-nav hover:text-blue-800">
+                        <a href="/rent" class="inline ml-[70px] active-book-nav hover:text-blue-800">
                             Evidencija iznajmljivanja
                         </a>
                         <a href="/evidencijaKnjigaMultimedija" class="inline ml-[70px] hover:text-blue-800">
@@ -158,36 +132,36 @@
                         </a>
                     </div>
                     <div class="py-4 pt-[20px] pl-[30px] text-[#2D3B48]">
-                        <a href="/IznajmljivanjeIzdate"
+                        <a href="/rent"
                             class="py-[15px] px-[20px] w-[268px] cursor-pointer hover:bg-[#EFF3F6] rounded-[10px] inline hover:text-[#576cdf]">
                             <i class="text-[20px] far fa-copy mr-[3px]"></i>
                             Izdate knjige
                         </a>
-                        <a href="/iznajmljivanjeVracene"
+                        <a href="/search-rented-books-status?rentStatusId=3"
                             class="inline py-[15px] rounded-[10px] group px-[20px] w-[268px] hover:text-[#576cdf] hover:bg-[#EFF3F6] ml-[20px] pr-[10px]">
                             <i class="text-[20px]  group-hover:text-[#576cdf] fas fa-file mr-[3px]"></i>
                             Vracene knjige
                         </a>
-                        <a href="/iznajmljivanjePrekoracenje"
+                        <a href="/search-rented-books-status?rentStatusId=4"
                             class="inline py-[15px] rounded-[10px] group px-[20px] w-[268px] hover:text-[#576cdf] hover:bg-[#EFF3F6] ml-[20px] pr-[10px]">
                             <i class="text-[20px] group-hover:text-[#576cdf] fas fa-exclamation-triangle mr-[3px]"></i>
                             Knjige u prekoracenju
                         </a>
-                        <a href="/iznajmljivanjeAktivne"
+                        <a href="/rent"
                             class="inline py-[15px] rounded-[10px] group px-[20px] w-[268px] bg-[#EFF3F6] text-[#576cdf] hover:text-[#576cdf] hover:bg-[#EFF3F6] ml-[20px] pr-[10px]">
                             <i
                                 class="text-[20px] group-hover:text-[#576cdf] far fa-calendar-check mr-[3px]"></i>
                             Aktivne rezervacije
                         </a>
-                        <a href="/iznajmljivanjeArhivirane"
+                        <a href="/search-rented-books-status?rentStatusId=5"
                             class="inline py-[15px] rounded-[10px] group px-[20px] w-[268px] hover:text-[#576cdf] hover:bg-[#EFF3F6] ml-[20px] pr-[10px]">
                             <i
                                 class="text-[20px] text-[#707070] group-hover:text-[#576cdf] fas fa-calendar-alt  mr-[3px]"></i>
                             Arhivirane rezervacije
                         </a>
-                        <% } %>
+             
                     </div>
-                    
+           
                     <!-- Space for content -->
                     <div class="w-full mt-[10px] ml-2 px-4">
                         <table class="overflow-hidden shadow-lg rounded-xl w-full border-[1px] border-[#e4dfdf] rezervacije" id="myTable">
@@ -213,7 +187,7 @@
                                     <tr class="hover:bg-gray-200 hover:shadow-md bg-gray-200 border-b-[1px] border-[#e4dfdf] changeBg">
                                         <td class="px-4 py-3 whitespace-no-wrap">
                                             <label class="inline-flex items-center">
-                                                <input type="checkbox" class="form-checkbox">
+                                                <input type="checkbox" class="form-checkbox" onclick="displayBookId('<%= rentedBooks[i].book.id %>')">
                                             </label>
                                         </td>
                                         <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
@@ -488,7 +462,26 @@
         <!-- End Content -->
     </main>
     <!-- End Main content -->
+    <script>
+        function displayBookId(bookId) {
+      
+            ModifikujMeni(bookId);
+        }
+    
+        function ModifikujMeni(bookId) {
+            const links = document.querySelectorAll('.link-with-replaced-id');
 
+links.forEach(link => {
+    const href = link.getAttribute('href');
+    const replacedHref = href.replace('REPLACE_BOOK_ID', bookId);
+    link.setAttribute('href', replacedHref);
+
+    const placeholder = link.querySelector('.book-id-placeholder');
+    placeholder.textContent = bookId;
+});
+        }
+    </script>
+    
     <!-- Notification for small devices -->
     <%- include('../includes/layout/inProgress') %>
 
