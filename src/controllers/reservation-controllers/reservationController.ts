@@ -250,10 +250,10 @@ const reservationController = {
       res.status(500).json({ error: "Doslo je do nepoznate greske prilikom brisanja rezervacija, u kontroleru rezervacija", details: errorMessage });
     }
   },
-  searchReservationsByBookTitle: async (req: Request, res: Response) => {
+  searchReservationsByBookTitle: async (req, res) => {
     try {
-      const searchQuery = req.query.searchQuery as string;
-
+      const searchQuery = req.query.q as string;
+console.log(searchQuery);
       const reservations = await prisma.reservation.findMany({
         where: {
           book: {
@@ -263,20 +263,39 @@ const reservationController = {
           },
         },
         include: {
-          book: true,
-          reservationMadeForUser: true,
-          reservationMadeByUser: true,
-          closeUser: true,
-          closureReason: true,
+          book: {
+            select: {
+              title: true,
+              id: true,
+            },
+          },
+          reservationMadeForUser: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
+          reservationMadeByUser: {
+            select: {
+              name: true,
+              id: true,
+            },
+          },
         },
       });
 
+      if (!reservations || reservations.length === 0) {
+        return res.status(404).json({ message: 'No reservations found based on the search criteria.' });
+      }
+
       res.status(200).json({ reservations });
     } catch (error: any) {
-      const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske u kontroleru trezervacija";
-      res.status(500).json({ error: "Doslo je do nepoznate greske tokom pretrage po nazivu knjige, u kontroleru rezervacija", details: errorMessage });
+      const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred while searching for reservations by book title in the reservations controller.';
+      res.status(500).json({ error: 'An unknown error occurred while searching for reservations by book title in the reservations controller.', details: errorMessage });
     }
   },
+  
+
 
   searchReservationsByUserName: async (req: Request, res: Response) => {
     try {

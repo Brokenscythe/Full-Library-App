@@ -45,17 +45,33 @@
             </div>
             <!-- Space for content -->
             <div class="scroll height-dashboard">
+        
                 <div class="flex items-center px-6 py-4 space-x-3 rounded-lg ml-[292px]">
+                
                     <div class="flex items-center">
-                        <div class="relative text-gray-600 focus-within:text-gray-400">
-                            <input type="search" name="q"
-                                class="py-2 pl-2 text-sm text-white bg-white border-2 border-gray-200 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
-                                placeholder="Pretrazi knjige..." autocomplete="off">
-                        </div>
+                
+                        <form action="/reservations/search/book" method="GET" id="searchForm">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <div class="relative text-gray-600 focus-within:text-gray-400">
+                                <input type="search" name="q"
+                                    class="py-2 pl-2 text-sm text-white bg-white border-2 border-gray-200 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
+                                    placeholder="Pretrazi knjige..." autocomplete="off">
+                                <button type="submit" class="btn-animation inline-flex items-center text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] tracking-wider text-white bg-[#3f51b5] rounded hover:bg-[#4558BE]">Pretrazi</button>
+                            </div>
+                        </form>
+                        <form action="/reservations/search/user" method="GET">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <div class="relative text-gray-600 focus-within:text-gray-400">
+                                <input type="search" name="q"
+                                    class="py-2 pl-2 text-sm text-white bg-yellow-200 border-2 border-gray-200 rounded-md focus:outline-none focus:bg-white focus:text-gray-900"
+                                    placeholder="Pretrazi korisnike..." autocomplete="off">
+                                    <button type="submit"  class="btn-animation inline-flex items-center text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] tracking-wider text-white bg-[#3f51b5] rounded hover:bg-[#4558BE]">Pretrazi</button>
+                            </div>
+                         
+                        </form>
+                        <div id="alertDiv"><b></b></div> <!-- prikazi alert-->
                     </div>
-                    <a href="#"
-                        class="btn-animation inline-flex items-center text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] tracking-wider text-white bg-[#3f51b5] rounded hover:bg-[#4558BE]">Pretrazi
-                    </a>
+                    
                 </div>
                 <div>
                     <!-- Space for content -->
@@ -635,6 +651,78 @@
              date.getMonth() === today.getMonth() &&
              date.getFullYear() === today.getFullYear();
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('searchForm').addEventListener('submit', async function (event) {
+        event.preventDefault(); 
+
+        const formData = new FormData(this);
+        const searchQuery = formData.get('q');
+
+        try {
+            const response = await fetch(`/reservations/search/book?q=${searchQuery}`);
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+
+            const table = document.getElementById('myTable');
+            const tableBody = table.querySelector('tbody');
+            tableBody.innerHTML = '';
+
+            if (data && Array.isArray(data.reservations)) {
+                data.reservations.forEach(reservation => {
+                    const row = document.createElement('tr');
+
+                    const checkboxCell = document.createElement('td');
+                    checkboxCell.classList.add('px-4', 'py-3', 'whitespace-no-wrap');
+                    checkboxCell.innerHTML = `
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" class="form-checkbox">
+                        </label>
+                    `;
+                    row.appendChild(checkboxCell);
+
+                    const bookInfoCell = document.createElement('td');
+                    bookInfoCell.classList.add('flex', 'flex-row', 'items-center', 'px-4', 'py-3');
+                    bookInfoCell.innerHTML = `
+                        <img class="object-cover w-8 mr-2 h-11" src="${reservation.book.photo_url || '../img/book_cover.jpg'}" alt="" />
+                        <a href="reservations/${reservation.id}">
+                            <span class="font-medium text-center">${reservation.book.title}</span>
+                        </a>
+                    `;
+                    row.appendChild(bookInfoCell);
+
+              
+                    const requestDateCell = document.createElement('td');
+                    requestDateCell.classList.add('px-4', 'py-3', 'text-sm', 'leading-5', 'whitespace-no-wrap');
+                    const requestDate = new Date(reservation.request_date);
+                    requestDateCell.textContent = requestDate instanceof Date && !isNaN(requestDate) ? requestDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Invalid date';
+                    row.appendChild(requestDateCell);
+
+                    const reservationDateCell = document.createElement('td');
+                    reservationDateCell.classList.add('px-4', 'py-3', 'text-sm', 'leading-5', 'whitespace-no-wrap');
+                    const reservationDate = new Date(reservation.reservation_date);
+                    reservationDateCell.textContent = reservationDate instanceof Date && !isNaN(reservationDate) ? reservationDate.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) : 'Invalid date';
+                    row.appendChild(reservationDateCell);
+
+                  
+                    tableBody.appendChild(row);
+                });
+            } else {
+                
+                const alertDiv = document.getElementById('alertDiv');
+                alertDiv.innerHTML = '<div class="alert alert-warning" role="alert">Nije pronadjena niti jedan rezervacija.</div>';
+            }
+        } catch (error) {
+            console.error('Error:', error);
+         
+        }
+    });
+});
+
   </script>
   
 </html>
