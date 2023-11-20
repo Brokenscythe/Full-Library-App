@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 function openPasswordChangeModal() {
   var modal = document.getElementById("password-reset-form");
   modal.style.display = "block";
@@ -14,18 +16,19 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   var passwordResetForm = document.getElementById("password-reset-form");
-  var librarianId = passwordResetForm.dataset.librarianId;
-
   passwordResetForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    var formData = new FormData(passwordResetForm);
-
-    formData.append("pwResetBibliotekar", document.getElementById("pwResetBibliotekar").value);
-    formData.append("pw2ResetBibliotekar", document.getElementById("pw2ResetBibliotekar").value);
-
+    var formData = new FormData(passwordResetForm,);
+    
+    var pwResetBibliotekar = document.getElementById("pwResetBibliotekar");
+    var pw2ResetBibliotekar = document.getElementById("pw2ResetBibliotekar");
+    
+    formData.append("pwResetBibliotekar", pwResetBibliotekar.value);
+    formData.append("pw2ResetBibliotekar", pw2ResetBibliotekar.value);
     const buttonElement = document.getElementsByName("resetPassword")[0];
-    const csrfToken = buttonElement.getAttribute("data-csrf");
+    const csrfToken = document.getElementById('_csrf').value;
+    const librarianId = pwResetBibliotekar.dataset.librarianId
 
     const result = fetch(`/bibliotekarProfile/${librarianId}`, {
       method: "POST",
@@ -36,15 +39,16 @@ document.addEventListener("DOMContentLoaded", function () {
     })
       .then(function (response) {
         if (response.ok) {
-          return result;
+        return response.json()
         } else {
-          return response.json();
+          console.log(result);
+          console.log(response)
+          return response.json()
         }
       })
       .then(function (data) {
         if (data === "Password changed succesfully") {
-          // Handle success
-          // For example, show a success message to the user
+            
         } else {
           // Handle failure
           // For example, show an error message to the user
@@ -56,6 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
       })
       .catch(function (error) {
         console.log("Error:", error);
+        console.log(result);
         const errorElement = document.getElementById("validatePwResetBibliotekar");
         errorElement.innerHTML = "An error occurred while changing the password. Please try again later.";
         errorElement.style.color = "red";

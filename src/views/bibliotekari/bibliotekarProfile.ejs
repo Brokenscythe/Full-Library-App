@@ -217,9 +217,8 @@
           action="/bibliotekarProfile/<%= librarian.id %>"
           class="forma"
           id="password-reset-form"
-          data-librarianId="<%= librarian.id %>"
         >
-          <input type="hidden" name="_csrf" value="<%= locals.csrfToken %>" />
+          <input type="hidden" id="_csrf" name="_csrf" value="<%= locals.csrfToken %>" />
           <div class="flex flex-col px-[30px] py-[30px]">
             <div class="flex flex-col pb-[30px]">
               <span>Unesi novu sifru <span class="text-red-500">*</span></span>
@@ -228,7 +227,7 @@
                 type="password"
                 name="pwResetBibliotekar"
                 id="pwResetBibliotekar"
-                onkeydown="clearErrorsPwResetBibliotekar()"
+               data-librarianId="<%= librarian.id %>"
               />
               <div id="validatePwResetBibliotekar"></div>
             </div>
@@ -239,7 +238,6 @@
                 type="password"
                 name="pw2ResetBibliotekar"
                 id="pw2ResetBibliotekar"
-                onkeydown="clearErrorsPw2ResetBibliotekar()"
               />
               <div id="validatePw2ResetBibliotekar"></div>
             </div>
@@ -256,9 +254,7 @@
               name="resetPassword"
               type="submit"
               data-csrf="<%= locals.csrfToken %>"
-              class="shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
-              onclick="validacijaSifraBibliotekar()"
-            >
+              class="shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"         >
               Sacuvaj <i class="fas fa-check ml-[4px]"></i>
             </button>
           </div>
