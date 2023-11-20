@@ -458,9 +458,55 @@ if (!rentedBookDetails) {
       res.status(500).json({ error: 'Greška tokom čitanja detalja o iznajmljenoj knjizi', details: errorMessage });
     }
   },
+  //Istorija
+  historyOfRentingByBookId: async (req: Request, res: Response) => {
+    try {
+      const { bookId } = req.params;
+      const parsedBookId = parseInt(bookId, 10);
+  
+   
+      const bookDetails = await prisma.book.findUnique({
+        where: {
+          id: parsedBookId,
+        },
+      });
+  
+      if (!bookDetails) {
+        return res.status(404).json({ error: 'Book not found' });
+      }
+  
+  
+      const pageTitle = `Istorija iznajmljivanja knjige "${bookDetails.title}"`;
+  
+      // Fetch history of renting based on bookId
+      const historyOfRenting = await prisma.rent.findMany({
+        where: {
+          bookId: parsedBookId,
+        },
+        include: {
+          rentUser: true,
+          borrowUser: true,
+          rentStatus: true,
+          book: true, 
+        },
+      });
+  
+      const totalRentedById = await prisma.rent.count({
+        where: {
+          bookId: parsedBookId,
+        },
+      });
+  console.log(historyOfRenting);
+      res.render('izdavanje/izdataKnjigaIstorija', { historyOfRenting, pageTitle, totalRentedById });
+    } catch (error: any) {
+      const errorMessage = error instanceof Error ? error.message : 'Došlo je do nepoznate greške';
+      res.status(500).json({ error: 'Greška pri dobavljanju istorije iznajmljivanja po ID-u knjige', details: errorMessage });
+    }
+  },
   
   
 };
+
 
 
 

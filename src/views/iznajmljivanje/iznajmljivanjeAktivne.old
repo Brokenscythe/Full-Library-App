@@ -90,27 +90,26 @@
                         
                     </div>
                     <div class="pt-[24px] mr-[30px]">
-                        <a href="/otpisiKnjigu/REPLACE_BOOK_ID" class="inline hover:text-blue-600 link-with-bookId" data-original-href="/otpisiKnjigu" onclick="checkAndProceed()">
+                        <a href="/otpisiKnjigu/REPLACE_BOOK_ID" class="inline hover:text-blue-600 link-with-bookId" data-original-href="/otpisiKnjigu" class="book-id-placeholder">
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
                     
-                        <a href="/rent/display/REPLACE_BOOK_ID" class="inline hover:text-blue-600 ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rent/display" onclick="checkAndProceed()">
+                        <a href="/rent/display/REPLACE_BOOK_ID" class="inline hover:text-blue-600 ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rent/display" class="book-id-placeholder">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
                     
-                        <a href="/rent/returnRentedBook/REPLACE_BOOK_ID" class="hover:text-blue-600 inline ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rent/returnRentedBook" onclick="checkAndProceed()">
+                        <a href="/rent/returnRentedBook" class="hover:text-blue-600 inline ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rent/returnRentedBook" class="book-id-placeholder">
                             <i class="fas fa-redo-alt mr-[3px] "></i>
                             Vrati knjigu
                         </a>
                     
-                        <a href="/rezervisiKnjigu/REPLACE_BOOK_ID" class="hover:text-blue-600 inline ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rezervisiKnjigu" onclick="checkAndProceed()">
+                        <a href="/rezervisiKnjigu/REPLACE_BOOK_ID" class="hover:text-blue-600 inline ml-[20px] pr-[10px] link-with-bookId" data-original-href="/rezervisiKnjigu" class="book-id-placeholder">
                             <i class="far fa-calendar-check mr-[3px] "></i>
                             Rezervisi knjigu
                         </a>
                     </div>
-                    
                     
                 </div>
             </div>
@@ -119,13 +118,13 @@
                 <div class="w-[80%]">
                     <div class="border-b-[1px] border-[#e4dfdf] py-4  border-gray-300 pl-[30px]">
                       
-                        <a href="/books/REPLACE_BOOK_ID" class="inline hover:text-blue-800 link-with-bookId" onclick="checkAndProceed()">
+                        <a href="/books/" class="inline hover:text-blue-800">
                             Osnovni detalji
                         </a>
-                        <a href="/books/REPLACE_BOOK_ID" class="inline ml-[70px] hover:text-blue-800 link-with-bookId" onclick="checkAndProceed()">
+                        <a href="books/" class="inline ml-[70px] hover:text-blue-800 ">
                             Specifikacija
                         </a>
-                        <a href="/rent/history/REPLACE_BOOK_ID" class="inline ml-[70px] active-book-nav hover:text-blue-800 link-with-bookId" onclick="checkAndProceed()">
+                        <a href="/rent" class="inline ml-[70px] active-book-nav hover:text-blue-800">
                             Evidencija iznajmljivanja
                         </a>
                         <a href="/evidencijaKnjigaMultimedija" class="inline ml-[70px] hover:text-blue-800">
@@ -463,71 +462,24 @@
         <!-- End Content -->
     </main>
     <!-- End Main content -->
-
-
     <script>
         function displayBookId(bookId) {
       
- //nadji sve cekboksove u tabeli
- const checkboxes = document.querySelectorAll('.form-checkbox');
-
-// decekiraj druge checkboksove
-checkboxes.forEach(checkbox => {
-    if (checkbox !== event.target) {
-        checkbox.checked = false;
-    }
-});
-}
-
-
-       function ModifikujMeni(bookId) {
-    const linksWithReplacedId = document.querySelectorAll('.link-with-replaced-id');
-
-    linksWithReplacedId.forEach(link => {
-        const href = link.getAttribute('href');
-        console.log('Original href:', href);
-
-        const replacedHref = href.replace('REPLACE_BOOK_ID', bookId);
-        console.log('Replaced href:', replacedHref);
-
-        link.setAttribute('href', replacedHref);
-
-        const placeholder = link.querySelector('.book-id-placeholder');
-        if (placeholder) {
-            console.log('Placeholder text before replacement:', placeholder.textContent);
-            placeholder.textContent = bookId;
-            console.log('Placeholder text after replacement:', placeholder.textContent);
+            ModifikujMeni(bookId);
         }
-    });
-
-    const linksWithBookId = document.querySelectorAll('.link-with-bookId');
-
-    linksWithBookId.forEach(link => {
-        const href = link.getAttribute('href');
-        const replacedHref = href.replace('REPLACE_BOOK_ID', bookId);
-        link.setAttribute('href', replacedHref);
-    });
-}
-
-
-function checkAndProceed() {
     
-    const checkboxes = document.querySelectorAll('.form-checkbox');
+        function ModifikujMeni(bookId) {
+            const links = document.querySelectorAll('.link-with-replaced-id');
 
-    let isAnyChecked = false;
+links.forEach(link => {
+    const href = link.getAttribute('href');
+    const replacedHref = href.replace('REPLACE_BOOK_ID', bookId);
+    link.setAttribute('href', replacedHref);
 
-    checkboxes.forEach(checkbox => {
-        if (checkbox.checked) {
-            isAnyChecked = true;
+    const placeholder = link.querySelector('.book-id-placeholder');
+    placeholder.textContent = bookId;
+});
         }
-    });
-
-    if (!isAnyChecked) {
-        alert('Morate izabrati bar 1 knjigu u tabeli! :) ');
-        window.location.href = 'http://localhost:3000/rent';
-    }
-}
-
     </script>
     
     <!-- Notification for small devices -->

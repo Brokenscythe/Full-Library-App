@@ -32,5 +32,7 @@ router.get('/rent/returnRentedBook/:bookId', rentBookController.returnRentedBook
 //detalji iydavanja
 
 router.get('/rent/details/:rentId', rentBookController.rentBookDetails);
+// istorija
 
+router.get('/rent/history/:bookId', rentBookController.historyOfRentingByBookId);
 export default router;

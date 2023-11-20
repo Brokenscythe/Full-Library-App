@@ -43,7 +43,7 @@ import CORS from './middlewares/CORS';
 require('dotenv').config();
 
 const app = express();
-;
+
 
 const PORT = 3000;
 

@@ -18,7 +18,10 @@ export const updateSettings = async (req: Request, res: Response) => {
           conflictDeadline: parseInt(conflictDeadline),
         },
       });
-      res.redirect('/settings');
+     
+
+      res.redirect('/settingsPolisa');
+
     } catch (error) {
       console.log(error);
       res.status(500).send('Greska prilikom update-a polise');

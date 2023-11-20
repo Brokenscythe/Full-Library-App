@@ -44,6 +44,20 @@
                     </div>
                 </div>
             </div>
+            <!-- Display Success Message -->
+<!-- Your EJS view file -->
+<% if (typeof successMessage !== 'undefined') { %>
+  <div class="alert alert-success">
+    <%= successMessage %>
+  </div>
+<% } %>
+
+<% if (typeof errorMessage !== 'undefined') { %>
+  <div class="alert alert-danger">
+    <%= errorMessage %>
+  </div>
+<% } %>
+
             <div class="py-4 text-gray-500 border-b-[1px] border-[#e4dfdf] pl-[30px]">
                 <a href="/settings" class="inline hover:text-blue-800 active-book-nav">
                     Polisa
@@ -68,6 +82,7 @@
                 </a>
             </div>
             <form action="/settings" method="POST">
+              <input type="hidden" name="_csrf" value="<%= _csrf %>">
                 <div class="height-ucenikProfile pb-[30px] scroll">
                   <!-- Space for content -->
                   <div class="section- mt-[20px]">
