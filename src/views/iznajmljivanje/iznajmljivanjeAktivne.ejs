@@ -191,6 +191,7 @@
                                                 <input type="checkbox" class="form-checkbox" onclick="displayBookId('<%= rentedBooks[i].book.id %>')">
                                             </label>
                                         </td>
+                                        
                                         <td class="px-4 py-3 text-sm leading-5 whitespace-no-wrap">
                                             <%= rentedBooks[i].issue_date.toLocaleDateString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric' }) %>
                                         </td>
@@ -464,11 +465,10 @@
     </main>
     <!-- End Main content -->
 
+<script>
+function displayBookId(bookId) {
 
-    <script>
-        function displayBookId(bookId) {
-      
- //nadji sve cekboksove u tabeli
+     //nadji sve cekboksove u tabeli
  const checkboxes = document.querySelectorAll('.form-checkbox');
 
 // decekiraj druge checkboksove
@@ -477,28 +477,26 @@ checkboxes.forEach(checkbox => {
         checkbox.checked = false;
     }
 });
-}
 
 
-       function ModifikujMeni(bookId) {
     const linksWithReplacedId = document.querySelectorAll('.link-with-replaced-id');
 
-    linksWithReplacedId.forEach(link => {
-        const href = link.getAttribute('href');
-        console.log('Original href:', href);
+linksWithReplacedId.forEach(link => {
+    const href = link.getAttribute('href');
+    console.log('Original href:', href);
 
-        const replacedHref = href.replace('REPLACE_BOOK_ID', bookId);
-        console.log('Replaced href:', replacedHref);
+    const replacedHref = href.replace('REPLACE_BOOK_ID', bookId);
+    console.log('Replaced href:', replacedHref);
 
-        link.setAttribute('href', replacedHref);
+    link.setAttribute('href', replacedHref);
 
-        const placeholder = link.querySelector('.book-id-placeholder');
-        if (placeholder) {
-            console.log('Placeholder text before replacement:', placeholder.textContent);
-            placeholder.textContent = bookId;
-            console.log('Placeholder text after replacement:', placeholder.textContent);
-        }
-    });
+    const placeholder = link.querySelector('.book-id-placeholder');
+    if (placeholder) {
+        console.log('Placeholder text before replacement:', placeholder.textContent);
+        placeholder.textContent = bookId;
+        console.log('Placeholder text after replacement:', placeholder.textContent);
+    }
+});
 
     const linksWithBookId = document.querySelectorAll('.link-with-bookId');
 
@@ -507,6 +505,8 @@ checkboxes.forEach(checkbox => {
         const replacedHref = href.replace('REPLACE_BOOK_ID', bookId);
         link.setAttribute('href', replacedHref);
     });
+    
+    
 }
 
 
@@ -528,8 +528,9 @@ function checkAndProceed() {
     }
 }
 
-    </script>
+
     
+    </script>
     <!-- Notification for small devices -->
     <%- include('../includes/layout/inProgress') %>
 
