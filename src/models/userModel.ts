@@ -170,6 +170,20 @@ class User {
       throw new Error("User's id couldn't be found");
     }
   }
+  static async changePassword(userId: number, newPassword: string) {
+    try {
+      const hashedPassword = await bcrypt.hash(newPassword, 12);
+      await db.user.update({
+        where: { id: userId },
+        data: {
+          password: hashedPassword,
+        },
+      });
+    } catch (error) {
+      console.error("Error changing password:", error);
+      throw new Error("Failed to change password");
+    }
+  }
   static async updateLoginCount(userId) {
     try {
       await db.user.update({
@@ -198,21 +212,6 @@ class User {
       throw new Error("Failed to update last login date");
     }
   }
-  static async changePassword(userId: number, newPassword: string) {
-    try {
-      const hashedPassword = await bcrypt.hash(newPassword, 12);
-      await db.user.update({
-        where: { id: userId },
-        data: {
-          password: hashedPassword,
-        },
-      });
-    } catch (error) {
-      console.error("Error changing password:", error);
-      throw new Error("Failed to change password");
-    }
-  }
-
   async existsAlready() {
     const existingUser = await db.user.findFirst({
       where: {

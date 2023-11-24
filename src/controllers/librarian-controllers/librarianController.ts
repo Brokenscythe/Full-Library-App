@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from "express";
 //Models
 import Librarian from "../../models/librarianModel";
+import User from "../../models/userModel";
 //Validation
 import validation from "../../utils/validation";
 import sessionFlash from "../../utils/session-flash";
+import { error } from "console";
 
 export async function getAllLibrarians(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -65,11 +67,18 @@ export async function getNewLibrarian(req: Request, res: Response, next: NextFun
   }
 }
 export async function updatePassword(req: Request, res: Response, next: NextFunction) {
-  const librarianId = req.params.id;
+  const librarianId = Number(req.params.id);
   const { pwResetBibliotekar, pw2ResetBibliotekar } = req.body;
-  console.log(pwResetBibliotekar, pw2ResetBibliotekar);
+  console.log(pw2ResetBibliotekar, pwResetBibliotekar)
+  console.log(req.body);
+  let librarian;
   try {
-    return await Librarian.changePassword(Number(librarianId), pwResetBibliotekar);
+    librarian = await User.getUser(librarianId);
+    if(!librarian){
+      throw error({mesage: 'Could not find user.'});
+      return;
+    }
+    console.log(librarian);
   } catch (error) {
     return next(error);
   }
