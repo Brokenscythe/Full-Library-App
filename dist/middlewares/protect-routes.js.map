@@ -1,0 +1,1 @@
+{"version":3,"file":"protect-routes.js","sourceRoot":"","sources":["../../src/middlewares/protect-routes.ts"],"names":[],"mappings":";;AAEA,SAAS,aAAa,CAAC,GAAY,EAAE,GAAa,EAAE,IAAkB;IACpE,IAAI,CAAC,GAAG,CAAC,MAAM,CAAC,MAAM,EAAE,CAAC;QACvB,OAAO,GAAG,CAAC,QAAQ,CAAC,MAAM,CAAC,CAAC;IAC9B,CAAC;IACD,IAAI,EAAE,CAAC;AACT,CAAC;AAED,kBAAe,aAAa,CAAC"}

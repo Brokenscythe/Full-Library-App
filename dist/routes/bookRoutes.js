@@ -32,7 +32,7 @@ const bookRouter = express_1.default.Router();
 bookRouter.get("/", BookController.getAllBooks);
 bookRouter.get("/:id", BookController.getBook);
 bookRouter.post("/", BookController.addBook);
-bookRouter.patch("/:id", BookController.updateBook); // You can use 'patch' for updating as well
+bookRouter.patch("/:id", BookController.updateBook);
 bookRouter.delete("/:id", BookController.deleteBook);
 exports.default = bookRouter;
 //# sourceMappingURL=bookRoutes.js.map

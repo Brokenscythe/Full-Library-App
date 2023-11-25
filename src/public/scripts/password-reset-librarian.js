@@ -1,3 +1,5 @@
+import * as axios from "axios";
+
 function openPasswordChangeModal() {
   var modal = document.getElementById("password-reset-form");
   modal.style.display = "block";

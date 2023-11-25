@@ -67,8 +67,16 @@ export async function getNewUser(req: Request, res: Response, next: NextFunction
 export async function updatePassword(req: Request, res: Response, next: NextFunction) {
   const userId = parseInt(req.params.id);
   const { pwResetUcenik } = req.body;
+  let user;
+  let newPassUser;
   try {
-    return await User.changePassword(userId, pwResetUcenik);
+    user = await User.getUser(userId);
+    if(!user){
+      throw new Error( 'Could not find user.');
+      return;
+    }
+    newPassUser = new User(user);
+    await newPassUser.changePassword(pwResetUcenik);
   } catch (error) {
     return next(error);
   }

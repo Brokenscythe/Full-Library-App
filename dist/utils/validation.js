@@ -12,5 +12,8 @@ function userDetailsAreValid(username, name, email, password) {
 function passwordIsConfirmed(password, confirmPassword) {
     return password === confirmPassword;
 }
-exports.default = { userDetailsAreValid, passwordIsConfirmed };
+function emailIsConfirmed(email, checkEmail) {
+    return email === checkEmail;
+}
+exports.default = { userDetailsAreValid, passwordIsConfirmed, emailIsConfirmed };
 //# sourceMappingURL=validation.js.map

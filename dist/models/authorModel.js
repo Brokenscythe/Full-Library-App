@@ -13,27 +13,19 @@ exports.Author = void 0;
 const client_1 = require("@prisma/client");
 const db = new client_1.PrismaClient();
 class Author {
-    //created_at: Date;
-    //updated_at: Date;
-    constructor(nameSurname, photo, biography, wikipedia, id
-    //created_at: Date;
-    //updated_at: Date;
-    ) {
+    constructor(nameSurname, photo, biography, wikipedia, created_at, updated_at, id) {
         this.nameSurname = nameSurname;
         this.photo = photo;
         this.biography = biography;
         this.wikipedia = wikipedia;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
         if (id) {
             this.id = id;
         }
     }
     static getAllAuthors() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const authors = yield db.author.findMany();
-            return authors.map((author) => {
-                return new Author(author.nameSurname, author.photo, author.biography, author.wikipedia, author.id);
-            });
-        });
+        return db.author.findMany();
     }
     static getAuthor(id) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -45,7 +37,7 @@ class Author {
             if (!author) {
                 throw new Error("Author not found");
             }
-            return new Author(author.nameSurname, author.photo, author.biography, author.wikipedia, author.id);
+            return author;
         });
     }
     save() {
@@ -60,7 +52,7 @@ class Author {
                         photo: this.photo,
                         biography: this.biography,
                         wikipedia: this.wikipedia,
-                        updated_at: Date(),
+                        updated_at: new Date(),
                     },
                 });
             }
@@ -71,8 +63,8 @@ class Author {
                         photo: this.photo,
                         biography: this.biography,
                         wikipedia: this.wikipedia,
-                        created_at: Date(),
-                        updated_at: Date(),
+                        created_at: new Date(),
+                        updated_at: new Date(),
                     },
                 });
             }
@@ -81,9 +73,9 @@ class Author {
     delete() {
         return __awaiter(this, void 0, void 0, function* () {
             if (!this.id) {
-                throw new Error("Trying to delete a non-existent item");
+                throw new Error("Trying to delete a non-existent author");
             }
-            yield db.author.delete({
+            return yield db.author.delete({
                 where: {
                     id: this.id,
                 },

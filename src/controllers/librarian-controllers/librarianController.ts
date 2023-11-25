@@ -5,7 +5,6 @@ import User from "../../models/userModel";
 //Validation
 import validation from "../../utils/validation";
 import sessionFlash from "../../utils/session-flash";
-import { error } from "console";
 
 export async function getAllLibrarians(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
@@ -69,15 +68,20 @@ export async function getNewLibrarian(req: Request, res: Response, next: NextFun
 export async function updatePassword(req: Request, res: Response, next: NextFunction) {
   const librarianId = Number(req.params.id);
   const { pwResetBibliotekar, pw2ResetBibliotekar } = req.body;
-  console.log(pw2ResetBibliotekar, pwResetBibliotekar)
-  console.log(req.body);
+  if(!pwResetBibliotekar && !pw2ResetBibliotekar || pwResetBibliotekar && pw2ResetBibliotekar === undefined){
+    console.log(`Entered password is:${pwResetBibliotekar}.`, `Entered confirm password is:${pw2ResetBibliotekar}.`);
+    return;
+  }
   let librarian;
+  let newPassLibrarian;
   try {
     librarian = await User.getUser(librarianId);
     if(!librarian){
-      throw error({mesage: 'Could not find user.'});
+      throw new Error( 'Could not find user.');
       return;
     }
+    newPassLibrarian = new User(librarian);
+    await newPassLibrarian.changePassword(pwResetBibliotekar)
     console.log(librarian);
   } catch (error) {
     return next(error);

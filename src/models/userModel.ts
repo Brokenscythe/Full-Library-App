@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcrypt";
+import * as bcrypt from "bcrypt";
 const db = new PrismaClient();
 
 class User {
@@ -170,11 +170,11 @@ class User {
       throw new Error("User's id couldn't be found");
     }
   }
-  static async changePassword(userId: number, newPassword: string) {
+   async changePassword(newPassword: string): Promise<void> {
     try {
       const hashedPassword = await bcrypt.hash(newPassword, 12);
       await db.user.update({
-        where: { id: userId },
+        where: { id: this.id },
         data: {
           password: hashedPassword,
         },

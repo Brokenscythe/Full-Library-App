@@ -27,27 +27,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const passport_1 = require("../utils/passport");
-const AuthorController = __importStar(require("../controllers/authorController"));
+const AuthorController = __importStar(require("../controllers/author-controllers/authorController"));
 const AuthorRouter = express_1.default.Router();
 AuthorRouter.get("/", AuthorController.getAllAuthors);
-AuthorRouter.get("/:id", AuthorController.getAuthor);
-AuthorRouter.get("/new-author", passport_1.isLoggedIn, (req, res) => {
-    res.render("autori/noviAutor");
-});
-AuthorRouter.get("/edit-author", (req, res) => {
-    res.render("autori/editAutor"); //mora da se prebaci u kontroler i da se ubace inf koje već postoje o autoru
-});
-AuthorRouter.post("/", passport_1.isLoggedIn, AuthorController.addAuthor);
-AuthorRouter.patch("/:id", passport_1.isLoggedIn, AuthorController.updateAuthor); // You can use 'patch' for updating as well
-AuthorRouter.delete("delete/:id", passport_1.isLoggedIn, AuthorController.deleteAuthor);
-// middleware koji omogućava da se šalje delete request preko linka
-AuthorRouter.use(function (req, res, next) {
-    if (req.query._method == "DELETE") {
-        req.method = "DELETE";
-        req.url = req.path;
-    }
-    next();
-});
+AuthorRouter.get("/new-author", AuthorController.getNewAuthor);
+AuthorRouter.get("/autorProfile/:id", AuthorController.getAuthor);
+AuthorRouter.get("/editAutor/:id", AuthorController.getEditAuthor);
+AuthorRouter.post("/new-author", AuthorController.addAuthor);
+AuthorRouter.post("/editAutor/:id", AuthorController.updateAuthor);
+AuthorRouter.delete("/deleteAutor/:id", AuthorController.deleteAuthor);
 exports.default = AuthorRouter;
 //# sourceMappingURL=authorRoutes.js.map

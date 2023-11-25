@@ -27,23 +27,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-//import { isNotLoggedIn } from '../../utils/passport';
 const AuthService = __importStar(require("../controllers/auth-controllers/authController"));
 const authRouter = express_1.default.Router();
 authRouter.get("/login", AuthService.getLogIn);
 authRouter.post("/login", AuthService.login);
 authRouter.get("/register", AuthService.getRegister);
 authRouter.post("/register", AuthService.signup);
-authRouter.post("/logout", function (req, res, next) {
-    req.logout(function (err) {
-        if (err) {
-            return next(err);
-        }
-        res.redirect("/");
-    });
+authRouter.post("/logout", AuthService.logout);
+authRouter.get("/confirm/:token", AuthService.confirmRegistration);
+authRouter.get("/forgot-password", AuthService.getForgotPassword);
+authRouter.post("/forgot-password", AuthService.forgotPassword);
+authRouter.get("/reset-password/:id/:token", AuthService.getResetPassword);
+authRouter.post("/reset-password/:id/:token", AuthService.resetPassword);
+authRouter.get("/401", (req, res, next) => {
+    res.render("shared/401");
 });
-authRouter.get("/logout", (req, res) => {
-    res.render("logout");
+authRouter.get("/403", (req, res, next) => {
+    res.render("shared/403");
+});
+authRouter.get("/501", (req, res) => {
+    res.render("shared/501");
 });
 exports.default = authRouter;
 //# sourceMappingURL=authRoutes.js.map
