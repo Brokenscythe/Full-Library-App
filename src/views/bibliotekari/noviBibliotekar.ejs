@@ -9,7 +9,9 @@
     <meta name="description" content="ICT Cortex Library - project for high school students..." />
     <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
     <meta name="author" content="bildstudio" />
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' cdn.ckeditor.com cdn.jsdelivr.net" />
+
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' cdn.ckeditor.com cdn.jsdelivr.net">
+
     <!-- End Meta -->
 
     <!-- Title -->
@@ -67,6 +69,7 @@
             action="/noviBibliotekar?_csrf=<%= locals.csrfToken %>"
             enctype="multipart/form-data"
             class="text-gray-700 text-[14px] forma"
+            onsubmit="return validateForm();"
           >
           <% if(inputData.error_message) {%>
             <section class="alert"  style="margin-left: 30px;">
@@ -231,5 +234,26 @@
     <!-- Scripts -->
     <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
+    <script>
+      function validateForm() {
+      const imePrezime = document.getElementById('imePrezimeBibliotekar').value.trim();
+      const jmbg = document.getElementById('jmbgBibliotekar').value.trim();
+      const email = document.getElementById('emailBibliotekar').value.trim();
+      const username = document.getElementById('usernameBibliotekar').value.trim();
+      const pw = document.getElementById('pwBibliotekar').value.trim();
+      const pw2 = document.getElementById('pw2Bibliotekar').value.trim();
+    
+      if (!imePrezime || !jmbg || !email || !username || !pw || !pw2) {
+    
+        alert('Popunite sva polja');
+        return false; 
+      }
+    
+    
+    
+      return true; 
+    }
+
+    </script>
   </body>
 </html>

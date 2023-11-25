@@ -17,7 +17,7 @@ const reservationController = {
         data: {
           book: {
             connect: {
-              id: parseInt(bookId, 10), // bookId ako integer
+              id: parseInt(bookId, 10), // bookId kao integer
             },
           },
           reservationMadeForUser: {
@@ -50,9 +50,10 @@ const reservationController = {
    // req.flash('success', 'Rezervisana knjiga uspjesno!');
    //TypeScript ne prepoznaje svojstvo flash na objektu Request jer to svojstvo nije standardno definisano u TypeScript tipovima za Express.Treba custom tip"
 
-
-    // Redirect to the /reservations page
-    res.redirect('/reservations');
+    //za JEST  testOVE
+    res.status(200).json({ message: "Rezervisana knjiga uspjesno!", reservation });
+ 
+   //res.redirect('/reservations');
     } catch (error: any) {
       const errorMessage = error instanceof Error ? error.message : "Doslo je do nepoznate greske u kontroleru rezervacija";
       console.log(errorMessage);

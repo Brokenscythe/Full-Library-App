@@ -120,6 +120,10 @@ app.use(function (req, res, next) {
 
 
 //ROUTES
+authRouter.get("/", (req, res) => {
+  res.render('index');  //dobrodosli
+});
+
 app.use("/",authRouter);
 app.use('/dashboard',isLoggedIn,dashBoardRouter);
 app.use("/", isLoggedIn, userRouter);

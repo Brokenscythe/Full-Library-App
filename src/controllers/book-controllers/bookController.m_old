@@ -1,0 +1,250 @@
+import { Request, Response, NextFunction } from "express";
+import Book from "../../models/bookModel";
+import Author from "../../models/authorModel";
+import Category from "../../models/categoryModel";
+import Genre from "../../models/genreModel";
+import Publisher from "../../models/publisherModel";
+import Letter from "../../models/letterModel";
+import Binding from "../../models/bindingModel";
+import Format from "../../models/formatModel";
+
+export async function getEditBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const bookId = parseInt(req.params.id.split(":")[0]);
+    const book = await Book.getBook(bookId);
+    const authors = await Author.getAllAuthors();
+    const categories = await Category.getAllCategories();
+    const genres = await Genre.getAllGenres();
+    const publishers = await Publisher.getAllPublishers();
+    const letters = await Letter.getAllLetters();
+    const bindings = await Binding.getAllBindings();
+    const formats = await Format.getAllFormats();
+    res.render("knjige/editKnjiga", {
+      book: book,
+      authors: authors,
+      categories: categories,
+      genres: genres,
+      publishers: publishers,
+      letters: letters,
+      bindings: bindings,
+      formats: formats,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function getAllBooks(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const books = await Book.getAllBooks();
+    const authors = await Author.getAllAuthors();
+    const categories = await Category.getAllCategories();
+    res.render("knjige/evidencijaKnjiga", {
+      books: books,
+      authors: authors,
+      categories: categories,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function getBook(req: Request, res: Response, next: NextFunction) {
+  const bookId = parseInt(req.params.id.split(":")[0]);
+  try {
+    const book = await Book.getBook(bookId);
+    res.render("knjige/knjigaOsnovniDetalji", { book: book });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function getBook1(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const bookId = parseInt(req.params.id.split(":")[0]);
+  try {
+    const book = await Book.getBook(bookId);
+    res.render("knjige/knjigaSpecifikacija", { book: book });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function addBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const {
+      title,
+      page_count,
+      letterId,
+      languageId,
+      bindingId,
+      formatId,
+      publisherId,
+      isbn,
+      quantity_count,
+      rented_count,
+      reserved_count,
+      body,
+      year,
+      pdf,
+      // Assuming authors, categories, genres, galleries, reservations, rents are arrays or objects obtained from req.body
+      authors,
+      categories,
+      genres,
+      galleries,
+      reservations,
+      rents,
+    } = req.body;
+
+    // Create an instance of Book with the id parameter set to 0 or null
+    const newBook = new Book(
+      title,
+      page_count,
+      letterId,
+      languageId,
+      bindingId,
+      formatId,
+      publisherId,
+      isbn,
+      quantity_count,
+      rented_count,
+      reserved_count,
+      body,
+      year,
+      pdf,
+      0 // pretpostavimo da je default za id  0, kada dodajemo novu knjigu
+    );
+
+
+    await newBook.save();
+
+  
+    res.redirect('/books'); 
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+export async function getNewBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const authors = await Author.getAllAuthors();
+    const categories = await Category.getAllCategories();
+    const genres = await Genre.getAllGenres();
+    const publishers = await Publisher.getAllPublishers();
+    const letters = await Letter.getAllLetters();
+    const bindings = await Binding.getAllBindings();
+    const formats = await Format.getAllFormats();
+    res.render("knjige/novaKnjiga", {
+      authors: authors,
+      categories: categories,
+      genres: genres,
+      publishers: publishers,
+      letters: letters,
+      bindings: bindings,
+      formats: formats,
+    });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export async function updateBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  try {
+    const bookId = parseInt(req.params.id.split(":")[0]);
+    const {
+      title,
+      page_count,
+      letterId,
+      languageId,
+      bindingId,
+      formatId,
+      publisherId,
+      isbn,
+      quantity_count,
+      rented_count,
+      reserved_count,
+      body,
+      year,
+      pdf,
+      // pretpostavimo da ovo dolazi iz req.body
+      authors,
+      categories,
+      genres,
+      galleries,
+      reservations,
+      rents,
+    } = req.body;
+
+    // nova instancaza book id
+    const updatedBook = new Book(
+      title,
+      page_count,
+      letterId,
+      languageId,
+      bindingId,
+      formatId,
+      publisherId,
+      isbn,
+      quantity_count,
+      rented_count,
+      reserved_count,
+      body,
+      year,
+      pdf,
+      bookId //moze biti problema
+    );
+
+
+    await updatedBook.save();
+
+    
+    res.redirect('/books'); 
+  } catch (error) {
+    next(error);
+  }
+}
+
+export async function deleteBook(
+  req: Request,
+  res: Response,
+  next: NextFunction
+) {
+  const bookId = parseInt(req.params.id.split(":")[0]);
+  try {
+    // zovem staticnu metodu za brisanje book po id-u, sigurnije je umjest
+    //  try {
+   // Book.delete(bookId);
+    await Book.deleteById(bookId);
+
+  
+    res.json({
+      message: "Knjiga obrisana:)",
+    });
+  } catch (error) {
+    return next(error);
+  }
+}

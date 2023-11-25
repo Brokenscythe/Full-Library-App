@@ -94,7 +94,7 @@
   <% reservations.forEach(reservation => { %>
     <tr class="bg-white border-b-[1px] border-[#e4dfdf]">
       <td class="flex flex-row items-center px-2 py-4">
-        <!-- Assuming you have a profile image URL in your reservation data -->
+    
         <img class="object-cover w-8 h-8 rounded-full"
           src="<%= reservation.photo || '/img/user_avatar.jpg' %>" alt="" loading="lazy"/>
         <a href="ucenikProfile.ejs" class="ml-2 font-medium text-center">
@@ -103,9 +103,13 @@
       </td>
       <td class="px-2 py-2">
     
-        <a href="knjigaOsnovniDetalji.ejs">
-          <%= reservation.title ?? 'Nepoznata knjiga' %>
+        <a href="/books/<%= reservation.id %>" class="flex items-center" style="display: flex; align-items: center; text-align: center; height: 100%;">
+          <img src="/img/book_cover.jpg" alt="Slika knjige" class="inline-block w-4 h-auto mr-1">
+          <span class="flex-1" style="display: block; text-align: center; font-weight: bold;"><%= reservation.bookTitle ?? 'Nepoznata knjiga' %></span>
+
         </a>
+        
+        
       </td>
       <td class="px-2 py-2">
         <span class="px-[10px] py-[3px] bg-gray-200 text-gray-800 px-[6px] py-[2px] rounded-[10px]">

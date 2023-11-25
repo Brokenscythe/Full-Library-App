@@ -9,6 +9,8 @@
     <meta name="description" content="ICT Cortex Library - project for high school students..." />
     <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
     <meta name="author" content="bildstudio" /> 
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline' cdn.ckeditor.com cdn.jsdelivr.net">
+
     <!-- End Meta -->
 
     <!-- Title -->
@@ -67,6 +69,7 @@
             action="/noviUcenik?_csrf=<%= locals.csrfToken %>"
             enctype="multipart/form-data"
             class="text-gray-700 text-[14px] forma"
+            onsubmit="return validateForm();"
           >
           <% if(inputData.error_message) {%>
             <section class="alert"  style="margin-left: 30px;">
@@ -236,5 +239,26 @@
     <!-- Scripts -->
     <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
+    <script>
+      function validateForm() {
+  const imePrezime = document.getElementById('imePrezimeUcenik').value.trim();
+  const jmbg = document.getElementById('jmbgUcenik').value.trim();
+  const email = document.getElementById('emailUcenik').value.trim();
+  const username = document.getElementById('usernameUcenik').value.trim();
+  const pw = document.getElementById('pwUcenik').value.trim();
+  const pw2 = document.getElementById('pw2Ucenik').value.trim();
+
+  if (!imePrezime || !jmbg || !email || !username || !pw || !pw2) {
+
+    alert('Popunite sva polja za ucenika');
+    return false; 
+  }
+
+
+
+  return true; 
+}
+
+    </script>
   </body>
 </html>

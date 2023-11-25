@@ -1,20 +1,55 @@
 import { Request, Response, NextFunction } from "express";
+import { PrismaClient } from '@prisma/client';
 //Models
 import User from "../../models/userModel";
 //Validation
 import validation from "../../utils/validation";
 import sessionFlash from "../../utils/session-flash";
+const prisma = new PrismaClient();
 
 export async function getAllUsersAPI(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const users = await User.getAllUsers(); 
 
-    // POSALJIVJSON
+    // POSALJI JSON
     res.json(users);
   } catch (error) {
     return next(error);
   }
 }
+export async function getRentedBooks(req: Request, res: Response, next: NextFunction) {
+  const userId = parseInt(req.params.id);
+  try {
+    const rentedBooks = await prisma.$queryRaw`
+      SELECT 
+        userBorrower.id AS borrowerId, 
+        userBorrower.name AS borrowerName, 
+        userBorrower.username AS borrowerUsername,
+        userRenter.id AS renterId, 
+        userRenter.name AS renterName, 
+        userRenter.username AS renterUsername,
+        rent.id AS rentId, 
+        rent.bookId, 
+        rent.rentUserId, 
+        rent.borrowUserId,
+        rent.issue_date, 
+        rent.return_date, 
+        rent.rentStatusId,
+        book.id AS bookId, 
+        book.title AS bookTitle
+      FROM rent
+      JOIN book ON book.id = rent.bookId
+      JOIN user AS userBorrower ON userBorrower.id = rent.borrowUserId
+      JOIN user AS userRenter ON userRenter.id = rent.rentUserId;
+    `;
+
+    res.render('ucenici/ucenikIzdate', { rentedBooks });
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
 export async function getAllUsers(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const users = await User.getAllUsers();
@@ -33,6 +68,8 @@ export async function getUser(req: Request, res: Response, next: NextFunction) {
     return next(error);
   }
 }
+
+
 
 export async function getEditUser(req: Request, res: Response, next: NextFunction) {
   const userId = parseInt(req.params.id);

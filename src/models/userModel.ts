@@ -117,14 +117,28 @@ class User {
   }
   async save() {
     const hashedPassword = await bcrypt.hash(this.password, 12);
-    const userType = await db.userType.findFirst({
+    
+    let userType = await db.userType.findFirst({
       where: {
         name: "Ucenik",
       },
     });
+  
     if (!userType) {
-      throw new Error("User type 'user' not found");
+      try {
+        // If the 'Ucenik' type doesn't exist, create it
+        userType = await db.userType.create({
+          data: {
+            name: "Ucenik",
+            // Add other necessary fields for the user type
+          },
+        });
+      } catch (error) {
+        throw new Error("Failed to create user type 'Ucenik'");
+      }
     }
+  
+    // Continue with user creation or update using the 'Ucenik' type
     if (this.id) {
       await db.user.update({
         where: {
@@ -136,7 +150,7 @@ class User {
           email: this.email,
           password: hashedPassword,
           JMBG: this.JMBG,
-          typeId: userType.id,
+          typeId: userType.id, // Use the 'Ucenik' type ID
           photo: this.photo,
           updated_at: new Date(),
         },
@@ -150,7 +164,7 @@ class User {
           password: hashedPassword,
           JMBG: this.JMBG,
           photo: this.photo,
-          typeId: userType.id,
+          typeId: userType.id, //'Ucenik'  ID
           confirmation_token: this.confirmation_token,
           created_at: new Date(),
           login_count: 0,
@@ -158,6 +172,7 @@ class User {
       });
     }
   }
+  
   async delete() {
     if (this.id) {
       await db.user.delete({

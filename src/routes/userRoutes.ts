@@ -19,6 +19,9 @@ userRouter.post("/ucenikProfile/:id", userService.updatePassword);
 
 userRouter.delete("/deleteUcenik/:id", userService.deleteUser);
 
+//getRentedBooks za ucenika
+userRouter.get("/ucenikIzdate/:id", userService.getRentedBooks);
+
 userRouter.get('/api/users', userService.getAllUsersAPI); // samo JSON za imena ucenika
 
 export default userRouter;

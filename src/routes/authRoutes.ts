@@ -2,6 +2,7 @@ import express from "express";
 import * as AuthService from "../controllers/auth-controllers/authController";
 const authRouter = express.Router();
 
+
 authRouter.get("/login", AuthService.getLogIn);
 
 authRouter.post("/login", AuthService.login);
