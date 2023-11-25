@@ -5,12 +5,12 @@ import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
 type UserLoginsCreateInput = {
-  userId: string;
+  userId: number;
   date: Date;
 };
 
 class UserLoginsService {
-  async logLoginAttempt(userId: string) {
+  async logLoginAttempt(userId: number) {
     try {
       const loginAttempt = await db.userLogins.create({
         data: {

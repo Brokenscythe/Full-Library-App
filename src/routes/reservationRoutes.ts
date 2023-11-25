@@ -1,31 +1,31 @@
 import express from "express";
-import * as ReservationService from "../controllers/reservationController";
+import reservationController from "../controllers/reservation-controllers/reservationController";
 
-const ReservationRouter = express.Router();
+const router = express.Router();
 
-// reservationRouter.get('/',  ReservationService.getAllReservations);
-// // reservationRouter.get('/:id',  ReservationService.getReservation);
-// reservationRouter.post('/',  ReservationService.createReservation);
-// reservationRouter.patch('/:id',  ReservationService.updateReservation);
-// reservationRouter.delete('/:id',  ReservationService.deleteReservation);
-ReservationRouter.get("/aktivneRezervacije", (req, res) => {
-  res.render("rezervacije/aktivneRezervacije");
-});
-ReservationRouter.get("/dashboard", (req, res) => {
-  res.render("dashboard/dashboard");
-});
+// Kreiraj rezervaciju
+router.post("/reservations", reservationController.createReservation);
 
-///reservations/knjigePrekoracenje
+// Pročitajte sve rezervacije
+router.get("/reservations", reservationController.getAllReservations);
+router.get("/reservations-add", reservationController.createReservationForm);
 
-ReservationRouter.get("/knjigePrekoracenje", (req, res) => {
-  res.render("rezervacije/knjigePrekoracenje");
-});
+// Pročitaj pojedinacnu rezervaciju
+router.get("/reservations/:reservationId", reservationController.getReservationById);
 
-ReservationRouter.get("/arhiviraneRezervacije", (req, res) => {
-  res.render("rezervacije/arhiviraneRezervacije");
-});
+// Pročitajte pojedinačnu rezervaciju
+router.put("/reservations/:reservationId", reservationController.updateReservation);
 
-// zamalo da zaboravim trazenje
-ReservationRouter.get("/search", ReservationService.searchReservations);
+// Obrišite rezervaciju
+router.delete("/reservations/:reservationId", reservationController.deleteReservation);
 
-export default ReservationRouter;
+// Ruta za pretragu rezervacija po naslovu knjige
+router.get("/reservations/search/book", reservationController.searchReservationsByBookTitle);
+
+// Dodaj rutu za pretragu rezervacija po imenu korisnika
+router.get("/reservations/search/user", reservationController.searchReservationsByUserName);
+
+// Pročitajte arhivirane rezervacije
+router.get("/reservations/archived/all", reservationController.getArchivedReservations);
+
+export default router;

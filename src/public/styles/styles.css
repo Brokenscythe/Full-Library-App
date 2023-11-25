@@ -1,5 +1,17 @@
 /*Font Rubik - import*/
 @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap");
+/* * { animation-duration:0s !important; animation-delay:0s !important; transition-duration: 0s !important; transition-delay:0s !important; }  */
+/* https://www.quora.com/Why-does-Chrome-use-so-much-memory* /
+/*https://onezeronull.com/2016/10/06/disable-css-transitions-and-animations-temporarily-or-permanently/*/
+
+.alert.alert-success {
+  color: #155724; /* boja teksta za success */
+  background-color: #d4edda; /* pozadina*/
+  border: 1px solid #c3e6cb; /* boja ivice */
+  padding: 1rem; 
+  border-radius: 0.25rem; 
+}
+
 
 .logo-font {
   font-family: "Rubik";
@@ -2684,3 +2696,4 @@ h4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+

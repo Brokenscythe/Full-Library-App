@@ -20,6 +20,25 @@
     <!-- Styles -->
     <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
+    <script src="/scripts/lazy-load-images.js"></script>
+    <style>
+        @keyframes flash {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.flash-text {
+  animation: flash 1s infinite;
+}
+
+    </style>
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
@@ -40,12 +59,12 @@
                 <div class="flex flex-row justify-between border-b-[1px] border-[#e4dfdf]">
                     <div class="py-[10px] flex flex-row">
                         <div class="w-[77px] pl-[30px]">
-                            <img src="img/tomsojer.jpg" alt="">
+                            <img src="/img/tomsojer.jpg" alt="">
                         </div>
                         <div class="pl-[15px]  flex flex-col">
                             <div>
                                 <h1>
-                                    Tom Sojer
+                                    <%= book.title %>
                                 </h1>
                             </div>
                             <div>
@@ -62,14 +81,14 @@
                                         <li>
                                             <a href="/knjigaOsnovniDetalji"
                                                 class="text-[#2196f3] hover:text-blue-600">
-                                                KNJIGA-467
+                                                KNJIGA-  <%= book.id %>
                                             </a>
                                         </li>
                                         <li>
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/izdajKnjigu"
+                                            <a href="/rent/display/<%= book.id %>"
                                                 class="text-[#2196f3] hover:text-blue-600">
                                                 Izdaj knjigu
                                             </a>
@@ -84,7 +103,7 @@
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                        <a href="/izdajKnjigu" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
+                        <a href="/rent/display/<%= book.id %>" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
@@ -126,90 +145,90 @@
 
             <!-- Space for content -->
             <div class="scroll height-content section-content">
-                <form method="POST" action="/" class="text-gray-700 forma">
+                <form method="POST" action="/rent" class="text-gray-700 forma">
                     <div class="flex flex-row ml-[30px]">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                         <div class="w-[50%] mb-[100px] mr-[100px]">
                             <h3 class="mt-[20px] mb-[10px]">Izdaj knjigu</h3>
+                            <label for="bookId">Book ID:</label>
+<input type="text" id="bookId" name="bookId" value=<%= book.id %> />
                             <div class="mt-[20px]">
                                 <p>Izaberi ucenika koji zaduzuje knjigu <span class="text-red-500">*</span></p>
                                 <select
-                                    class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                    name="ucenik" id="ucenikIzdavanje" onclick="clearErrorsUcenikIzdavanje()">
-                                    <option disabled selected></option>
-                                    <option value="">
-                                        Pero Perovic
-                                    </option>
-                                    <option value="">
-                                        Ucenik 2
-                                    </option>
-                                </select>
+                                class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                name="borrowUserId" id="ucenikIzdavanje" onchange="clearErrorsUcenikIzdavanje()">
+                                <option disabled selected>Odaberi ucenika</option>
+                              </select>
                                 <div id="validateUcenikIzdavanje"></div>
                             </div>
+
+                            <div class="mt-[20px]">
+                                <p>Izaberi bibliotekara koji izdaje knjigu <span class="text-red-500">*</span></p>
+                                <select
+                                class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                name="rentUserId" id="bibliotekarIzdavanje" onchange="clearErrorsUcenikIzdavanje()">
+                                <option disabled selected>Odaberi ucenika</option>
+                              </select>
+                     
+                            </div>
                             <div class="mt-[20px] flex justify-between w-[90%]">
-                                <div class="w-[50%]">
+                                <div class="w-[33%]">
                                     <p>Datum izdavanja <span class="text-red-500">*</span></p>
-                                    <label class="text-gray-700" for="date">
-                                        <input type="date" name="datumIzdavanja" id="datumIzdavanja"
-                                            class="flex w-[90%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                            onclick="clearErrorsDatumIzdavanja();"
-                                            onchange="funkcijaDatumVracanja();" />
+                                    <label class="text-gray-700" for="datumIzdavanja">
+                                      <input type="date" name="issue_date" id="datumIzdavanja" class="flex w-[90%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" onchange="clearErrorsDatumIzdavanja(); updateReturnDate();" />
                                     </label>
                                     <div id="validateDatumIzdavanja"></div>
-                                </div>
-                                <div class="w-[50%]">
-                                    <p>Datum vracanja</p>
-                                    <label class="text-gray-700" for="date">
-                                        <input type="text" id="datumVracanja"
-                                            class="flex w-[90%] mt-2 px-2 py-2 text-base text-gray-400 bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                            disabled />
+                                  </div>
+                                  
+                                  <div class="w-[33%]">
+                                    <p>Datum vracanja <span class="text-red-500">*</span></p>
+                                    <label class="text-gray-700" for="datumVracanja">
+                                        <input type="date" name="return_date" id="datumVracanja" class="flex w-[90%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" onchange="clearErrorsDatumVracanja();" required />
                                     </label>
-                                    <div>
-                                        <p>Rok vracanja: 20 dana</p>
-                                    </div>
+                                    <div id="validateDatumVracanja"></div>
                                 </div>
+                                <div class="mt-[33]">
+                                    <p>Izaberi status iznajmljivanja <span class="text-red-500">*</span></p>
+                                    <select
+                                        class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                        name="rentStatusId" id="statusIznajmljivanja" onchange="clearErrorsStatusIznajmljivanja()">
+                                        <option value="0">0</option>
+                                        <option value="1" selected>1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                    </select>
+                                    <div id="validateStatusIznajmljivanja"></div>
+                                </div>
+                                
+                                
+                                  
                             </div>
                         </div>
-
                         <div class="w-[50%] mb-[100px]">
                             <div class="border-[1px] border-[#e4dfdf] w-[360px] mt-[75px]">
                                 <h2 class="mt-[20px] ml-[30px]">KOLICINE</h2>
                                 <div class="ml-[30px] mr-[70px] mt-[20px] flex flex-row justify-between">
-                                    <div class="text-gray-500 ">
+                                    <!-- Quantity information can be dynamically loaded using JavaScript -->
+                                    <div class="text-gray-500">
                                         <p>Na raspolaganju:</p>
                                         <p class="mt-[20px]">Rezervisano:</p>
                                         <p class="mt-[20px]">Izdato:</p>
                                         <p class="mt-[20px]">U prekoracenju:</p>
                                         <p class="mt-[20px]">Ukupna kolicina:</p>
                                     </div>
-                                    <div class="text-center pb-[30px]">
-                                        <p
-                                            class=" bg-green-200 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                            5
-                                            primjeraka</p>
-                                        <a href="/aktivneRezervacije">
-                                            <p
-                                                class=" mt-[16px] bg-yellow-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                                2 primjerka</p>
-                                        </a>
-                                        <a href="/izdateKnjige">
-                                            <p
-                                                class=" mt-[16px] bg-blue-200 text-blue-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                                10 primjeraka</p>
-                                        </a>
-                                        <a href="/knjigePrekoracenje">
-                                            <p
-                                                class=" mt-[16px] bg-red-200 text-red-800 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                                2 primjerka</p>
-                                        </a>
-                                        <p
-                                            class=" mt-[16px] border-[1px] border-green-700 text-green-700 rounded-[10px] px-[6px] py-[2px] text-[14px]">
-                                            15 primjeraka</p>
+                                    <div class="text-center pb-[30px]" id="quantityInfo">
+                                        <!-- Quantity information will be dynamically loaded here using JavaScript -->
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
-
+                
                     <div class="absolute bottom-0 w-full">
                         <div class="flex flex-row">
                             <div class="inline-block w-full text-right py-[7px] mr-[100px] text-white">
@@ -217,15 +236,13 @@
                                     class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
                                     Ponisti <i class="fas fa-times ml-[4px]"></i>
                                 </button>
-                                <button id="izdajKnjigu" type="submit"
-                                    class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
-                                    onclick="validacijaIzdavanje()">
-                                    Izdaj knjigu <i class="fas fa-check ml-[4px]"></i>
-                                </button>
+                                <button type="submit" id="izdajKnjigu" class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]" onclick="validateAndSubmit()">Izdaj knjigu <i class="fas fa-check ml-[4px]"></i></button>
+
                             </div>
                         </div>
                     </div>
                 </form>
+                
             </div>
         </section>
         <!-- End Content -->
@@ -239,7 +256,74 @@
     <!-- Scripts -->
     <%- include('../includes/layout/scripts') %>
     <!-- End Scripts -->
+    <script>
+       document.addEventListener('DOMContentLoaded', function() {
+  const selectUcenik = document.getElementById('ucenikIzdavanje');
+  const selectBibliotekar = document.getElementById('bibliotekarIzdavanje');
 
+  // Fetch user data using AJAX
+  fetch('/api/users') // Update the route to match your Express route for fetching user data
+    .then((response) => response.json())
+    .then((data) => {
+      data.forEach((user) => {
+        // Create an option element for each user
+        const option = document.createElement('option');
+        option.value = user.id; // Use the user's id as the value
+        option.textContent = user.name; // Display the user's name
+
+        // Append the option to the "Ucenik" select element
+        selectUcenik.appendChild(option);
+
+        // Clone the option for the "Bibliotekar" select element
+        selectBibliotekar.appendChild(option.cloneNode(true));
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+
+        function updateReturnDate() {
+  const datumIzdavanjaInput = document.getElementById('datumIzdavanja');
+  const datumVracanjaInput = document.getElementById('datumVracanja');
+
+  if (datumIzdavanjaInput && datumVracanjaInput) {
+    const izdavanjaDate = new Date(datumIzdavanjaInput.value);
+    if (!isNaN(izdavanjaDate)) {
+      // dodaj 20 dana na datum izdavanja
+      const returnDate = new Date(izdavanjaDate);
+      returnDate.setDate(returnDate.getDate() + 20);
+
+      //formatiraj datum
+      const returnDateString = returnDate.toISOString().split('T')[0];
+
+      // update-uj polje
+      datumVracanjaInput.value = returnDateString;
+    }
+  }
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/allStatistics')
+        .then((response) => response.json())
+        .then((data) => {
+            const quantityInfo = document.getElementById('quantityInfo');
+            quantityInfo.innerHTML = `
+               <p class="mt-[16px] bg-red-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[16px] flash-text" style="color: black; font-weight: bold;"> ${data.availableBooksByBookId} primjeraka</p>
+                <p class="mt-[16px] bg-yellow-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]"> ${data.reservedBooksByBookId} primjeraka</p>
+                <p class="mt-[16px] bg-blue-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]"> ${data.rentedBooksByBookId} primjeraka</p>
+                <p class="mt-[16px] bg-green-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px] flash-text"> ${data.overdueBooks} primjeraka</p>
+                <p class="mt-[16px] bg-red-200 text-yellow-700 rounded-[10px] px-[6px] py-[2px] text-[14px]"> ${data.totalBooks} primjeraka</p>
+            `;
+        })
+        .catch((error) => {
+            console.error('Error fetching statistics:', error);
+        });
+});
+
+</script>
 </body>
 
 </html>

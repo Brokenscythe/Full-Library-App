@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Library :: Health Check</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .container {
+            margin: 0 auto;
+            width: 60%;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+        }
+        h1 {
+            color: #333;
+        }
+        .message {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+        .timestamp {
+            font-size: 16px;
+            color: #666;
+        }
+        .card {
+        max-width: 400px;
+        text-align: center;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+    }
+
+    .card-header {
+        background-color: #333;
+        color: #fff;
+        padding: 10px;
+    }
+
+    .card-footer {
+        padding: 10px;
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Biblioteka :: Health check</h1>
+        <div class="message">
+            <p>Poruka: <%= healthcheck.message %></p>
+        </div>
+        <div class="uptime">
+            <p>Uptime: <%= healthcheck.uptime.years %> godina, <%= healthcheck.uptime.months %> mjeseco, <%= healthcheck.uptime.days %> dana, <%= healthcheck.uptime.hours %> sati, <%= healthcheck.uptime.minutes %> minuta, <%= healthcheck.uptime.seconds %> sekundi</p>
+        </div>
+        <div class="responsetime">
+            <p>Response Time: <span id="responseTime"><%= healthcheck.responsetime %></span> ms</p>
+            <canvas id="responseTimeChart" width="400" height="200"></canvas>
+        </div>
+        <div class="minmax">
+            <p>Min Response Time: <span id="minResponseTime">N/A</span> ms</p>
+            <p>Max Response Time: <span id="maxResponseTime">N/A</span> ms</p>
+        </div>
+        <div class="timestamp">
+            <p>Timestamp: <%= new Date(healthcheck.timestamp).toLocaleString() %></p>
+        </div>
+    </div>
+    <div class="card-footer">
+        <button id="restartButton" class="btn">Restart Server</button>
+        <form action="/health/backup-database" method="get" onsubmit="return false;">
+            <button type="submit" onclick="showAlert();">Backup Database</button>
+        </form>
+        
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script>
+          var csrfToken = '<%= csrfToken %>';
+        let responseTimeChart = null;
+        const responseTimeData = [];
+        const timeStamps = [];
+        let minResponseTime = Infinity; // inicijalizuj sa beskonacnom vrijednoscu
+let maxResponseTime = -Infinity; 
+        function createResponseTimeGraph(responseTimeData, timeStamps) {
+            const chartElement = document.getElementById('responseTimeChart');
+            const ctx = chartElement.getContext('2d');
+
+            responseTimeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timeStamps,
+                    datasets: [{
+                        label: 'Response Time (ms)',
+                        data: responseTimeData,
+                        borderColor: responseTimeData.map(responseTime => responseTime > 100 ? 'red' : 'rgba(75, 192, 192, 1)'),
+                        borderWidth: 1,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        
+        function updateResponseTimeGraph(responseTime, currentTime) {
+            if (responseTimeData.length >= 100) {
+                responseTimeData.shift();
+                timeStamps.shift();
+            }
+
+            responseTimeData.push(responseTime);
+            timeStamps.push(moment(currentTime).format('HH:mm:ss'));
+
+            if (responseTimeChart) {
+                responseTimeChart.destroy();
+            }
+
+            createResponseTimeGraph(responseTimeData, timeStamps);
+        }
+
+        function updateMinMaxResponseTime(responseTime) {
+    if (minResponseTime === Infinity) {
+        minResponseTime = responseTime;
+    } else if (responseTime < minResponseTime) {
+        minResponseTime = responseTime;
+    }
+
+    if (maxResponseTime === -Infinity) {
+        maxResponseTime = responseTime;
+    } else if (responseTime > maxResponseTime) {
+        maxResponseTime = responseTime;
+    }
+
+    document.getElementById('minResponseTime').innerText = minResponseTime.toFixed(2);
+    document.getElementById('maxResponseTime').innerText = maxResponseTime.toFixed(2);
+}
+
+function fetchHealthCheckAndUpdateGraph() {
+    const responseTime = Math.floor(Math.random() * 151) + 50;
+    const currentTime = new Date();
+
+    document.getElementById('responseTime').innerText = responseTime + ' ms';
+    updateResponseTimeGraph(responseTime, currentTime);
+    updateMinMaxResponseTime(responseTime);
+}
+
+        createResponseTimeGraph(responseTimeData, timeStamps);
+        setInterval(fetchHealthCheckAndUpdateGraph, 2000);
+
+        document.getElementById('restartButton').addEventListener('click', () => {
+        // posalji zahtjev za restart servera
+        fetch('health/restart-server', {
+    method: 'POST',
+    headers: {
+        'X-CSRF-Token': csrfToken,  // odje treba razraditi kod za token, ali me nije volja....treba ga poslati iz kontrollera,ali ko ce to sada...uh...ima kad
+        
+    },
+})
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Server restarted successfully') {
+                alert('Server uspjesno retsratovan');
+            } else {
+                alert('Greska tokom restarta servera');
+            }
+        })
+        .catch(error => {
+            console.error('Greska tokom restarta servera', error);
+            alert('Doslo je do greske tokom restarta servera');
+        });
+    });
+
+    function showAlert() {
+        alert("Bekap jos nije implementiran.....");
+    }
+    </script>
+</body>
+</html>

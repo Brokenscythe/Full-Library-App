@@ -13,7 +13,7 @@
     <!-- End Meta -->
 
     <!-- Title -->
-    <title>Osnovni detalji | Library - ICT Cortex student project</title>
+    <title>Iznajmljivanje Arhiva| Library - ICT Cortex student project</title>
     <link rel="shortcut icon" href="img/library-favicon.ico" type="image/vnd.microsoft.icon" />
     <!-- End Title -->
 
@@ -75,7 +75,7 @@
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                        <a href="/izdajKnjigu" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
+                        <a href=/rent/display/<%= book.id %>" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
@@ -123,7 +123,7 @@
                         <a href="/knjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
                             Specifikacija
                         </a>
-                        <a href="/iznajmljivanjeIzdate" class="inline ml-[70px] active-book-nav hover:text-blue-800">
+                        <a href="/rent/history/REPLACE_BOOK_ID" class="inline ml-[70px] active-book-nav hover:text-blue-800 link-with-bookId" onclick="checkAndProceed()">
                             Evidencija iznajmljivanja
                         </a>
                         <a href="/evidencijaKnjigaMultimedija" class="inline ml-[70px] hover:text-blue-800">
@@ -210,7 +210,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
@@ -252,7 +252,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
@@ -294,7 +294,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
@@ -336,7 +336,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
@@ -378,7 +378,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
@@ -420,7 +420,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
@@ -462,7 +462,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>
@@ -504,7 +504,7 @@
                                                 aria-labelledby="headlessui-menu-button-1"
                                                 id="headlessui-menu-items-117" role="menu">
                                                 <div class="py-1">
-                                                    <a href="/izdajKnjigu" tabindex="0"
+                                                    <a href=/rent/display/<%= book.id %>" tabindex="0"
                                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                                         role="menuitem">
                                                         <i class="far fa-hand-scissors mr-[10px] ml-[5px] py-1"></i>

@@ -1,0 +1,293 @@
+import { Request, Response, NextFunction } from "express";
+import Book from "../../models/bookModel";
+import { PrismaClient } from '@prisma/client';
+import { UserData } from "../../interfaces/userData"; // Import the UserData interface
+const prisma = new PrismaClient();
+/* export async function getAllBooks(req: Request, res:Response, next:NextFunction){
+    let books;
+    try{
+        books = await Book.getAllBooks();
+    }catch(error) {
+        return next(error);
+    }
+    res.json({
+        books: books,
+    });
+} */
+
+/* export async function getAllBooks(req: Request, res: Response, next: NextFunction) {
+    try {
+      const books = await Book.getAllBooks();
+      res.render('knjige/evidencijaKnjiga', { books }); 
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+export async function getBook(req: Request, res:Response, next:NextFunction){
+    let bookId = parseInt(req.params.id.split(':')[1]);
+    let book;
+    try {
+        book = await Book.getBook(bookId);
+    }catch(error) {
+        return next(error);
+    }
+    res.json({
+        book: book,
+    });
+}
+ */
+
+
+export async function getAllBooks(req: Request, res: Response, next: NextFunction) {
+  try {
+      const books = await prisma.book.findMany({
+          include: {
+              authors: true, // ukljucujuci i autora
+          },
+      });
+console.log(books);
+      res.render('knjige/evidencijaKnjiga', { books });
+  } catch (error) {
+      return next(error);
+  }
+}
+
+export async function getBook(req: Request, res: Response, next: NextFunction) {
+  try {
+      const bookId = parseInt(req.params.id, 10);
+
+    
+      const book = await prisma.book.findUnique({
+          where: { id: bookId },
+          include: {
+              authors: true,  
+              categories: true,  
+              genres: true,  
+              publisher: true, 
+              letter: true,  
+              language: true, 
+              binding: true,  
+              format: true,  
+              reservations: true,  
+              rents: true 
+          }
+      });
+
+      if (!book) {
+         
+          res.status(404).json({ error: 'Book not found' });
+          return;
+      }
+
+    //  res.json({ book:book});
+    res.render('knjige/knjigaOsnovniDetalji', { book });
+  } catch (error) {
+      
+      return next(error);
+  }
+}
+
+
+export const getBookDetails = async (req, res) => {
+  try {
+    const bookId = parseInt(req.params.id, 10);
+
+    if (isNaN(bookId)) {
+      res.status(400).json({ error: 'Invalid book ID' });
+      return;
+    }
+
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+      include: {
+        authors: true,
+        categories: true,
+        genres: true,
+        publisher: true,
+        letter: true,
+        language: true,
+        binding: true,
+        format: true,
+        reservations: true,
+        rents: true,
+      },
+    });
+
+    if (!book) {
+      res.status(404).json({ error: 'Book not found' });
+      return;
+    }
+
+    res.json({ book }); // detalji knjige kao JSON za rezervisiKnjigu stranicu
+  } catch (error: any) {
+    console.error('Error while fetching book details:', error);
+    res.status(500).json({ error: 'An error occurred while fetching book details', details: error.message });
+  }
+};
+
+
+
+
+export async function addBook(req: Request, res: Response, next: NextFunction): Promise<void> {
+  try {
+    const {
+      title,
+      page_count,
+      letterId,
+      languageId,
+      bindingId,
+      formatId,
+      publisherId,
+      isbn,
+      quantity_count,
+      rented_count,
+      reserved_count,
+      body,
+      year,
+      pdf,
+      authorName,
+      authorPhoto,
+      authorBio,
+      authorWiki,
+    } = req.body;
+    const formattedBody = body.join('\n');
+    // Convert string values to integers
+    const parsedPageCount = parseInt(page_count, 10);
+    const parsedLetterId = parseInt(letterId, 10);
+    const parsedLanguageId = parseInt(languageId, 10);
+    const parsedBindingId = parseInt(bindingId, 10);
+    const parsedFormatId = parseInt(formatId, 10);
+    const parsedPublisherId = parseInt(publisherId, 10);
+    //const parsedIsbn = parseInt(isbn, 10);
+    const parsedQuantityCount = parseInt(quantity_count, 10);
+    const parsedRentedCount = parseInt(rented_count, 10);
+    const parsedReservedCount = parseInt(reserved_count, 10);
+    const parsedYear = parseInt(year, 10);
+
+    const newBook = {
+      title,
+      page_count: isNaN(parsedPageCount) ? page_count : parsedPageCount,
+      letterId: isNaN(parsedLetterId) ? letterId : parsedLetterId,
+      languageId: isNaN(parsedLanguageId) ? languageId : parsedLanguageId,
+      bindingId: isNaN(parsedBindingId) ? bindingId : parsedBindingId,
+      formatId: isNaN(parsedFormatId) ? formatId : parsedFormatId,
+      publisherId: isNaN(parsedPublisherId) ? publisherId : parsedPublisherId,
+      isbn: isbn,
+      quantity_count: isNaN(parsedQuantityCount) ? quantity_count : parsedQuantityCount,
+      rented_count: isNaN(parsedRentedCount) ? rented_count : parsedRentedCount,
+      reserved_count: isNaN(parsedReservedCount) ? reserved_count : parsedReservedCount,
+      body: formattedBody,
+      year: isNaN(parsedYear) ? year : parsedYear,
+      pdf,
+      authors: {
+        create: {
+          nameSurname: authorName,
+          photo: authorPhoto,
+          biography: authorBio,
+          wikipedia: authorWiki,
+        },
+      },
+    };
+
+    const book = await prisma.book.create({
+      data: newBook,
+      include: {
+        authors: true,
+      },
+    });
+
+    res.redirect('/books');
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+  export async function addBookForm(req: Request, res: Response) {
+    try {
+      res.render('knjige/novaKnjiga');
+    } catch (error) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  }
+export async function updateBook(req: Request, res:Response, next:NextFunction){
+    let bookId = parseInt(req.params.id.split(':')[1]);
+    const book = new Book(
+        req.body.title,
+        req.body.page_count,
+        req.body.letterId,
+        req.body.languageId,
+        req.body.bindingId,
+        req.body.formatId,
+        req.body.publisherId,
+        req.body.isbn,
+        req.body.quantity_count,
+        req.body.rented_count,
+        req.body.reserved_count,
+        req.body.body,
+        req.body.year,
+        req.body.pdf,
+        req.body.id,
+    );
+    try{
+        await book.save();
+    }
+    catch(error) {
+        return next(error);
+    }
+    res.json({message: "book updated", book: book});
+}
+
+export async function deleteBook(req: Request, res:Response, next:NextFunction) {
+    let bookId = parseInt(req.params.id.split(':')[1]);
+    let book = new Book("", -1, -1, -1, -1, -1, -1, "", -1, -1, -1, "", -1, "", bookId);
+    try{
+        book.delete();
+    }catch(error) {
+        return next(error);
+    }
+    res.json({
+        mesage: "Book deleted"
+    });
+}
+
+export async function rentBook(req: Request, res: Response, next: NextFunction) {
+  try {
+    
+    const bookId = parseInt(req.body.bookId, 10);
+    const rentUserId = parseInt(req.body.rentUserId, 10);
+    const borrowUserId = parseInt(req.body.borrowUserId, 10);
+    const issueDate = new Date(req.body.issue_date);
+    const returnDate = new Date(req.body.return_date);
+    const rentStatusId = parseInt(req.body.rentStatusId, 10);
+
+    
+    const book = await prisma.book.findUnique({
+      where: { id: bookId },
+    });
+
+    if (!book) {
+      res.status(404).json({ error: 'Book not found' });
+      return;
+    }
+
+ 
+    const rental = await prisma.rent.create({
+      data: {
+        book: { connect: { id: bookId } },
+        rentUser: { connect: { id: rentUserId } },
+        borrowUser: { connect: { id: borrowUserId } },
+        issue_date: issueDate,
+        return_date: returnDate,
+        rentStatus: { connect: { id: rentStatusId } },
+      },
+    });
+
+    res.status(201).json({ message: 'Knjiga uspjesno iznajmljena', rental });
+  } catch (error) {
+    console.error('Greska tokom iznajmljivanje knjige:', error);
+    const err = error as Error;
+    res.status(500).json({ error: 'Doslo je do greske tokom iznajmljivanja', details: err.message });
+  }
+}

@@ -13,7 +13,7 @@
                     <div class="ml-[25px]">
                         <span class="flex justify-between w-full fill-current whitespace-nowrap">
                             <div class="transition duration-300 ease-in group-hover:text-[#576cdf]">
-                                <a href="/dashboard" aria-label="Dashboard">
+                                <a href="/dashboard" title="Dashboard" aria-label="Dashboard">
                                     <i
                                         class="text-white bg-[#3F51B5] px-[5px] pt-[4px] pb-[5px] fas fa-tachometer-alt text-[19px] rounded-[3px]"></i>
                                     <div class="hidden sidebar-item">
@@ -29,7 +29,7 @@
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
-                                <a href="/bibliotekari" aria-label="Bibliotekari">
+                                <a href="/bibliotekari" title="Bibliotekari"  aria-label="Bibliotekari">
                                     <i
                                         class="text-[25px] text-[#707070] far fa-address-book transition duration-300 ease-in group-hover:text-[#576cdf]"></i>
                                     <div class="hidden sidebar-item">
@@ -48,7 +48,7 @@
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
-                                <a href="/ucenik" aria-label="Ucenici">
+                                <a href="/ucenik" title="Ucenici" aria-label="Ucenici">
                                     <i
                                         class="text-[18px] transition duration-300 ease-in group-hover:text-[#576cdf] text-[#707070] fas fa-users"></i>
                                     <div class="hidden sidebar-item">
@@ -66,7 +66,7 @@
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
-                                <a href="/evidencijaKnjiga" aria-label="Knjige">
+                                <a href="/books" title="Knjige" aria-label="Knjige">
                                     <i
                                         class="text-[25px] transition duration-300 ease-in group-hover:text-[#576cdf] text-[#707070] far fa-copy"></i>
                                     <div class="hidden sidebar-item">
@@ -84,7 +84,7 @@
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
-                                <a href="/authors" aria-label="Knjige">
+                                <a href="/authors" title="Autori" aria-label="Autori">
                                     <i
                                         class="text-[25px] transition duration-300 ease-in group-hover:text-[#576cdf] text-[#707070] far fa-address-book"></i>
                                     <div class="hidden sidebar-item">
@@ -102,7 +102,7 @@
                     <div class="ml-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
-                                <a href="/izdateKnjige" aria-label="Knjige">
+                                <a href="/rent" title="Izdavanje knjiga" aria-label="Izdavanje knjiga">
                                     <i
                                         class="text-[22px] transition duration-300 ease-in group-hover:text-[#576cdf] text-[#707070] fas fa-exchange-alt"></i>
                                     <div class="hidden sidebar-item">
@@ -117,18 +117,35 @@
                         </span>
                     </div>
                 </li>
+                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                    <div class="ml-[30px]">
+                        <span class="flex justify-between w-full whitespace-nowrap">
+                            <div>
+                                <a href="/reservations" title="Rezervacije" aria-label="Rezervacije">
+                                    <i class="text-[22px] transition duration-300 ease-in group-hover:text-[#576cdf] text-[#707070] fas fa-book"></i>
+                                    <div class="hidden sidebar-item">
+                                        <p class="transition duration-300 ease-in group-hover:text-[#576cdf] inline text-[15px] ml-[20px]">
+                                            Rezervacije
+                                        </p>
+                                    </div>
+                                </a>
+                                
+                            </div>
+                        </span>
+                    </div>
+                </li>
                 <!-- Expand menu example -->
                 <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA]">
                     <div class="mx-[30px]">
                         <span class="flex justify-between w-full whitespace-nowrap">
                             <div>
-                                <a href="/#" aria-label="Dashboard">
+                                <a href="/reservations" title="Rezervacije" aria-label="Rezervacije">
                                     <i
                                         class="transition duration-300 ease-in group-hover:text-[#576cdf] text-[25px] text-[#707070] fas fa-expand"></i>
                                     <div class="hidden sidebar-item">
                                         <p
                                             class="transition duration-300 ease-in group-hover:text-[#576cdf] inline text-[15px] ml-[20px]">
-                                            Expand example</p>
+                                           Rezervacije</p>
                                     </div>
                                 </a>
                             </div>
@@ -144,38 +161,48 @@
                     class="aside-item hidden pl-[70px] mt-[5px] pt-[8px] pb-[10px] text-[#778089] text-[14px]">
                     <li class="mb-[4px] py-[6px]">
                         <div class="transition duration-300 ease-in hover:text-[#2d3b48]">
-                            <a href="/#" aria-label="Dashboard">
+                            <a href="/reservations-add" title="Dashboard" aria-label="Dashboard">
                                 <div class="hidden sidebar-item">
-                                    <p class="inline">Basic expand</p>
+                                    <p class="inline">Rezervisi knjigu</p>
                                 </div>
                             </a>
                         </div>
                     </li>
                     <li class="mb-[4px] py-[6px]">
                         <div class="transition duration-300 ease-in hover:text-[#2d3b48]">
-                            <a href="/#" aria-label="Dashboard">
+                            <a href="/reservations/archived/all" aria-label="Arhivirane rezervacije">
                                 <div class="hidden sidebar-item">
-                                    <p class="inline">Basic expand</p>
+                                    <p class="inline">Arhivirane rezervacije</p>
                                 </div>
                             </a>
                         </div>
                     </li>
-                    <li class="mb-[4px] py-[6px]">
-                        <div class="transition duration-300 ease-in hover:text-[#2d3b48]">
-                            <a href="/#" aria-label="Dashboard">
-                                <div class="hidden sidebar-item">
-                                    <p class="inline">Basic expand</p>
-                                </div>
-                            </a>
-                        </div>
-                    </li>
+                    
+    
                 </ul>
+                <li class="pt-[18px] pb-[14px] mb-[4px] group hover:bg-[#EAEAEA] h-[60px]">
+                    <div class="ml-[30px]">
+                        <span class="flex justify-between w-full whitespace-nowrap">
+                            <div>
+                                <a href="/health" title="Healkh status" aria-label="Health Check">
+                                    <i class="text-[22px] transition duration-300 ease-in group-hover:text-[#576cdf] text-[#707070] fas fa-stethoscope"></i>
+                                    <div class="hidden sidebar-item">
+                                        <p class="transition duration-300 ease-in group-hover:text-[#576cdf] inline text-[15px] ml-[20px]">
+                                            Stanje sistema
+                                        </p>
+                                    </div>
+                                </a>
+                                
+                            </div>
+                        </span>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>
     <div class="sidebar-nav py-[10px] border-t-[1px] border-[#e4dfdf] pt-[23px] pb-[29px]  group hover:bg-[#EFF3F6]">
         <!-- Settings Icon -->
-        <a href="/settings" aria-label="Settngs" class="ml-[30px]">
+        <a href="/settingsPolisa" aria-label="Settngs" class="ml-[30px]">
             <span class="whitespace-nowrap">
                 <i
                     class="transition duration-300 ease-in group-hover:text-[#576cdf] text-[22px] text-[#707070] fas fa-cog"></i>

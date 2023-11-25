@@ -1,11 +1,11 @@
-<%- include('includes/head', {pageTitle: 'Error Occurred!'}) %>
+<%- include('./includes/header', {pageTitle: 'Error Occurred!'}) %>
 </head>
 <body>
-  <%- include('includes/header') %>
+  <%- include('./includes/header') %>
   <main>  
-    <h1 class="error-occured">Something went wrong!</h1>
-    <p class="error-occured">Unfortunately, something went wrong - please try again later.</p>
-    <p class="back-to-safety"><a href="/" class= "btn">Back to safety!</a></p>
+    <h1 class="error-occured">Upps, došlo je do greške!</h1>
+    <p class="error-occured">Nažalost, došlo je do greške - probaj malo kasnije. </p>
+    <p class="back-to-safety"><a href="/" class= "btn">Vrati se na sigurno.</a></p>
   </main>
-  <%- include('includes/footer') %>
+  <%- include('./includes/footer') %>
 </body>

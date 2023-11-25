@@ -10,446 +10,374 @@
     <meta name="description" content="ICT Cortex Library - project for high school students..." />
     <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
     <meta name="author" content="bildstudio" />
-    <!-- End Meta -->
 
-    <!-- Title -->
+
+
+
+    <script src="/scripts/tabs.js"></script>
+
+
+
     <title>New book | Library - ICT Cortex student project</title>
-    <link rel="shortcut icon" href="img/library-favicon.ico" type="image/vnd.microsoft.icon" />
-    <!-- End Title -->
+    <link rel="shortcut icon" href="/img/library-favicon.ico" type="image/vnd.microsoft.icon" />
+
 
     <!-- Styles -->
     <%- include('../includes/layout/styles') %>
-    <!-- End Styles -->
+    <style>
+/* Style the tab buttons */
+.tab {
+  overflow: hidden;
+  border-bottom: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+
+.tab button {
+  background-color: inherit;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: 0.3s;
+}
+
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Hide tab content by default */
+.tabcontent {
+  display: none;
+
+}
+
+/* Show the specific tab content */
+.tabcontent.active {
+  display: block;
+  max-height: 600px; /* Adjust the maximum height as needed */
+  overflow-y: auto; /* Add vertical scrollbar when content exceeds the height */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Style for form fields */
+.label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input {
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.custom-style {
+  background-color: lightgreen; 
+  font-weight: bold; 
+}
+
+.custom-button {
+    background-color: #8BC34A; /*
+    color: white; /* Text color */
+    padding: 10px 20px; 
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); 
+    font-size: 16px; /* Font size */
+    cursor: pointer;
+    transition: background-color 0.3s ease; 
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.custom-button:hover {
+    background-color: #7CB342; /* Darker green color on hover */
+}
+    </style>
+        <!-- End Styles -->
 </head>
 
 <body class="overflow-hidden small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
     <!-- Header -->
     <%- include('../includes/layout/header') %>
-    <!-- Header -->
+        <!-- Header -->
 
-    <!-- Main content -->
-    <main class="flex flex-row small:hidden">
-        <!-- Sidebar -->
-        <%- include('../includes/layout/sidebar') %>
-        <!-- End Sidebar -->
-
-        <!-- Content -->
-        <section class="w-screen h-screen pl-[80px] pb-4 text-gray-700">
-            <!-- Heading of content -->
-            <div class="heading">
-                <div class="flex border-b-[1px] border-[#e4dfdf]">
-                    <div class="pl-[30px] py-[10px] flex flex-col">
-                        <div>
-                            <h1>
-                                Nova knjiga
-                            </h1>
-                        </div>
-                        <div>
-                            <nav class="w-full rounded">
-                                <ol class="flex list-reset">
-                                    <li>
-                                        <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
-                                            Evidencija knjiga
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <span class="mx-2">/</span>
-                                    </li>
-                                    <li>
-                                        <a href="/#" class="text-[#2196f3] hover:text-blue-600">
-                                            Nova knjiga
-                                        </a>
-                                    </li>
-                                </ol>
-                            </nav>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="py-4 text-gray-500 border-b-[1px] border-[#e4dfdf] pl-[30px]">
-                <a href="/#" class="inline active-book-nav hover:text-blue-800">
-                    Osnovni detalji
-                </a>
-                <a href="/novaKnjigaSpecifikacija" class="inline ml-[70px] hover:text-blue-800 ">
-                    Specifikacija
-                </a>
-                <a href="/novaKnjigaMultimedija" class="inline ml-[70px] hover:text-blue-800">
-                    Multimedija
-                </a>
-            </div>
-            <!-- Space for content -->
-            <div class="scroll height-content section-content">
-                <form method="POST" action="/" class="text-gray-700 forma">
-                    <div class="flex flex-row ml-[30px] mb-[150px]">
-                        <div class="w-[50%]">
-                            <div class="mt-[20px]">
-                                <p>Naziv knjige <span class="text-red-500">*</span></p>
-                                <input type="text" name="nazivKnjiga" id="nazivKnjiga"
-                                    class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                    onkeydown="clearErrorsNazivKnjiga()" />
-                                <div id="validateNazivKnjiga"></div>
-                            </div>
-
-                            <div class="mt-[20px]">
-                                <p class="inline-block mb-2">Kratki sadrzaj</p>
-                                <textarea name="kratki_sadrzaj"
-                                    class="flex w-[90%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
-
-                                </textarea>
-                            </div>
-
-                            <div class="mt-[20px]">
-                                <p>Izaberite kategorije <span class="text-red-500">*</span></p>
-                                <select x-cloak id="kategorija">
-                                    <option value="1">Udzbenici</option>
-                                    <option value="2">Romani</option>
-                                </select>
-
-                                <div x-data="dropdown()" x-init="loadOptions()" class="flex flex-col w-[90%]">
-                                    <input name="values" id="kategorijaInput" type="hidden"
-                                        x-bind:value="selectedValues()">
-                                    <div class="relative inline-block w-[100%]">
-                                        <div class="relative flex flex-col items-center">
-                                            <div x-on:click="open" class="w-full svelte-1l8159u">
-                                                <div class="flex p-1 my-2 bg-white border border-gray-300 shadow-sm svelte-1l8159u focus-within:ring-2 focus-within:ring-[#576cdf]"
-                                                    onclick="clearErrorsKategorija()">
-                                                    <div class="flex flex-wrap flex-auto">
-                                                        <template x-for="(option,index) in selected"
-                                                            :key="options[option].value">
-                                                            <div
-                                                                class="flex items-center justify-center px-[6px] py-[2px] m-1 text-blue-800 bg-blue-200 rounded-[10px] ">
-                                                                <div class="text-xs font-normal leading-none max-w-full flex-initial x-model="
-                                                                    options[option] x-text="options[option].text"></div>
-                                                                <div class="flex flex-row-reverse flex-auto">
-                                                                    <div x-on:click="remove(index,option)">
-                                                                        <svg class="w-6 h-6 fill-current " role="button"
-                                                                            viewBox="0 0 20 20">
-                                                                            <path
-                                                                                d="M14.348,14.849c-0.469,0.469-1.229,0.469-1.697,0L10,11.819l-2.651,3.029c-0.469,0.469-1.229,0.469-1.697,0
-                                                                                            c-0.469-0.469-0.469-1.229,0-1.697l2.758-3.15L5.651,6.849c-0.469-0.469-0.469-1.228,0-1.697s1.228-0.469,1.697,0L10,8.183
-                                                                                            l2.651-3.031c0.469-0.469,1.228-0.469,1.697,0s0.469,1.229,0,1.697l-2.758,3.152l2.758,3.15
-                                                                                            C14.817,13.62,14.817,14.38,14.348,14.849z" />
-                                                                        </svg>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                    </div>
-                                                    </template>
-                                                    <div x-show="selected.length    == 0" class="flex-1">
-                                                        <input
-                                                            class="w-full h-full p-1 px-2 text-gray-800 bg-transparent outline-none appearance-none"
-                                                            x-bind:value="selectedValues()">
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    class="flex items-center w-8 py-1 pl-2 pr-1 text-gray-300 svelte-1l8159u">
-                                                    <button type="button" x-show="isOpen() === true" x-on:click="open"
-                                                        class="w-6 h-6 text-gray-600 outline-none cursor-pointer focus:outline-none">
-                                                        <svg version="1.1" class="w-[10px] h-[9px] ml-[15px]"
-                                                            viewBox="0 0 20 20" stroke="#374151" stroke-width="3">
-                                                            <path d="M17.418,6.109c0.272-0.268,0.709-0.268,0.979,0s0.271,0.701,0,0.969l-7.908,7.83
-                                                                            c-0.27,0.268-0.707,0.268-0.979,0l-7.908-7.83c-0.27-0.268-0.27-0.701,0-0.969c0.271-0.268,0.709-0.268,0.979,0L10,13.25
-                                                                            L17.418,6.109z" />
-                                                        </svg>
-                                                    </button>
-                                                    <button type="button" x-show="isOpen() === false" @click="close"
-                                                        class="w-6 h-6 text-gray-600 outline-none cursor-pointer focus:outline-none">
-                                                        <svg version="1.1" class="w-[10px] h-[9px] ml-[15px]"
-                                                            viewBox="0 0 20 20" stroke="#374151" stroke-width="3">
-                                                            <path d="M17.418,6.109c0.272-0.268,0.709-0.268,0.979,0s0.271,0.701,0,0.969l-7.908,7.83
-                                                                            c-0.27,0.268-0.707,0.268-0.979,0l-7.908-7.83c-0.27-0.268-0.27-0.701,0-0.969c0.271-0.268,0.709-0.268,0.979,0L10,13.25
-                                                                            L17.418,6.109z" />
-                                                        </svg>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="w-full">
-                                            <div x-show.transition.origin.top="isOpen()"
-                                                class="z-40 w-full overflow-y-auto bg-white rounded shadow max-h-select svelte-5uyqqj"
-                                                x-on:click.away="close">
-                                                <div class="flex flex-col w-full">
-                                                    <template x-for="(option,index) in options" :key="option">
-                                                        <div>
-                                                            <div class="w-full border-b border-gray-100 rounded-t cursor-pointer hover:bg-teal-100"
-                                                                @click="select(index,$event)">
-                                                                <div x-bind:class="option.selected ? 'border-teal-600' : ''"
-                                                                    class="relative flex items-center w-full p-2 pl-2 border-l-2 border-transparent">
-                                                                    <div class="flex items-center w-full">
-                                                                        <div class="mx-2 leading-6" x-model="option"
-                                                                            x-text="option.text"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </template>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+        <!-- Main content -->
+        <main class="flex flex-row small:hidden">
+            <!-- Sidebar -->
+            <%- include('../includes/layout/sidebar') %>
+                <!-- End Sidebar -->
+      
+                <!-- Content -->
+                <section class="w-screen h-screen pl-[80px] pb-4 text-gray-700">
+                    <!-- Heading of content -->
+                    <div class="heading">
+                        <div class="flex border-b-[1px] border-[#e4dfdf]">
+                            <div class="pl-[30px] py-[10px] flex flex-col">
+                                <div>
+                                    <h1>
+                                        Nova knjiga
+                                    </h1>
+                                </div>
+                                <div>
+                                    <nav class="w-full rounded">
+                                        <ol class="flex list-reset">
+                                            <li>
+                                                <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                                    Evidencija knjiga
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <span class="mx-2">/</span>
+                                            </li>
+                                            <li>
+                                                <a href="/#" class="text-[#2196f3] hover:text-blue-600">
+                                                    Nova knjiga
+                                                </a>
+                                            </li>
+                                        </ol>
+                                    </nav>
                                 </div>
                             </div>
-                            <div id="validateKategorija"></div>
                         </div>
-
-                        <div class="mt-[20px]">
-                            <p>Izaberite zanrove <span class="text-red-500">*</span></p>
-                            <select x-cloak id="zanr">
-                                <option value="1">Poezija</option>
-                                <option value="2">Strucna literatura</option>
+                    </div>
+                  
+                    <div class="scroll height-content section-content" style="overflow-y: auto; max-height: 500px;">
+                        <div class="row">
+                            <div class="column">
+                              <h2>Unos nove knjige:</h2>
+                     <form method="POST" action="/books" class="grid grid-cols-1 gap-8">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div>
+                            <label for="title">Title:</label>
+                            <input type="text" name="title" id="title" required  class="flex w-[45%] mt-2 px-2 py-2 text-base border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf] custom-style">
+                        </div>
+                        <div>
+                            <label for="page_count">Broj stranica:</label>
+                            <input type="number" name="page_count" id="page_count" required class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                        </div>
+                
+                        <div>
+                            <label for="body">Opste:</label>
+                            <textarea class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="body" id="body" rows="5" cols="40"></textarea>
+                        </div>
+                
+                        <div>
+                            <label for="pdf">PDF:</label>
+                            <input type="file" name="pdf" id="pdf" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                        </div>
+                        <div>
+                            <label for="letterId">Pismo:</label>
+                            <select name="letterId" id="letterId" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                              <% letters.forEach(letter => { %>
+                                <option value="<%= letter.id %>"><%= letter.name %></option>
+                              <% }); %>
                             </select>
-
-                            <div x-data="dropdown()" x-init="loadOptionsZanrovi()" class="flex flex-col w-[90%]">
-                                <input name="values" id="zanroviInput" type="hidden" x-bind:value="selectedValues()">
-                                <div class="relative inline-block w-[100%]">
-                                    <div class="relative flex flex-col items-center">
-                                        <div x-on:click="open" class="w-full svelte-1l8159u">
-                                            <div class="flex p-1 my-2 bg-white border border-gray-300 shadow-sm svelte-1l8159u focus-within:ring-2 focus-within:ring-[#576cdf]"
-                                                onclick="clearErrorsZanr()">
-                                                <div class="flex flex-wrap flex-auto">
-                                                    <template x-for="(option,index) in selected"
-                                                        :key="options[option].value">
-                                                        <div
-                                                            class="flex items-center justify-center px-[6px] py-[2px] m-1 text-blue-800 bg-blue-200 rounded-[10px] ">
-                                                            <div class="text-xs font-normal leading-none max-w-full flex-initial x-model="
-                                                                options[option] x-text="options[option].text"></div>
-                                                            <div class="flex flex-row-reverse flex-auto">
-                                                                <div x-on:click="remove(index,option)">
-                                                                    <svg class="w-6 h-6 fill-current " role="button"
-                                                                        viewBox="0 0 20 20">
-                                                                        <path
-                                                                            d="M14.348,14.849c-0.469,0.469-1.229,0.469-1.697,0L10,11.819l-2.651,3.029c-0.469,0.469-1.229,0.469-1.697,0
-                                                                                            c-0.469-0.469-0.469-1.229,0-1.697l2.758-3.15L5.651,6.849c-0.469-0.469-0.469-1.228,0-1.697s1.228-0.469,1.697,0L10,8.183
-                                                                                            l2.651-3.031c0.469-0.469,1.228-0.469,1.697,0s0.469,1.229,0,1.697l-2.758,3.152l2.758,3.15
-                                                                                            C14.817,13.62,14.817,14.38,14.348,14.849z" />
-                                                                    </svg>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                </div>
-                                                </template>
-                                                <div x-show="selected.length    == 0" class="flex-1">
-                                                    <input
-                                                        class="w-full h-full p-1 px-2 text-gray-800 bg-transparent outline-none appearance-none"
-                                                        x-bind:value="selectedValues()">
-                                                </div>
-                                            </div>
-                                            <div
-                                                class="flex items-center w-8 py-1 pl-2 pr-1 text-gray-300 svelte-1l8159u">
-                                                <button type="button" x-show="isOpen() === true" x-on:click="open"
-                                                    class="w-6 h-6 text-gray-600 outline-none cursor-pointer focus:outline-none">
-                                                    <svg version="1.1" class="w-[10px] h-[9px] ml-[15px]"
-                                                        viewBox="0 0 20 20" stroke="#374151" stroke-width="3">
-                                                        <path d="M17.418,6.109c0.272-0.268,0.709-0.268,0.979,0s0.271,0.701,0,0.969l-7.908,7.83
-                                                                            c-0.27,0.268-0.707,0.268-0.979,0l-7.908-7.83c-0.27-0.268-0.27-0.701,0-0.969c0.271-0.268,0.709-0.268,0.979,0L10,13.25
-                                                                            L17.418,6.109z" />
-                                                    </svg>
-                                                </button>
-                                                <button type="button" x-show="isOpen() === false" @click="close"
-                                                    class="w-6 h-6 text-gray-600 outline-none cursor-pointer focus:outline-none">
-                                                    <svg version="1.1" class="w-[10px] h-[9px] ml-[15px]"
-                                                        viewBox="0 0 20 20" stroke="#374151" stroke-width="3">
-                                                        <path d="M17.418,6.109c0.272-0.268,0.709-0.268,0.979,0s0.271,0.701,0,0.969l-7.908,7.83
-                                                                            c-0.27,0.268-0.707,0.268-0.979,0l-7.908-7.83c-0.27-0.268-0.27-0.701,0-0.969c0.271-0.268,0.709-0.268,0.979,0L10,13.25
-                                                                            L17.418,6.109z" />
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="w-full">
-                                        <div x-show.transition.origin.top="isOpen()"
-                                            class="z-40 w-full overflow-y-auto bg-white rounded shadow max-h-select svelte-5uyqqj"
-                                            x-on:click.away="close">
-                                            <div class="flex flex-col w-full">
-                                                <template x-for="(option,index) in options" :key="option">
-                                                    <div>
-                                                        <div class="w-full border-b border-gray-100 rounded-t cursor-pointer hover:bg-teal-100"
-                                                            @click="select(index,$event)">
-                                                            <div x-bind:class="option.selected ? 'border-teal-600' : ''"
-                                                                class="relative flex items-center w-full p-2 pl-2 border-l-2 border-transparent">
-                                                                <div class="flex items-center w-full">
-                                                                    <div class="mx-2 leading-6" x-model="option"
-                                                                        x-text="option.text"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </template>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                          </div>
+                          <div>
+                            <label for="languageId">Jezik:</label>
+                            <select name="languageId" id="languageId" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                              <% languages.forEach(language => { %>
+                                <option value="<%= language.id %>"><%= language.name %></option>
+                              <% }); %>
+                            </select>
+                          </div>
+                          
+                          <div>
+                            <label for="bindingId">Povez :</label>
+                            <select name="bindingId" id="bindingId" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                              <% bindings.forEach(binding => { %>
+                                <option value="<%= binding.id %>"><%= binding.name %></option>
+                              <% }); %>
+                            </select>
+                          </div>
+                          
+                          <div>
+                            <label for="formatId">Format:</label>
+                            <select name="formatId" id="formatId" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                              <% formats.forEach(format => { %>
+                                <option value="<%= format.id %>"><%= format.name %></option>
+                              <% }); %>
+                            </select>
+                          </div>
+                          
+                          <div>
+                            <label for="publisherId">Izdavac:</label>
+                            <select name="publisherId" id="publisherId" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                              <% publishers.forEach(publisher => { %>
+                                <option value="<%= publisher.id %>"><%= publisher.name %></option>
+                              <% }); %>
+                            </select>
+                          </div>
+                          
+                        <div>
+                            <label for="isbn">ISBN:</label>
+                            <input type="text" name="isbn" id="isbn" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
                         </div>
-                        <div id="validateZanr"></div>
-                    </div>
-            </div>
-
-            <div class="w-[50%]">
-                <div class="mt-[20px]">
-                    <p>Izaberite autore <span class="text-red-500">*</span></p>
-                    <select x-cloak id="autori">
-                        <option value="1">Mark Twain</option>
-                        <option value="2">Pero Peric</option>
-                    </select>
-
-                    <div x-data="dropdown()" x-init="loadOptionsAutori()" class="flex flex-col w-[90%]">
-                        <input name="values" id="autoriInput" type="hidden" x-bind:value="selectedValues()">
-                        <div class="relative inline-block w-[100%]">
-                            <div class="relative flex flex-col items-center">
-                                <div x-on:click="open" class="w-full svelte-1l8159u">
-                                    <div class="flex p-1 my-2 bg-white border border-gray-300 shadow-sm svelte-1l8159u focus-within:ring-2 focus-within:ring-[#576cdf]"
-                                        onclick="clearErrorsAutori()">
-                                        <div class="flex flex-wrap flex-auto">
-                                            <template x-for="(option,index) in selected" :key="options[option].value">
-                                                <div
-                                                    class="flex items-center justify-center px-[6px] py-[2px] m-1 text-blue-800 bg-blue-200 rounded-[10px] ">
-                                                    <div class="text-xs font-normal leading-none max-w-full flex-initial x-model="
-                                                        options[option] x-text="options[option].text"></div>
-                                                    <div class="flex flex-row-reverse flex-auto">
-                                                        <div x-on:click="remove(index,option)">
-                                                            <svg class="w-6 h-6 fill-current " role="button"
-                                                                viewBox="0 0 20 20">
-                                                                <path
-                                                                    d="M14.348,14.849c-0.469,0.469-1.229,0.469-1.697,0L10,11.819l-2.651,3.029c-0.469,0.469-1.229,0.469-1.697,0
-                                                                                            c-0.469-0.469-0.469-1.229,0-1.697l2.758-3.15L5.651,6.849c-0.469-0.469-0.469-1.228,0-1.697s1.228-0.469,1.697,0L10,8.183
-                                                                                            l2.651-3.031c0.469-0.469,1.228-0.469,1.697,0s0.469,1.229,0,1.697l-2.758,3.152l2.758,3.15
-                                                                                            C14.817,13.62,14.817,14.38,14.348,14.849z" />
-                                                            </svg>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                        </template>
-                                        <div x-show="selected.length    == 0" class="flex-1">
-                                            <input
-                                                class="w-full h-full p-1 px-2 text-gray-800 bg-transparent outline-none appearance-none"
-                                                x-bind:value="selectedValues()">
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center w-8 py-1 pl-2 pr-1 text-gray-300 svelte-1l8159u">
-                                        <button type="button" x-show="isOpen() === true" x-on:click="open"
-                                            class="w-6 h-6 text-gray-600 outline-none cursor-pointer focus:outline-none">
-                                            <svg version="1.1" class="w-[10px] h-[9px] ml-[15px]" viewBox="0 0 20 20"
-                                                stroke="#374151" stroke-width="3">
-                                                <path d="M17.418,6.109c0.272-0.268,0.709-0.268,0.979,0s0.271,0.701,0,0.969l-7.908,7.83
-                                                                            c-0.27,0.268-0.707,0.268-0.979,0l-7.908-7.83c-0.27-0.268-0.27-0.701,0-0.969c0.271-0.268,0.709-0.268,0.979,0L10,13.25
-                                                                            L17.418,6.109z" />
-                                            </svg>
-                                        </button>
-                                        <button type="button" x-show="isOpen() === false" @click="close"
-                                            class="w-6 h-6 text-gray-600 outline-none cursor-pointer focus:outline-none">
-                                            <svg version="1.1" class="w-[10px] h-[9px] ml-[15px]" viewBox="0 0 20 20"
-                                                stroke="#374151" stroke-width="3">
-                                                <path d="M17.418,6.109c0.272-0.268,0.709-0.268,0.979,0s0.271,0.701,0,0.969l-7.908,7.83
-                                                                            c-0.27,0.268-0.707,0.268-0.979,0l-7.908-7.83c-0.27-0.268-0.27-0.701,0-0.969c0.271-0.268,0.709-0.268,0.979,0L10,13.25
-                                                                            L17.418,6.109z" />
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-full">
-                                <div x-show.transition.origin.top="isOpen()"
-                                    class="z-40 w-full overflow-y-auto bg-white rounded shadow max-h-select svelte-5uyqqj"
-                                    x-on:click.away="close">
-                                    <div class="flex flex-col w-full">
-                                        <template x-for="(option,index) in options" :key="option">
-                                            <div>
-                                                <div class="w-full border-b border-gray-100 rounded-t cursor-pointer hover:bg-teal-100"
-                                                    @click="select(index,$event)">
-                                                    <div x-bind:class="option.selected ? 'border-teal-600' : ''"
-                                                        class="relative flex items-center w-full p-2 pl-2 border-l-2 border-transparent">
-                                                        <div class="flex items-center w-full">
-                                                            <div class="mx-2 leading-6" x-model="option"
-                                                                x-text="option.text"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </template>
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                            <label for="quantity_count">Kolicina:</label>
+                            <input type="number" name="quantity_count" id="quantity_count" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
                         </div>
                     </div>
-                </div>
-                <div id="validateAutori"></div>
+                    <div class="column">
+                 <div>
+                        <div>
+                            <label for="rented_count">Kolicina izdatih:</label>
+                            <input type="number" name="rented_count" id="rented_count" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                        </div>
+                        <div>
+                            <label for="reserved_count">Kolicina rezervisanih:</label>
+                            <input type="number" name="reserved_count" id="reserved_count" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                        </div>
+                        <div>
+                            <label for="body">Sazetak:</label>
             </div>
-
-            <div class="mt-[20px]">
-                <p>Izdavac <span class="text-red-500">*</span></p>
-                <select
-                    class="flex w-[45%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                    name="izdavac" id="izdavac" onclick="clearErrorsIzdavac()">
-                    <option disabled selected></option>
-                    <option value="">
-                        Izdavac 1
-                    </option>
-                </select>
-                <div id="validateIzdavac"></div>
-            </div>
-
-            <div class="mt-[20px]">
-                <p>Godina izdavanja <span class="text-red-500">*</span></p>
-                <select
-                    class="flex w-[45%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                    name="godinaIzdavanja" id="godinaIzdavanja" onclick="clearErrorsGodinaIzdavanja()">
-                    <option disabled selected></option>
-                    <option value="">
-                        Godina izdavanja 1
-                    </option>
-                </select>
-                <div id="validateGodinaIzdavanja"></div>
-            </div>
-
-            <div class="mt-[20px]">
-                <p>Kolicina <span class="text-red-500">*</span></p>
-                <input type="text" name="knjigaKolicina" id="knjigaKolicina"
-                    class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                    onkeydown="clearErrorsKnjigaKolicina()" />
-                <div id="validateKnjigaKolicina"></div>
-            </div>
-            </div>
-            </div>
-
-            <div class="absolute bottom-0 w-full">
-                <div class="flex flex-row">
-                    <div class="inline-block w-full text-white text-right py-[7px] mr-[100px]">
-                        <button type="button"
-                            class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
-                            Ponisti <i class="fas fa-times ml-[4px]"></i>
-                        </button>
-                        <button id="sacuvajKnjigu" type="submit"
-                            class="btn-animation shadow-lg w-[150px] disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
-                            onclick="validacijaKnjiga()">
-                            Sacuvaj <i class="fas fa-check ml-[4px]"></i>
-                        </button>
-                    </div>
+                            <textarea name="body" id="body" rows="5" cols="40"  class="flex w-[85%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"></textarea>
+                        </div>
+                        <div>
+                            <label for="year">Godina izdavanja:</label>
+                            <input type="number" name="year" id="year" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                        </div>
+                
+                        <div>
+                            <label for="photo">Slika:</label>
+                            <input type="file" name="photo" id="photo" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                            <span id="selectedFileName"></span> <!-- Display selected file name here -->
+                          </div>
+                          <div>
+                            <label for="biography">Biografija:</label>
+                            <textarea name="authorBio" id="authorBio" rows="5" cols="40" class="flex w-[45%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"></textarea>
+                          </div>
+                          <div>
+                            <label for="wikipedia">Wikipedia:</label>
+                            <input type="text" name="authorWiki" id="authorWiki" class="flex w-[40%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                          </div>
+                          <label for="authorId">Autor Ime i prezime:</label>
+                          <select name="authorName" id="authorName" class="flex w-[40%] mt-2 px-2 py-2 text-base bg-white border border-gray-300 shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]">
+                            <% authors.forEach(author => { %>
+                              <option value="<%= author.id %>"><%= author.nameSurname %></option>
+                            <% }); %>
+                          </select>
+                              </div>
+                  
                 </div>
             </div>
-            </form>
-            </div>
-        </section>
-        <!-- End Content -->
-    </main>
-    <!-- End Main content -->
+                
+                        <!-- Add submit button -->
+                        <button type="submit" class="custom-button">
+                            Sačuvaj &#x1F44D;
+                        </button>
+                        <button type="button" class="custom-button clear-button">
+                            Obriši sve polja &#x1F5D1;
+                        </button>
+                    </form>
+                </div>
+       
+                    
+                </section>
+                <!-- End Content -->
+        </main>
+        <!-- End Main content -->
 
-    <!-- Notification for small devices -->
-    <%- include('../includes/layout/inProgress') %>
+        <!-- Notification for small devices -->
+        <%- include('../includes/layout/inProgress') %>
 
 
-    <!-- Scripts -->
-    <%- include('../includes/layout/scripts') %>
-    <!-- End Scripts -->
+            <!-- Scripts -->
+            <%- include('../includes/layout/scripts') %>  
+         <!--     <script type="text/javascript" src="/scripts/ckeditor.js"></script> -->
+                <!-- End Scripts -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                      if (typeof CKEDITOR !== 'undefined') {
+                        CKEDITOR.replace('kratki_sadrzaj', {
+                          width: "90%",
+                          height: "150px"
+                        });
+                      } else {
+                        console.log('CKEditor script not loaded or defined.');
+                      }
+                    });
+                    
+                  </script>
+                  
+                  <script>
+                   function submitForm() {
+    const title = document.getElementById('nazivKnjiga').value;
+    const body = document.querySelector('textarea[name="body"]').value;
+    const selectedCategory = document.getElementById('kategorija').value;
+    const selectedCategories = Array.from(document.getElementById('kategorijaInput').value.split(','));
 
-    <script>
-    CKEDITOR.replace('kratki_sadrzaj', {
-        width: "90%",
-        height: "150px"
-    });
-    </script>
+    // knjigaOsnovno...
+
+    const dataFromOsnovno = {
+        title: title,
+        body: body,
+        selectedCategory: selectedCategory,
+        selectedCategories: selectedCategories,
+       
+    };
+
+
+    console.log(dataFromOsnovno);
+
+
+    const hiddenInput = document.createElement('input');
+    hiddenInput.type = 'hidden';
+    hiddenInput.name = 'dataFromOsnovno';
+    hiddenInput.value = JSON.stringify(dataFromOsnovno);
+    document.querySelector('.text-gray-700.forma').appendChild(hiddenInput);
+
+    // submit formu
+    document.querySelector('.text-gray-700.forma').submit();
+}
+
+                </script>
+
+                <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const authorBioInput = document.getElementById('authorBio');
+  const authorWikiInput = document.getElementById('authorWiki');
+  const authorSelect = document.getElementById('authorName');
+
+  authorSelect.addEventListener('change', (event) => {
+    const selectedAuthorId = event.target.value; 
+
+    fetch(`/books/${selectedAuthorId}/details`) 
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(authorData => {
+
+        authorBioInput.value = authorData.biography || '';
+        authorWikiInput.value = authorData.wikipedia || '';
+      })
+      .catch(error => {
+        console.error('There was a problem fetching author details:', error);
+      });
+  });
+});
+
+                </script>
 </body>
 
 </html>

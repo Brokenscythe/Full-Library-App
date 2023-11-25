@@ -10,6 +10,7 @@
     <meta name="description" content="ICT Cortex Library - project for high school students..." />
     <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
     <meta name="author" content="bildstudio" />
+    
     <!-- End Meta -->
 
     <!-- Title -->
@@ -20,6 +21,7 @@
     <!-- Styles -->
     <%- include('../includes/layout/styles') %>
     <!-- End Styles -->
+    <script src="../scripts/lazy-load-images.js"></script>
 </head>
 
 <body class="small:bg-gradient-to-r small:from-green-400 small:to-blue-500">
@@ -44,15 +46,15 @@
                         </div>
                         <div class="pl-[15px]  flex flex-col">
                             <div>
-                                <h1>
-                                    Tom Sojer
+                               <h1 id="bookTitle">
+                                    -----
                                 </h1>
                             </div>
                             <div>
                                 <nav class="w-full rounded">
                                     <ol class="flex list-reset">
                                         <li>
-                                            <a href="/evidencijaKnjiga" class="text-[#2196f3] hover:text-blue-600">
+                                            <a href="/books" class="text-[#2196f3] hover:text-blue-600">
                                                 Evidencija knjiga
                                             </a>
                                         </li>
@@ -60,16 +62,13 @@
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/knjigaOsnovniDetalji"
-                                                class="text-[#2196f3] hover:text-blue-600">
-                                                KNJIGA-467
-                                            </a>
+                                          <a href="/books" class="text-[#2196f3] hover:text-blue-600" id="bookId2">KNJIGA-</a>
                                         </li>
                                         <li>
                                             <span class="mx-2">/</span>
                                         </li>
                                         <li>
-                                            <a href="/rezervisiKnjigu"
+                                            <a href="/reservations-add"
                                                 class="text-[#2196f3] hover:text-blue-600">
                                                 Rezervisi knjigu
                                             </a>
@@ -80,19 +79,19 @@
                         </div>
                     </div>
                     <div class="pt-[24px] mr-[30px]">
-                        <a href="/otpisiKnjigu" class="inline hover:text-blue-600">
+                        <a href="otpisiKnjigu.ejs" class="inline hover:text-blue-600">
                             <i class="fas fa-level-up-alt mr-[3px]"></i>
                             Otpisi knjigu
                         </a>
-                        <a href="/izdajKnjigu" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
+                        <a href="izdajKnjigu.ejs" class="inline hover:text-blue-600 ml-[20px] pr-[10px]">
                             <i class="far fa-hand-scissors mr-[3px]"></i>
                             Izdaj knjigu
                         </a>
-                        <a href="/vratiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="vratiKnjigu.ejs" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="fas fa-redo-alt mr-[3px] "></i>
                             Vrati knjigu
                         </a>
-                        <a href="/rezervisiKnjigu" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
+                        <a href="rezervisiKnjigu.ejs" class="hover:text-blue-600 inline ml-[20px] pr-[10px]">
                             <i class="far fa-calendar-check mr-[3px] "></i>
                             Rezervisi knjigu
                         </a>
@@ -105,13 +104,13 @@
                             <div class="absolute right-0 w-56 mt-[7px] origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg outline-none"
                                 aria-labelledby="headlessui-menu-button-1" id="headlessui-menu-items-117" role="menu">
                                 <div class="py-1">
-                                    <a href="/editKnjiga" tabindex="0"
+                                    <a href="editKnjiga.ejs" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fas fa-edit mr-[1px] ml-[5px] py-1"></i>
                                         <span class="px-4 py-0">Izmijeni knjigu</span>
                                     </a>
-                                    <a href="/#" tabindex="0"
+                                    <a href="#" tabindex="0"
                                         class="flex w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 outline-none hover:text-blue-600"
                                         role="menuitem">
                                         <i class="fa fa-trash mr-[5px] ml-[5px] py-1"></i>
@@ -125,53 +124,108 @@
             </div>
             <!-- Space for content -->
             <div class="scroll height-content section-content">
-                <form method="POST" action="/" class="text-gray-700 forma">
-                    <div class="flex flex-row ml-[30px]">
-                        <div class="w-[50%] mb-[100px]">
-                            <h3 class="mt-[20px] mb-[10px]">Rezervisi knjigu</h3>
-                            <div class="mt-[20px]">
-                                <p>Izaberi ucenika za koga se knjiga rezervise <span class="text-red-500">*</span></p>
-                                <select
-                                    class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                    name="ucenik" id="ucenikRezervisanje" onclick="clearErrorsUcenikRezervisanje()">
-                                    <option disabled selected></option>
-                                    <option value="">
-                                        Pero Perovic
+              <form method="POST" action="/reservations" class="text-gray-700 forma">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <input type="hidden" id="bookId" name="bookId" value="">
+                <div class="flex flex-row ml-[30px]">
+                    <div class="w-[50%] mb-[100px]">
+                        <h3 class="mt-[20px] mb-[10px]">Rezerviši knjigu</h3>
+                        <div class="mt-[20px]">
+                          <p>Select book <span class="text-red-500">*</span></p>
+                          <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" id="bookReservation" onclick="getSelectedBookDetails()">
+                              <option disabled selected></option>
+                              <% books.forEach(function(book) { %>
+                                <% if (book.quantity_count - book.rented_count - book.reserved_count > 0) { %>
+                                  <option value="<%= book.id %>" data-book-id="<%= book.id %>"><%= book.title %> - <%= book.author %></option>
+                                <% } %>
+                              <% }); %>
+                            </select>
+                            
+                        <!--   <div id="validateBookReservation"></div> -->
+                      </div>
+                        <div class="mt-[20px]">
+                            <p>Izaberi učenika za koga se knjiga rezerviše <span class="text-red-500">*</span></p>
+                            <select
+                                class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                name="reservationMadeForUserId" id="ucenikRezervisanje" onclick="clearErrorsUcenikRezervisanje()">
+                                <option disabled selected></option>
+                                <% ucenikUsers.forEach((ucenik) => { %>
+                                    <option value="<%= ucenik.id %>">
+                                        <%= ucenik.name %>
                                     </option>
-                                    <option value="">
-                                        Ucenik 2
-                                    </option>
-                                </select>
-                                <div id="validateUcenikRezervisanje"></div>
-                            </div>
-                            <div class="mt-[20px]">
-                                <p>Datum rezervisanja <span class="text-red-500">*</span></p>
-                                <label class="text-gray-700" for="date">
-                                    <input type="date" name="datumRezervisanja" id="datumRezervisanja"
-                                        class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
-                                        onclick="clearErrorsDatumRezervisanja()" />
-                                </label>
-                                <div id="validateDatumRezervisanja"></div>
-                            </div>
+                                <% }); %>
+                            </select>
+                            <div id="validateUcenikRezervisanje"></div>
                         </div>
-                    </div>
+                        <div class="mt-[20px]">
+                          <p>Izaberi ko je rezervisao knjigu: <span class="text-red-500">*</span></p>
+                          <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="reservationMadeByUserId" id="reservationMadeByUserId" onclick="clearErrorsUcenikRezervisanje()">
+                              <option disabled selected></option>
+                              <% ucenikUsers.forEach(function(user) { %>
+                                  <option value="<%= user.id + '|' + user.name %>"><%= user.id %> - <%= user.name %></option>
+                              <% }); %>
+                          </select>
+                       <!--    <div id="validateUcenikRezervisanje"></div> -->
+                      </div>
+                        <div class="mt-[20px]">
+                            <p>Datum rezervisanja <span class="text-red-500">*</span></p>
+                            <label class="text-gray-700" for="date">
+                                <input type="date" name="reservation_date" id="datumRezervisanja"
+                                    class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                    onclick="clearErrorsDatumRezervisanja()" />
+                            </label>
+                            <div id="validateDatumRezervisanja"></div>
+                        </div>
+                        <div class="mt-[20px]">
+                          <p>Datum request-a <span class="text-red-500">*</span></p>
+                          <label class="text-gray-700" for="date">
+                              <input type="date" name="request_date" id="datumRequesta"
+                                  class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                  onclick="clearErrorsDatumRezervisanja()" />
+                          </label>
+                          <div id="validateDatumRezervisanja"></div>
+                      </div>
 
-                    <div class="absolute bottom-0 w-full bg-white">
-                        <div class="flex flex-row">
-                            <div class="inline-block w-full text-right py-[7px] mr-[100px] text-white">
-                                <button type="button"
-                                    class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
-                                    Ponisti <i class="fas fa-times ml-[4px]"></i>
-                                </button>
-                                <button id="rezervisiKnjigu" type="submit"
-                                    class="btn-animation shadow-lg disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
-                                    onclick="validacijaRezervisanje()">
-                                    Rezervisi knjigu <i class="fas fa-check ml-[4px]"></i>
-                                </button>
-                            </div>
+                      <div class="mt-[20px]">
+                        <p>Datum zatvaranja <span class="text-red-500">*</span></p>
+                        <label class="text-gray-700" for="date">
+                            <input type="date" name="close_date" id="datumRequesta"
+                                class="flex w-[50%] mt-2 px-4 py-2 text-base placeholder-gray-400 bg-white border border-gray-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#576cdf]"
+                                onclick="clearErrorsDatumRezervisanja()" />
+                        </label>
+                        <div id="validateDatumRezervisanja"></div>
+                    </div>
+                    <div class="mt-[20px]">
+                      <p>Select Cancellation Reason <span class="text-red-500">*</span></p>
+                      <select class="flex w-[90%] mt-2 px-2 py-2 border bg-white border-gray-300 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#576cdf]" name="closureReasonId" id="closureReasonId" onclick="clearErrorsUcenikRezervisanje()">
+                          <option disabled selected></option>
+                          <% cancellationReasons.forEach(function(reason) { %>
+                              <option value="<%= reason.id %>"><%= reason.name %></option>
+                          <% }); %>
+                      </select>
+                      
+                      <div id="validateClosureReason"></div>
+                  </div>
+                    </div>
+                </div>
+            
+                <div class="absolute bottom-0 w-full bg-white">
+                    <div class="flex flex-row">
+                        <div class="inline-block w-full text-right py-[7px] mr-[100px] text-white">
+                            <button type="button"
+                                class="btn-animation shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]">
+                                Ponisti <i class="fas fa-times ml-[4px]"></i>
+                            </button>
+                            <button id="rezervisiKnjigu" type="submit"
+                                class="btn-animation shadow-lg disabled:opacity-50 focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in rounded-[5px] hover:bg-[#46A149] bg-[#4CAF50]"
+                                onclick="validacijaRezervisanje()">
+                                Rezerviši knjigu <i class="fas fa-check ml-[4px]"></i>
+                            </button>
                         </div>
                     </div>
-                </form>
+                </div>
+            </form>
+            
             </div>
         </section>
         <!-- End Content -->
@@ -187,5 +241,262 @@
     <!-- End Scripts -->
 
 </body>
+
+
+<!-- Your form HTML -->
+
+
+<script>
+
+  function getSelectedBookDetails() {
+    const select = document.getElementById('bookReservation');
+    const selectedOption = select.options[select.selectedIndex];
+    const bookIdElement = document.getElementById('bookId');
+    const bookIdElement2 = document.getElementById('bookId2');
+    const bookTitleElement = document.getElementById('bookTitle');
+    const requestDateInput = document.getElementById('request_date');
+    const reservationDateInput = document.getElementById('reservation_date');
+    const closeDateInput = document.getElementById('close_date');
+
+    if (!selectedOption) {
+      // Handle the case when no book is selected
+      return;
+    }
+
+    const bookId = selectedOption.value;
+
+    //AJAX za detalje o knjizi
+    fetch(`/books/details/${bookId}`)
+      .then((response) => response.json())
+      .then((bookDetails) => {
+        console.log(bookDetails);
+
+        // bookId
+        if (bookIdElement) {
+          bookIdElement.value = parseInt(bookDetails.book.id, 10);
+          bookIdElement.textContent = parseInt(bookDetails.book.id, 10);
+        }
+
+        if (bookIdElement2) {
+          bookIdElement2.textContent = "KNJIGA-" + parseInt(bookDetails.book.id, 10);
+
+        }
+
+        //naslov knjige
+        if (bookTitleElement) {
+          bookTitleElement.textContent = bookDetails.book.title;
+        }
+
+        // odje moze jos
+        // ...
+        
+        // datumi u ISO-8601 format
+        if (requestDateInput && reservationDateInput && closeDateInput) {
+          requestDateInput.value = new Date().toISOString();
+          reservationDateInput.value = new Date().toISOString();
+          closeDateInput.value = new Date().toISOString();
+        }
+      })
+      .catch((error) => {
+        console.error('Error fetching book details:', error);
+      });
+  }
+</script>
+
+
+
+
+
+
+<!-- <script>
+async function getSelectedBookDetails() {
+  const bookSelect = document.getElementById('bookReservation');
+  const selectedOption = bookSelect.options[bookSelect.selectedIndex];
+
+  if (selectedOption) {
+    const bookId = selectedOption.value;
+    document.getElementById('bookId').value = bookId;
+
+    if (bookId) {
+      try {
+        const response = await fetch(`books/details/${bookId}`);
+     
+   
+if (response.ok) {
+  try {
+    const bookDetails = await response.json(); // Read and parse the response body as JSON
+    updateBookDetailsInForm(bookDetails);
+  } catch (error) {
+    console.error('Error parsing JSON response:', error);
+  }
+} else {
+  console.error('Error fetching book details. Status:', response.status);
+}
+
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const bookDetails = await response.json();
+          updateBookDetailsInForm(bookDetails);
+        } else {
+          console.error('Error: Response is not JSON.');
+        }
+      } catch (error) {
+        console.error('Error fetching book details:', error);
+      }
+    }
+  }
+}
+
+
+
+    function updateBookDetailsInForm(bookDetails) {
+      // Update the ul list with the book details
+      const bookDetailsList = document.getElementById('bookDetailsList');
+      bookDetailsList.innerHTML = ''; // Clear previous details
+  
+      for (const [key, value] of Object.entries(bookDetails.book)) {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `<strong>${key}:</strong> ${value}`;
+        bookDetailsList.appendChild(listItem);
+  
+        // Store the book details in hidden input fields for submission
+        const hiddenField = document.getElementById(`selected${key.charAt(0).toUpperCase() + key.slice(1)}`);
+        if (hiddenField) {
+          hiddenField.value = String(value);
+        }
+      }
+  
+      // Store the selected book ID in a hidden input for submission
+      document.getElementById('bookId').value = parseInt(bookDetails.book.id, 10);
+      document.getElementById('id').value = bookDetails.book.id;
+      document.getElementById('title').value = bookDetails.book.title;
+      document.getElementById('page_count').value = bookDetails.book.page_count;
+      document.getElementById('isbn').value = bookDetails.book.isbn;
+      document.getElementById('letterId').value = bookDetails.book.letterId;
+      document.getElementById('languageId').value = bookDetails.book.languageId;
+      document.getElementById('bindingId').value = bookDetails.book.bindingId;
+  
+      // Update the reservation-related hidden input fields
+      document.getElementById('reservationMadeForUserId').value = bookDetails.reservationMadeForUserId;
+      document.getElementById('reservationMadeByUserId').value = bookDetails.reservationMadeByUserId;
+  
+      // Set the request_date to the current date
+      const currentDate = new Date();
+      document.getElementById('request_date').value = currentDate.toISOString().split('T')[0];
+  
+      // Set the close_date to an initial value, you may update it based on your logic
+      document.getElementById('close_date').value = '';
+  
+      // Set the closeUserId to the current user ID
+      const currentUserId = '1'; // Replace '...' with the actual user ID
+      document.getElementById('closeUserId').value = currentUserId;
+  
+      // Ensure the script is executed after the DOM is loaded
+      document.addEventListener('DOMContentLoaded', () => {
+        // Attach the event listener to the bookReservation dropdown
+        document.getElementById('bookReservation').addEventListener('change', getSelectedBookDetails);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+  // Attach the submit event listener to the reservation form
+  document.getElementById('reservationForm').addEventListener('submit', async function (event) {
+    event.preventDefault();
+
+    // Create formData object with necessary data
+ // Create formData object with necessary data
+ const formData = {
+      id: document.getElementById('id').value,
+      title: document.getElementById('title').value,
+      page_count: document.getElementById('page_count').value,
+      isbn: document.getElementById('isbn').value,
+      letterId: document.getElementById('letterId').value,
+      languageId: document.getElementById('languageId').value,
+      bindingId: document.getElementById('bindingId').value,
+      reservationMadeForUserId: document.getElementById('reservationMadeForUserId').value.split('|')[0],
+      reservationMadeByUserId: document.getElementById('reservationMadeByUserId').value.split('|')[0],
+      request_date: new Date(document.getElementById('request_date').value),
+      close_date: new Date(document.getElementById('close_date').value),
+      // ... add other form fields
+    };
+    console.log('bookId from form:', document.getElementById('bookId').value);
+    const bookId = parseInt(document.getElementById('bookId').value, 10);
+
+    if (!isNaN(bookId)) {
+      try {
+        // Create reservation and connect to book
+       // Create reservation and connect to book
+    const reservation = await db.reservation.create({
+      data: {
+        id: document.getElementById('id').value,
+        title: document.getElementById('title').value,
+        page_count: document.getElementById('page_count').value,
+        isbn: document.getElementById('isbn').value,
+        letterId: document.getElementById('letterId').value,
+        languageId: document.getElementById('languageId').value,
+        bindingId: document.getElementById('bindingId').value,
+        reservationMadeForUserId: document.getElementById('reservationMadeForUserId').value.split('|')[0],
+        reservationMadeByUserId: document.getElementById('reservationMadeByUserId').value.split('|')[0],
+        request_date: new Date(document.getElementById('request_date').value),
+        close_date: new Date(document.getElementById('close_date').value),
+
+        book: {
+          connect: { id: ParseInt(bookId,10) }
+        }
+      },
+    });
+        console.log('Reservation created successfully:', reservation);
+      } catch (error) {
+        console.error('Error creating reservation:', error);
+      }
+    } else {
+      console.error('Invalid bookId:', document.getElementById('bookId').value);
+    }
+    try {
+      // Post formData to the controller
+      const response = await fetch('/reservations/createReservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+        
+      });
+
+      if (!response.ok) {
+        throw new Error(`Failed to create reservation: ${response.statusText}`);
+      }
+
+      const reservation = await response.json();
+      console.log('Reservation created successfully:', reservation);
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+    }
+  });
+
+  // Other initialization code or event listeners can be added here
+});
+
+  </script> -->
+  
+  <script>
+    // Funkcija koja vadio query paramatera iz URL adrese
+    function getQueryParam(name) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(name);
+    }
+  
+    // uzmi bookId iz URL adrese
+    const bookId = getQueryParam('bookId');
+  
+    // izaberi opciju u select baziranu na izvadjenom bookId-u
+    const select = document.getElementById('bookReservation');
+    if (bookId) {
+      const option = select.querySelector(`[value="${bookId}"]`);
+      if (option) {
+        option.setAttribute('selected', 'selected');
+      }
+    }
+  </script>
 
 </html>
