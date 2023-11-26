@@ -9,5 +9,4 @@ router.get('/activities-all', getAllActivities);
 
 
 
-
 export default router;

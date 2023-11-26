@@ -297,7 +297,6 @@ console.log(searchQuery);
   },
   
 
-
   searchReservationsByUserName: async (req: Request, res: Response) => {
     try {
       const searchQuery = req.query.searchQuery as string;
