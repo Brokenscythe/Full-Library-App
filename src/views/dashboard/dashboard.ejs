@@ -66,7 +66,7 @@
           <% console.log(reservations); %>
 
           dana <span class="font-medium"><%= reservation.reservation_date ? reservation.reservation_date : '' %></span>
-          <a href="/reservations/<%= reservation.madeForUserId %>" class="text-[#2196f3] hover:text-blue-600">
+          <a href="/reservations/<%= reservation.Id %>" class="text-[#2196f3] hover:text-blue-600">
             pogledaj detaljnije >>
           </a>
         </p>
@@ -98,13 +98,13 @@
     
         <img class="object-cover w-8 h-8 rounded-full"
           src="<%= reservation.photo || '/img/user_avatar.jpg' %>" alt="" loading="lazy"/>
-        <a href="ucenikProfile.ejs" class="ml-2 font-medium text-center">
+        <a href="/ucenikProfile/<%= reservation.madeForUserId %>" class="ml-2 font-medium text-center">
           <%= reservation.madeByUserName ?? 'Nepoznati korisnik' %>
         </a>
       </td>
       <td class="px-2 py-2">
     
-        <a href="/books/<%= reservation.id %>" class="flex items-center" style="display: flex; align-items: center; text-align: center; height: 100%;">
+        <a href="/books/<%= reservation.Id %>" class="flex items-center" style="display: flex; align-items: center; text-align: center; height: 100%;">
           <img src="/img/book_cover.jpg" alt="Slika knjige" class="inline-block w-4 h-auto mr-1">
           <span class="flex-1" style="display: block; text-align: center; font-weight: bold;"><%= reservation.bookTitle ?? 'Nepoznata knjiga' %></span>
 

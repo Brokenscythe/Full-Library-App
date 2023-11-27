@@ -24,6 +24,7 @@ export async function getRegister(req: Request, res: Response, next: NextFunctio
         password: "",
         confirmPassword: "",
         JMBG: "",
+    
       };
     }
     res.render("auth/register", { inputData: sessionData });
@@ -39,6 +40,7 @@ export async function getLogIn(req: Request, res: Response, next: NextFunction):
       sessionData = {
         email: "",
         password: "",
+        
       };
     }
     res.render("auth/login", { inputData: sessionData });

@@ -149,28 +149,33 @@
           </svg>
         </a>
         <!-- User Profile Icon -->
-        <div class="ml-[10px] relative block">
+         <!-- User Profile Icon -->
+         <div class="ml-[50px] relative block">
           <a
-            href="/#"
+            href="#"
             class="relative inline-block px-3 py-2 focus:outline-none"
             id="dropdownProfile"
             aria-label="User profile"
           >
-          <div class="flex items-center h-5">
-            <div class="w-[40px] h-[40px] mt-[15px]">
-                <img class="rounded-full" src="img/profileExample.jpg" alt="" />
+            <div class="flex items-top">
+              <div class="flex items-top" style="display: inline-flex;">
+                <div  style="display: inline-flex;">
+                  <a href="/ucenikProfile/<%= session.uid %>">
+                    <img  class="w-[40px] h-[40px] mt-[65px]" src="img/profileExample.jpg" style="border-radius: 50%;" alt="">
+                  </a>
+                </div>
+                <div class="ml-2">
+                  <!-- Log the entire session data to the console -->
+                  <% console.log('Session Data:', session); %>
+                  <!-- Display the username if it exists in the session -->
+                  <% if (typeof session !== 'undefined' && session.username) { %>
+                    <p class="inline-block">Dobrodošao/la, <%= session.username %>!</p>
+                    <a href="/logout" class="button ml-2">Logout</a>
+                  <% } %>
+                </div>
+              </div>
             </div>
-        
-            <div class="ml-2">
-              <!-- Log the entire session data to the console -->
-              <% console.log('Session Data:', session); %>
-          
-              <!-- Display the username if it exists in the session -->
-              <% if (typeof session !== 'undefined' && session.username) { %>
-                <p>Dobrodošao/la, <%= session.username %>!</p>
-                <a href="/logout" class="button">Logout</a>
-              <% } %>
-            </div>
+          </a>
         </div>
           
         

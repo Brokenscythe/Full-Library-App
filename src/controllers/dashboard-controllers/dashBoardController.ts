@@ -74,6 +74,7 @@ async function getIssuedBookCount(): Promise<number> {
   
       const reservations = await prisma.$queryRaw`
         SELECT
+          r.id as Id,
           r.reservation_date,
           r.request_date,
           u1.id as madeByUserId,
@@ -107,6 +108,7 @@ async function getIssuedBookCount(): Promise<number> {
       const reservedBookCount = await getReservedBookCount();
   
       res.render('dashboard/dashboard', {
+       
         userName,
         reservations,
         issuedBookCount,
@@ -119,6 +121,7 @@ async function getIssuedBookCount(): Promise<number> {
         madeByUserId,
         madeForUserId,
         relativeTime: daysDifference >= 1 ? `${daysDifference} dana prije` : `${hoursDifference} sati prije`,
+        
       });
     } catch (error) {
       console.error('Error fetching reservations:', error);
