@@ -7,12 +7,14 @@ interface CustomSession {
   uid?: string | null;
   // Dodao sam username
   username?: string;
+
 }
 
 function createUserSession(req: Request, user: { id: number; username: string }, action: () => void) {
   const customSession = req.session as unknown as CustomSession;
   customSession.uid = user.id.toString();
   customSession.username = user.username;
+  //customSession.userId=user.id
 
   req.session.save((err: any) => {
     if (err) {
