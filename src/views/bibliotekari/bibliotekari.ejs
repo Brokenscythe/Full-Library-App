@@ -9,7 +9,7 @@
     <meta name="description" content="ICT Cortex Library - project for high school students..." />
     <meta name="keywords" content="ict cortex, cortex, bild, bildstudio, highschool, students, coding" />
     <meta name="author" content="bildstudio" />
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' cdn.ckeditor.com cdn.jsdelivr.net" />
+
     <!-- End Meta -->
 
     <!-- Title -->
@@ -120,51 +120,51 @@
                   <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap"><%= librarian.type.name %></td>
                   <td class="px-4 py-4 text-sm leading-5 whitespace-no-wrap">
                     <% if (librarian.last_login_at) { %>
-                    <script>
-                      var lastLoginDate = new Date("<%= librarian.last_login_at %>");
-                      var currentDate = new Date();
-                      var timeDifference = currentDate - lastLoginDate;
-
-                      var months = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30));
-                      var weeks = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7));
-                      var days = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
-
-                      var formattedDate = "";
-                      if (months > 0) {
-                        formattedDate += months + " mesec";
-                        if (months > 1) {
-                          formattedDate += "a";
+                      <script>
+                        var lastLoginDate = new Date("<%= librarian.last_login_at %>");
+                        var currentDate = new Date();
+                        var timeDifference = currentDate - lastLoginDate;
+  
+                        var months = Math.floor(timeDifference / (1000 * 60 * 60 * 24 * 30));
+                        var weeks = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24 * 7));
+                        var days = Math.floor((timeDifference % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+  
+                        var formattedDate = "";
+                        if (months > 0) {
+                          formattedDate += months + " mesec";
+                          if (months > 1) {
+                            formattedDate += "a";
+                          }
+                          if (weeks > 0 || days > 0) {
+                            formattedDate += " i ";
+                          }
                         }
-                        if (weeks > 0 || days > 0) {
-                          formattedDate += " i ";
-                        }
-                      }
-                      if (weeks > 0) {
-                        formattedDate += weeks + " nedelja";
-                        if (weeks > 1) {
-                          formattedDate += "a";
+                        if (weeks > 0) {
+                          formattedDate += weeks + " nedelja";
+                          if (weeks > 1) {
+                            formattedDate += "a";
+                          }
+                          if (days > 0) {
+                            formattedDate += " i ";
+                          }
                         }
                         if (days > 0) {
-                          formattedDate += " i ";
+                          formattedDate += days + " dan";
+                          if (days > 1) {
+                            formattedDate += "a";
+                          }
                         }
-                      }
-                      if (days > 0) {
-                        formattedDate += days + " dan";
-                        if (days > 1) {
-                          formattedDate += "a";
+  
+                        if (months === 0 && weeks === 0 && days === 0) {
+                          formattedDate = "Danas";
+                        } else {
+                          formattedDate = "Pre " + formattedDate;
                         }
-                      }
-
-                      if (months === 0 && weeks === 0 && days === 0) {
-                        formattedDate = "Danas";
-                      } else {
-                        formattedDate = "Pre " + formattedDate;
-                      }
-
-                      document.write(formattedDate);
-                    </script>
-                    <% } else { %> Korisnik se nije ulogovao ni jednom. <% } %>
-                  </td>
+  
+                        document.write(formattedDate);
+                      </script>
+                      <% } else { %> Korisnik se nije ulogovao ni jednom. <% } %>
+                    </td>
                   <td class="px-4 py-4 text-sm leading-5 text-right whitespace-no-wrap">
                     <p
                       class="inline cursor-pointer text-[20px] py-[10px] px-[30px] border-gray-300 dotsLibrarian hover:text-[#606FC7]"

@@ -19,7 +19,7 @@
 
     <!-- Styles -->
     <%- include('../includes/layout/styles') %>
-  <script src="/scripts/password-reset-librarian.js" defer></script>
+    <script src="/scripts/password-reset-librarian.js" defer></script>
     <!-- End Styles -->
   </head>
 
@@ -201,7 +201,7 @@
 
     <!-- This code will show up when we press reset password -->
     <div
-      class="fixed top-0 left-0 flex items-center justify-center hidden w-full h-screen bg-black bg-opacity-50 modal"
+      class="fixed top-0 left-0 flex items-center justify-center hidden w-full h-screen bg-black bg-opacity-50 modal" id="whole-modal"
     >
       <!-- Modal -->
       <div class="w-[500px] bg-white rounded shadow-lg md:w-1/3"> 
@@ -244,7 +244,8 @@
           <div class="flex items-center justify-end px-[30px] py-[20px] border-t w-100 text-white">
             <button
               type="button"
-              class="shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px]"
+              class="shadow-lg mr-[15px] w-[150px] focus:outline-none text-sm py-2.5 px-5 transition duration-300 ease-in bg-[#F44336] hover:bg-[#F55549] rounded-[5px] close-modal"
+              id="modal-refresh"
             >
               Ponisti <i class="fas fa-times ml-[4px]"></i>
             </button>

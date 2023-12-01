@@ -1,55 +1,65 @@
-import * as axios from "axios";
-
-function openPasswordChangeModal() {
-  var modal = document.getElementById("password-reset-form");
-  modal.style.display = "block";
-}
-
 document.addEventListener("DOMContentLoaded", function () {
-  var showModalLinks = document.querySelectorAll("#show-modal");
+  var showModalLinks = document.querySelectorAll("#show-modal");  
+  var passwordResetForm = document.getElementById("password-reset-form");
   let link;
 
-  showModalLinks.forEach(function (showModalLinks) {
-    showModalLinks.addEventListener("click", function (event) {
+  const errorElement = document.getElementById("validatePwResetBibliotekar");
+  const errorElement2 = document.getElementById("validatePw2ResetBibliotekar");
+
+  showModalLinks.forEach(function (showModalLink) {
+    showModalLink.addEventListener("click", function (event) {
       event.preventDefault();
-      openPasswordChangeModal();
-      link = showModalLinks;
+      link = showModalLink;
     });
   });
-
-  var passwordResetForm = document.getElementById("password-reset-form");
-  passwordResetForm.addEventListener("submit", async function (event) {
-    try{
-      event.preventDefault();
   
-      var formData = new FormData(document.getElementById('password-reset-form'));
+  passwordResetForm.addEventListener("submit", async function (event) {
+    const newPassword = document.getElementById("pwResetBibliotekar").value
+    const confirmPassword = document.getElementById("pw2ResetBibliotekar").value
+    try {
+      event.preventDefault();
+
+      if (newPassword !== confirmPassword) {
+        event.preventDefault(); 
+        errorElement.textContent = "Šifre se ne poklapaju";
+        errorElement2.textContent = 'Šifre se ne poklapaju';
+        errorElement.style.color = "red";
+        errorElement2.style.color = "red";
+        return;
+      }else if(!newPassword || !confirmPassword){
+        errorElement.textContent = "Morate unijeti podatke.";
+        errorElement2.textContent = 'Morate unijeti podatke.';
+        errorElement.style.color = "red";
+        errorElement2.style.color = "red";
+      }
+
+      var formData = new FormData(document.getElementById("password-reset-form"));
       const csrfToken = document.getElementById('_csrf').value;
       var librarianId = link.dataset.librarianid;
-      
+
       console.log([...formData.entries()]);
-      var password = formData.get('pwResetBibliotekar');
-      var confirmPassword = formData.get('pw2ResetBibliotekar');
-       const response = await fetch(`/bibliotekarProfile/${librarianId}`, {
+      const response = await fetch(`/bibliotekarProfile/${librarianId}`, {
         method: "POST",
         body: formData,
         headers: {
-          "CSRF-Token": csrfToken,           
+          "CSRF-Token": csrfToken,
         },
-      })
+      });
+
       console.log(response);
-      if(response.ok){
-        console.log('Password change successful');
-        var modal = document.getElementById("password-reset-form");
-        modal.style.display = "none";
-        response.json();
-      }else{
+      if (response.ok) {
+        errorElement.innerHTML = "Lozinka uspješno promjenjena";
+        errorElement2.innerHTML = "Lozinka uspješno promjenjena";
+        errorElement.style.color = "green";
+        errorElement.style.fontSize = "13px";
+        errorElement2.style.color = "green";
+        errorElement2.style.fontSize = "13px";
+        return;
+      } else {
         const errorData = await response.json();
         console.log('Error', errorData);
       }
-
-    }catch(error){
-      const errorElement = document.getElementById("validatePwResetBibliotekar");
-      const errorElement2 = document.getElementById("validatePw2ResetBibliotekar");
+    } catch (error) {
       errorElement.innerHTML = "An error occurred while changing the password. Please try again later.";
       errorElement2.innerHTML = "An error occurred while changing the password. Please try again later.";
       errorElement.style.color = "red";
@@ -59,5 +69,5 @@ document.addEventListener("DOMContentLoaded", function () {
       console.log("JavaScript error:", error);
       return;
     }
-      });
   });
+});

@@ -9,6 +9,7 @@ import sessionFlash from "../../utils/session-flash";
 export async function getAllLibrarians(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     const librarians = await Librarian.getAllLibrarians();
+    console.log(librarians)
     res.render("bibliotekari/bibliotekari", { librarians: librarians });
   } catch (error) {
     return next(error);
@@ -19,6 +20,7 @@ export async function getLibrarian(req: Request, res: Response, next: NextFuncti
   let librarian;
   try {
     librarian = await Librarian.getLibrarian(librarianId);
+    console.log(librarian)
     res.render("bibliotekari/bibliotekarProfile", { librarian: librarian });
   } catch (error) {
     return next(error);
@@ -67,11 +69,13 @@ export async function getNewLibrarian(req: Request, res: Response, next: NextFun
 }
 export async function updatePassword(req: Request, res: Response, next: NextFunction) {
   const librarianId = Number(req.params.id);
-  const { pwResetBibliotekar, pw2ResetBibliotekar } = req.body;
+  const pwResetBibliotekar = req.body['pwResetBibliotekar'];
+  const pw2ResetBibliotekar = req.body['pw2ResetBibliotekar'];
   if(!pwResetBibliotekar && !pw2ResetBibliotekar || pwResetBibliotekar && pw2ResetBibliotekar === undefined){
     console.log(`Entered password is:${pwResetBibliotekar}.`, `Entered confirm password is:${pw2ResetBibliotekar}.`);
     return;
   }
+  console.log(pw2ResetBibliotekar, pwResetBibliotekar)
   let librarian;
   let newPassLibrarian;
   try {
@@ -81,8 +85,9 @@ export async function updatePassword(req: Request, res: Response, next: NextFunc
       return;
     }
     newPassLibrarian = new User(librarian);
+    console.log(newPassLibrarian);
     await newPassLibrarian.changePassword(pwResetBibliotekar)
-    console.log(librarian);
+    res.redirect(`/bibliotekarProfile/${librarianId}`)
   } catch (error) {
     return next(error);
   }

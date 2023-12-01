@@ -2,6 +2,7 @@ import express from "express";
 import * as librarianService from "../controllers/librarian-controllers/librarianController";
 const librarianRouter = express.Router();
 import configuredMulterMiddleware from "../middlewares/image-upload";
+import { upload } from "../middlewares/multer";
 
 librarianRouter.get("/bibliotekari", librarianService.getAllLibrarians);
 
@@ -15,7 +16,7 @@ librarianRouter.post("/noviBibliotekar", configuredMulterMiddleware, librarianSe
 
 librarianRouter.post("/editBibliotekar/:id", configuredMulterMiddleware, librarianService.updateLibrarian);
 
-librarianRouter.post("/bibliotekarProfile/:id", librarianService.updatePassword);
+librarianRouter.post("/bibliotekarProfile/:id", upload.none(), librarianService.updatePassword);
 
 librarianRouter.delete("/deleteBibliotekar/:id", librarianService.deleteLibrarian);
 
